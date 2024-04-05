@@ -1,6 +1,14 @@
+using Microsoft.EntityFrameworkCore;
+using SimManagementSystem.DataAccessLayer;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddDbContext<SimManagementSystemContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SimManagementSystem"));
+    options.LogTo(Console.WriteLine); // Logowanie zapytan do konsoli
+});
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

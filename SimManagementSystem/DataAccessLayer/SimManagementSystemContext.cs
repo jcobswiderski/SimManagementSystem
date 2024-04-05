@@ -47,9 +47,9 @@ public partial class SimManagementSystemContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=SimManagementSystem;Integrated Security=True;Encrypt=False;Trust Server Certificate=True");
+//    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+//        => optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=SimManagementSystem;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -59,9 +59,7 @@ public partial class SimManagementSystemContext : DbContext
 
             entity.ToTable("Device");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("ID");
+            entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Name).HasMaxLength(250);
             entity.Property(e => e.Tag).HasMaxLength(50);
 
@@ -91,9 +89,7 @@ public partial class SimManagementSystemContext : DbContext
 
             entity.ToTable("Inspection");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("ID");
+            entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Date).HasColumnType("datetime");
             entity.Property(e => e.InspectionTypeId).HasColumnName("Inspection_Type_ID");
 
@@ -114,9 +110,7 @@ public partial class SimManagementSystemContext : DbContext
 
             entity.ToTable("Inspection_Type");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("ID");
+            entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Name)
                 .HasMaxLength(80)
                 .IsUnicode(false);
@@ -128,9 +122,7 @@ public partial class SimManagementSystemContext : DbContext
 
             entity.ToTable("Maintenance");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("ID");
+            entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Date).HasColumnType("datetime");
 
             entity.HasOne(d => d.ExecutorNavigation).WithMany(p => p.Maintenances)
@@ -150,9 +142,7 @@ public partial class SimManagementSystemContext : DbContext
 
             entity.ToTable("Maintenance_Type");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("ID");
+            entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Name)
                 .HasMaxLength(64)
                 .IsUnicode(false);
@@ -167,9 +157,7 @@ public partial class SimManagementSystemContext : DbContext
 
             entity.ToTable("Malfunction");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("ID");
+            entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.DateBegin)
                 .HasColumnType("datetime")
                 .HasColumnName("Date_Begin");
@@ -198,9 +186,7 @@ public partial class SimManagementSystemContext : DbContext
 
             entity.ToTable("Predefined_Session");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("ID");
+            entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Abbreviation).HasMaxLength(15);
             entity.Property(e => e.Description).HasMaxLength(600);
             entity.Property(e => e.Name).HasMaxLength(240);
@@ -217,9 +203,7 @@ public partial class SimManagementSystemContext : DbContext
 
             entity.ToTable("RecoveryAction");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("ID");
+            entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Date).HasColumnType("datetime");
             entity.Property(e => e.Description).HasMaxLength(2500);
             entity.Property(e => e.MalfunctionId).HasColumnName("Malfunction_ID");
@@ -236,9 +220,7 @@ public partial class SimManagementSystemContext : DbContext
 
             entity.ToTable("Role");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("ID");
+            entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.AccessInspection).HasColumnName("Access_Inspection");
             entity.Property(e => e.AccessMaintenances).HasColumnName("Access_Maintenances");
             entity.Property(e => e.AccessMalfunctions).HasColumnName("Access_Malfunctions");
@@ -258,9 +240,7 @@ public partial class SimManagementSystemContext : DbContext
 
             entity.ToTable("Session_Category");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("ID");
+            entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Name).HasMaxLength(200);
         });
 
@@ -270,9 +250,7 @@ public partial class SimManagementSystemContext : DbContext
 
             entity.ToTable("Simulator_Session");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("ID");
+            entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.CopilotSeat).HasColumnName("Copilot_Seat");
             entity.Property(e => e.Date).HasColumnType("datetime");
             entity.Property(e => e.ObserverSeat).HasColumnName("Observer_Seat");
@@ -308,9 +286,7 @@ public partial class SimManagementSystemContext : DbContext
 
             entity.ToTable("Simulator_State");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("ID");
+            entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.MeterState).HasColumnName("Meter_State");
             entity.Property(e => e.StartupTime)
                 .HasColumnType("datetime")
@@ -326,9 +302,7 @@ public partial class SimManagementSystemContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("Statistics_pk");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("ID");
+            entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.DateBegin)
                 .HasColumnType("datetime")
                 .HasColumnName("Date_Begin");
@@ -348,9 +322,7 @@ public partial class SimManagementSystemContext : DbContext
 
             entity.ToTable("Test_QTG");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("ID");
+            entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Description)
                 .HasMaxLength(2500)
                 .IsUnicode(false);
@@ -368,9 +340,7 @@ public partial class SimManagementSystemContext : DbContext
 
             entity.ToTable("Test_Result");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("ID");
+            entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Observation)
                 .HasMaxLength(1200)
                 .IsUnicode(false);
@@ -392,9 +362,7 @@ public partial class SimManagementSystemContext : DbContext
 
             entity.ToTable("User");
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("ID");
+            entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.FirstName)
                 .HasMaxLength(40)
                 .IsUnicode(false);
