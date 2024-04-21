@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SimManagementSystem.DataAccessLayer;
 using SimManagementSystem.DataTransferObjects;
+using System.Runtime.CompilerServices;
 
 namespace SimManagementSystem.Controllers
 {
@@ -38,6 +39,20 @@ namespace SimManagementSystem.Controllers
             await _context.SaveChangesAsync();
 
             return Ok(user);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var userToDelete = new User {
+                Id = id
+            };
+
+            _context.Users.Attach(userToDelete);
+            _context.Users.Remove(userToDelete);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
         }
     }
 }
