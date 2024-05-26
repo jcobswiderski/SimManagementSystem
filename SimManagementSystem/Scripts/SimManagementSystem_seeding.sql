@@ -12,23 +12,23 @@ INSERT INTO "Inspection_Type" (Name) VALUES
 ('Wymiana filtra klimatyzacji'),
 ('Sprawdzenie czujek przeciwpożarowych');
 
-INSERT INTO "User" (FirstName, LastName, Login, Password) VALUES
-('Andreas', 'Duo', 'andreas_duo', 'Andreas@123'),
-('Jude', 'Smiths', 'jude_smiths', 'Smiths@111Jude'),
-('Robert', 'Johanson', 'robert_johanson', 'pass!woRd331'),
-('Jakub', 'Świderski', 'jswiderski', 'jswiderski1'),
-('Sam', 'Kramer', 's.kramer', '9qWz&2mE$jP'),
-('Mikey', 'Walter', 'm.walter', '5@Kc!pF9z#Jx'),
-('Brendon', 'Rodrigueza', 'b.rodriguez11', 'H4@Ry&tN8qXu');
+INSERT INTO "User" (FirstName, LastName, Login, Password, Salt) VALUES
+('Andreas', 'Duo', 'andreas_duo', 'Andreas@123', 'aaa'),
+('Jude', 'Smiths', 'jude_smiths', 'Smiths@111Jude', 'aaa'),
+('Robert', 'Johanson', 'robert_johanson', 'pass!woRd331', 'aaa'),
+('Jakub', 'Świderski', 'jswiderski', 'XOmEjo/m5PYk+zn01HmIjS06riQ2rNb7D4TM9YKRJBg=', 'qB7Jz8tZZUzG14vpPgKsiw=='),
+('Sam', 'Kramer', 's.kramer', '9qWz&2mE$jP', 'aaa'),
+('Mikey', 'Walter', 'm.walter', '5@Kc!pF9z#Jx', 'aaa'),
+('Brendon', 'Rodrigueza', 'b.rodriguez11', 'H4@Ry&tN8qXu', 'aaa');
 
-INSERT INTO "Role" (Name, Access_Malfunctions, Access_Maintenances, Access_Meter, Access_Inspection, Access_QTG, Access_Trainees, Access_Sessions, Access_Raports) VALUES
-('Admin', 1, 1, 1, 1, 1, 1, 1, 1),
-('Engineer', 1, 1, 1, 1, 1, 1, 1, 1),
-('Planer', 0, 0, 0, 0, 0, 1, 1, 1),
-('Pilot', 0, 0, 0, 0, 0, 0, 1, 1),
-('Copilot', 0, 0, 0, 0, 0, 0, 1, 1),
-('Instructor', 1, 0, 0, 0, 0, 1, 1, 1),
-('Guest', 0, 0, 0, 0, 0, 0, 0, 0);
+INSERT INTO "Role" (Name) VALUES
+('Admin'),
+('Engineer'),
+('Planer'),
+('Pilot'),
+('Copilot'),
+('Instructor'),
+('Guest');
 
 INSERT INTO UserRole (User_ID, Role_ID) VALUES
 (1, 1),

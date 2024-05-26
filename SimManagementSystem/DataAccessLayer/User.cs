@@ -15,6 +15,12 @@ public partial class User
 
     public string Password { get; set; } = null!;
 
+    public string Salt { get; set; } = null!;
+
+    public string? RefreshToken { get; set; }
+
+    public DateTime? RefreshTokenExp { get; set; }
+
     public virtual ICollection<Inspection> Inspections { get; set; } = new List<Inspection>();
 
     public virtual ICollection<Maintenance> Maintenances { get; set; } = new List<Maintenance>();

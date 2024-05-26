@@ -74,14 +74,6 @@ CREATE TABLE RecoveryAction (
 CREATE TABLE Role (
     ID int identity(1,1) NOT NULL,
     Name varchar(80)  NOT NULL,
-    Access_Malfunctions bit  NOT NULL,
-    Access_Maintenances bit  NOT NULL,
-    Access_Meter bit  NOT NULL,
-    Access_Inspection bit  NOT NULL,
-    Access_QTG bit  NOT NULL,
-    Access_Trainees bit  NOT NULL,
-    Access_Sessions bit  NOT NULL,
-    Access_Raports bit  NOT NULL,
     CONSTRAINT Role_pk PRIMARY KEY  (ID)
 );
 
@@ -145,7 +137,10 @@ CREATE TABLE "User" (
     FirstName varchar(40)  NOT NULL,
     LastName varchar(60)  NOT NULL,
     Login nvarchar(64)  NOT NULL,
-    Password nvarchar(32)  NOT NULL,
+    Password nvarchar(512)  NOT NULL,
+    Salt nvarchar(512)  NOT NULL,
+    RefreshToken nvarchar(512)  NULL,
+    RefreshTokenExp datetime  NULL,
     CONSTRAINT User_pk PRIMARY KEY  (ID)
 );
 
