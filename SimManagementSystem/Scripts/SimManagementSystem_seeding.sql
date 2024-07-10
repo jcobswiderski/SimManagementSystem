@@ -13,13 +13,16 @@ INSERT INTO "Inspection_Type" (Name) VALUES
 ('Sprawdzenie czujek przeciwpożarowych');
 
 INSERT INTO "User" (FirstName, LastName, Login, Password, Salt) VALUES
-('Andreas', 'Duo', 'andreas_duo', 'Andreas@123', 'aaa'),
-('Jude', 'Smiths', 'jude_smiths', 'Smiths@111Jude', 'aaa'),
-('Robert', 'Johanson', 'robert_johanson', 'pass!woRd331', 'aaa'),
-('Jakub', 'Świderski', 'jswiderski', 'XOmEjo/m5PYk+zn01HmIjS06riQ2rNb7D4TM9YKRJBg=', 'qB7Jz8tZZUzG14vpPgKsiw=='),
-('Sam', 'Kramer', 's.kramer', '9qWz&2mE$jP', 'aaa'),
-('Mikey', 'Walter', 'm.walter', '5@Kc!pF9z#Jx', 'aaa'),
-('Brendon', 'Rodrigueza', 'b.rodriguez11', 'H4@Ry&tN8qXu', 'aaa');
+('Maxwell', 'Rodgers', 'mrodgers', 'kf/dwpqPjMk5hNZOlP7/5aomgQqMrsGYzD3X+BcTk5U=', 'EsYJwGkRd6ortKIiH1bjRQ=='),
+('Flora', 'Garrison', 'fgarrison', 'fGvdEgYYyzWRyRrdZj4sd0t80iDaorpNQ2KzeW5MXG0=', 'EtDUISy66+W2MP+dCPYA/g=='),
+('Erin', 'Black', 'eblack', 'TQ8UPWxC3ZqyF6mZBW16W/eY/AbU6fsA6RveMPkLA+4=', 'SZWOYxO05WOrKdA/C3wRRw=='),
+('Gordon', 'Rowe', 'growe', 'O2mxzaqoR0c7M2nM8/k1W2h4w0I0SN2gLVpV0+7HvdI=', 'hLDpJ5JqLazQOUNOn6E8Iw=='),
+('Sami', 'Charles', 'scharles', 'XJD659gZlgFFMmIfTVGdge2Tm5aC63IYJ7/jxkubHWA=', '3qHHNtsr4vkWCY0KzvcAYg=='),
+('Brooke', 'Poole', 'bpoole', 'mop1RIdj+c1LgXCoJ1grO/Sa8qQLPsjIKi8jyoFc3dw=', 'ibmAWwwv/d9nDIqNmICEUg=='),
+('Casper', 'Schneider', 'cschneider', '4Y3DfMc6c48ZCJpU4ev/6jaBj1CpvCuUKXa1zob8gLc=', 'Sa30PhqJDRRGeuEVCTm4iA=='),
+('Rohan', 'Nelson', 'rnelson', 'E7NNPtF+DAM111+lsHWxtjCjAz4gF/BYPDhmRqg31M8=', 'Ttw6ceK469JKNDNkyzow3w=='),
+('Raihan', 'Moreno', 'rmoreno', 'N5anourwDxcbKAJ8FGNMz9Vg2GfpfmhCp/AXQ3Iz+EU=', 'ovjyN/x0ZScwLnXDyWExFw==');
+
 
 INSERT INTO "Role" (Name) VALUES
 ('Admin'),
@@ -31,13 +34,15 @@ INSERT INTO "Role" (Name) VALUES
 ('Guest');
 
 INSERT INTO UserRole (User_ID, Role_ID) VALUES
-(1, 1),
-(2, 2),
-(3, 3),
-(4, 4),
-(5, 5),
-(6, 6),
-(7, 7);
+(1, 1), -- Maxwell Rodgers / Admin
+(2, 2), -- Flora Garrison / Engineer
+(3, 3), -- Erin Black / Planer
+(4, 4), -- Gordon Rowe / Pilot
+(5, 5), -- Sami Charles / Copilot
+(6, 6), -- Brooke Poole / Instructor
+(7, 7), -- Rohan Nelson / Guest
+(8, 4), -- Raihan Moreno / Pilot
+(8, 6); -- Raihan Moreno / Instructor
 
 INSERT INTO Inspection (Inspection_Type_ID, Date, Operator) VALUES
 (1, '2024-04-01 08:00:00', 2),

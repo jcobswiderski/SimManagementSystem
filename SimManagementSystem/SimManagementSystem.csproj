@@ -21,7 +21,6 @@
 
   <ItemGroup>
     <Folder Include="DataAccessLayer\" />
-    <Folder Include="Scripts\" />
   </ItemGroup>
 
 </Project>
