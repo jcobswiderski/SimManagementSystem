@@ -40,9 +40,9 @@ INSERT INTO UserRole (User_ID, Role_ID) VALUES
 (4, 4), -- Gordon Rowe / Pilot
 (5, 5), -- Sami Charles / Copilot
 (6, 6), -- Brooke Poole / Instructor
-(7, 7), -- Rohan Nelson / Guest
-(8, 4), -- Raihan Moreno / Pilot
-(8, 6); -- Raihan Moreno / Instructor
+(7, 7), -- Casper Schnerider / Guest
+(8, 4), -- Rohan Nelson / Pilot
+(8, 6); -- Rohan Nelson / Instructor
 
 INSERT INTO Inspection (Inspection_Type_ID, Date, Operator) VALUES
 (1, '2024-04-01 08:00:00', 2),

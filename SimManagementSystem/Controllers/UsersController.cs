@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -27,6 +28,7 @@ namespace SimManagementSystem.Controllers
             _configuration = configuration;
         }
 
+        [Authorize(Roles = "Pilot")]
         [HttpGet]
         public IActionResult GetStudents()
         {
@@ -55,9 +57,9 @@ namespace SimManagementSystem.Controllers
 
             List<Claim> userClaims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.Login)
+                new Claim("login", user.Login)
             };
-
+            
             var roles = _context.Users
                 .Where(u => u.Login == loginRequest.Login)
                 .SelectMany(u => u.Roles)
@@ -66,7 +68,7 @@ namespace SimManagementSystem.Controllers
 
             foreach (var role in roles)
             {
-                userClaims.Add(new Claim(ClaimTypes.Role, role));
+                userClaims.Add(new Claim("role", role));
             }
 
             SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));

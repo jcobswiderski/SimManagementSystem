@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SimManagementSystem.DataAccessLayer;
+using System.Security.Claims;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,7 +10,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<SimManagementSystemContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("SimManagementSystem"));
-    options.LogTo(Console.WriteLine); // Logowanie zapytan do konsoli
 });
 
 builder.Services.AddAuthentication(options =>
