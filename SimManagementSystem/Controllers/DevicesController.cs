@@ -6,7 +6,7 @@ using SimManagementSystem.DataTransferObjects;
 
 namespace SimManagementSystem.Controllers
 {
-    [Authorize]
+    //[Authorize(Roles = "Admin, Engineer")]
     [Route("api/[controller]")]
     [ApiController]
     public class DevicesController : ControllerBase
@@ -19,14 +19,14 @@ namespace SimManagementSystem.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult GetDevices()
         {
             var devices = _context.Devices.ToList();
             return Ok(devices);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateDeviceDTO newDevice)
+        public async Task<IActionResult> CreateDevice(CreateDeviceDTO newDevice)
         {
             var device = new Device
             {
@@ -41,7 +41,7 @@ namespace SimManagementSystem.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteDevice(int id)
         {
             var deviceToDelete = new Device
             {

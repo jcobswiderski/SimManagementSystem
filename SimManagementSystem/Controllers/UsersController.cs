@@ -14,7 +14,7 @@ using static System.Net.WebRequestMethods;
 
 namespace SimManagementSystem.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -28,9 +28,8 @@ namespace SimManagementSystem.Controllers
             _configuration = configuration;
         }
 
-        [Authorize(Roles = "Pilot")]
         [HttpGet]
-        public IActionResult GetStudents()
+        public IActionResult GetUsers()
         {
             var users = _context.Users.ToList();
             return Ok(users);
@@ -119,7 +118,7 @@ namespace SimManagementSystem.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteUser(int id)
         {
             var userToDelete = new User
             {
