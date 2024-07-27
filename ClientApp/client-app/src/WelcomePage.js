@@ -6,14 +6,18 @@ import Footer from './Footer';
 import AuthContext from './AuthContext';
 
 const WelcomePage = () => {
-  const { isAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated, userRoles } = useContext(AuthContext);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/dashboard');
+      if (userRoles.includes('Admin')) {
+        navigate('/dashboardAdmin');
+      } else if (userRoles.includes('Pilot')) {
+        navigate('/dashboardPilot');
+      }
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, userRoles, navigate]);
 
   return (
     <div className="welcome-page">

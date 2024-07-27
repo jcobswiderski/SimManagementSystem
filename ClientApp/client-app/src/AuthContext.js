@@ -23,6 +23,9 @@ export const AuthProvider = ({ children }) => {
     setIsAuthenticated(true);
     const decodedToken = jwtDecode(token);
     setUserRoles(decodedToken.role || []);
+
+
+    
   };
 
   const logout = () => {

@@ -32,7 +32,7 @@ const LoginForm = () => {
         Cookies.set('token', data.token, { expires: 7 });
         Cookies.set('refreshToken', data.refreshToken, { expires: 7 });
         authLogin(data.token, data.refreshToken);
-        navigate('/dashboard');
+        navigate('/');
       } else {
         console.log('Błąd:', response.statusText);
       }
