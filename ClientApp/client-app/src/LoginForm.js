@@ -3,6 +3,7 @@ import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import AuthContext from './AuthContext';
+import "./loginForm.css";
 
 const LoginForm = () => {
   const [login, setLogin] = useState('');
@@ -42,29 +43,31 @@ const LoginForm = () => {
   };
 
   return ( 
-    <div className="loginForm">
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Login:</label>
-          <input 
-            type="text" 
-            value={login} 
-            onChange={(e) => setLogin(e.target.value)} 
-            required 
-          />
-        </div>
-        <div>
-          <label>Hasło:</label>
-          <input 
-            type="password" 
-            value={password} 
-            onChange={(e) => setPassword(e.target.value)} 
-            required 
-          />
-        </div>
-        <button type="submit">Zaloguj się</button>
-      </form>
-    </div>
+    <form className='login__form' onSubmit={handleSubmit}>
+      <div className='login__wrap'>
+        <label className='login__label'>Login:</label>
+        <input
+          className='login__input' 
+          type="text" 
+          value={login} 
+          onChange={(e) => setLogin(e.target.value)} 
+          required 
+        />
+      </div>
+      <div className='login__wrap'>
+        <label className='login__label'>Hasło:</label>
+        <input 
+          className='login__input' 
+          type="password" 
+          value={password} 
+          onChange={(e) => setPassword(e.target.value)} 
+          required 
+        />
+      </div>
+      <div className='login__wrap'>
+        <button className='login__button' type="submit">Zaloguj się</button>
+      </div>
+    </form>
   );
 }
 

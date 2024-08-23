@@ -25,6 +25,17 @@ namespace SimManagementSystem.Controllers
             return Ok(devices);
         }
 
+        [HttpGet("{id}")]
+        public IActionResult GetDevice(int id)
+        {
+            var device = _context.Devices.FirstOrDefault(d => d.Id == id);
+            if (device == null)
+            {
+                return NotFound();
+            }
+            return Ok(device);
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateDevice(CreateDeviceDTO newDevice)
         {

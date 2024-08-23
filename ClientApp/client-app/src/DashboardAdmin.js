@@ -9,7 +9,7 @@ const DashboardAdmin = () => {
 
     const handleLogout = () => {
         logout();
-        navigate('/welcome');
+        navigate('/start');
     };
 
     return (

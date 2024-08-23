@@ -4,6 +4,7 @@ import Navbar from './Navbar';
 import LoginForm from './LoginForm';
 import Footer from './Footer';
 import AuthContext from './AuthContext';
+import "./start.css";
 
 const WelcomePage = () => {
   const { isAuthenticated, userRoles } = useContext(AuthContext);
@@ -12,20 +13,19 @@ const WelcomePage = () => {
   useEffect(() => {
     if (isAuthenticated) {
       if (userRoles.includes('Admin')) {
-        navigate('/dashboardAdmin');
-      } else if (userRoles.includes('Pilot')) {
-        navigate('/dashboardPilot');
+        navigate('/dashboard-admin');
+      } else {
+        navigate('/dashboard');
       }
     }
   }, [isAuthenticated, userRoles, navigate]);
 
   return (
-    <div className="welcome-page">
+    <div className="start__page">
       <Navbar />
-      <main className="main-content">
+      <main className="start__content">
         <LoginForm />
       </main>
-      <Footer />
     </div>
   );
 }

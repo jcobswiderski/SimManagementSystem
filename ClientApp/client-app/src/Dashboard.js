@@ -9,13 +9,13 @@ const DashboardPilot = () => {
 
     const handleLogout = () => {
         logout();
-        navigate('/welcome');
+        navigate('/start');
     };
 
     return (
         <div>
         <Navbar />
-        <h1>Dashboard Pilot</h1>
+        <h1>Dashboard</h1>
         <button onClick={handleLogout}>Wyloguj się</button>
         </div>
     );
