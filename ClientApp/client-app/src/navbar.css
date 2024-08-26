@@ -1,12 +1,12 @@
 .navbar {
-    /* width: 100vw; */
     height: 50px;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    background-color: #8e9199;
-    position: relative; 
+    background-color: hwb(212 11% 84%);
+    position: relative;
+    font-size: 14px;
 }
 
 .navbar--open {
@@ -70,11 +70,14 @@
 
 @media (min-width: 1024px) {
     .navbar {
-        width: 250px;
-        height: 100vh;
+        width: 220px;
+        min-height: 100vh;
         display: flex;
         flex-direction: column;
         justify-content: start;
+        position: fixed; /* Ustawienie navbaru jako stałego */
+        top: 0;
+        left: 0;
     }
 
     .navbar__toggle {

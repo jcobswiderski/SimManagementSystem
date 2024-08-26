@@ -44,7 +44,7 @@ const Navbar = () => {
             {userRoles.some(role => role === 'Engineer' || role === 'Admin') && (
               <Link to="/devices"><li className="navbar__item">Devices</li></Link>
             )}
-            <button className='navbar__item' onClick={handleLogout}>Logout</button>
+            <li className='navbar__item' onClick={handleLogout}>Logout</li>
           </>
         ) : (
           <>

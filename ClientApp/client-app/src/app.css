@@ -2,16 +2,22 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
 }
 
 #root {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    min-height: 100vh;
+    
+    background-color: #8e9199;
 }
 
 @media (min-width: 1024px) {
     #root {
         flex-direction: row;
+        margin-left: 220px;
     }
 }

@@ -4,7 +4,7 @@ import LoginForm from './LoginForm';
 import AuthContext from './AuthContext';
 import "./start.css";
 
-const WelcomePage = () => {
+const StartPage = () => {
   const { isAuthenticated, userRoles } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -27,4 +27,4 @@ const WelcomePage = () => {
   );
 }
 
-export default WelcomePage;
+export default StartPage;

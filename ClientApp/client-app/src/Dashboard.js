@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from './AuthContext';
+import './dashboard.css';
 
 const DashboardPilot = () => {
     const { logout } = useContext(AuthContext);
@@ -12,9 +13,8 @@ const DashboardPilot = () => {
     };
 
     return (
-        <div>
+        <div className='dashboard'>
             <h1>Dashboard</h1>
-            <button onClick={handleLogout}>Wyloguj się</button>
         </div>
     );
 }

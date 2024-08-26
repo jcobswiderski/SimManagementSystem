@@ -44,7 +44,7 @@ const LoginForm = () => {
   return ( 
     <form className='login__form' onSubmit={handleSubmit}>
       <div className='login__wrap'>
-        <label className='login__label'>Login:</label>
+        <label className='login__label'>Login</label>
         <input
           className='login__input' 
           type="text" 
@@ -54,7 +54,7 @@ const LoginForm = () => {
         />
       </div>
       <div className='login__wrap'>
-        <label className='login__label'>Hasło:</label>
+        <label className='login__label'>Password</label>
         <input 
           className='login__input' 
           type="password" 
