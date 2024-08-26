@@ -13,7 +13,8 @@ export const AuthProvider = ({ children }) => {
     if (token) {
       setIsAuthenticated(true);
       const decodedToken = jwtDecode(token);
-      setUserRoles(decodedToken.role || []);
+      // setUserRoles(decodedToken.role || []);
+      setUserRoles(Array.isArray(decodedToken.role) ? decodedToken.role : [decodedToken.role]);
     }
   }, []);
 
@@ -22,10 +23,8 @@ export const AuthProvider = ({ children }) => {
     Cookies.set('refreshToken', refreshToken, { expires: 7 });
     setIsAuthenticated(true);
     const decodedToken = jwtDecode(token);
-    setUserRoles(decodedToken.role || []);
-
-
-    
+    // setUserRoles(decodedToken.role || []);
+    setUserRoles(Array.isArray(decodedToken.role) ? decodedToken.role : [decodedToken.role]);
   };
 
   const logout = () => {

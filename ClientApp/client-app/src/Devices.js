@@ -50,7 +50,7 @@ class Devices extends Component {
     render() {
         const {devices} = this.state; 
 
-        return (  
+        return (
             <div className="devices">
                 <h1 className="devices__title">Devices</h1>
                 <div className="devices__group">

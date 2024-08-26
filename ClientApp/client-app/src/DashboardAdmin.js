@@ -1,7 +1,6 @@
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from './AuthContext';
-import Navbar from './Navbar';
 
 const DashboardAdmin = () => {
     const { logout } = useContext(AuthContext);
@@ -14,9 +13,8 @@ const DashboardAdmin = () => {
 
     return (
         <div>
-        <Navbar />
-        <h1>Dashboard Admin</h1>
-        <button onClick={handleLogout}>Wyloguj się</button>
+            <h1>Dashboard Admin</h1>
+            <button onClick={handleLogout}>Wyloguj się</button>
         </div>
     );
 }

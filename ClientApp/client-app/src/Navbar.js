@@ -4,7 +4,7 @@ import AuthContext from './AuthContext';
 import './navbar.css';
 
 const Navbar = () => {
-  const {isAuthenticated, logout} = useContext(AuthContext);
+  const {isAuthenticated, logout, userRoles} = useContext(AuthContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -41,6 +41,9 @@ const Navbar = () => {
         {isAuthenticated ? (
           <>
             <Link to="/dashboard"><li className="navbar__item">Dashboard</li></Link>
+            {userRoles.some(role => role === 'Engineer' || role === 'Admin') && (
+              <Link to="/devices"><li className="navbar__item">Devices</li></Link>
+            )}
             <button className='navbar__item' onClick={handleLogout}>Logout</button>
           </>
         ) : (
