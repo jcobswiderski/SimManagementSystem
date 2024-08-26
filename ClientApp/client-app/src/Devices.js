@@ -1,4 +1,3 @@
-import config from './config';
 import { Component } from "react";
 
 class Devices extends Component {
@@ -16,7 +15,7 @@ class Devices extends Component {
     }
 
     async refreshDevices() {
-        fetch(`${config.API_URL}/Devices`)
+        fetch(`${process.env.REACT_APP_API_URL}/Devices`)
             .then(res => res.json())
             .then(data => this.setState({devices: data}));
     }
@@ -26,7 +25,7 @@ class Devices extends Component {
         const data = new FormData();
         data.append("newDevice", newDevice);
 
-        fetch(`${config.API_URL}/Devices`, {
+        fetch(`${process.env.REACT_APP_API_URL}/Devices`, {
             method: "POST",
             body: data
         }).then(res => res.json()).then((result) => {
@@ -37,7 +36,7 @@ class Devices extends Component {
     }
 
     async deleteClick(id) {
-        fetch(`${config.API_URL}/Devices` + id, {
+        fetch(`${process.env.REACT_APP_API_URL}/Devices` + id, {
             method: "DELETE"
         }).then(res => {
             if(res.ok) {

@@ -1,4 +1,3 @@
-import config from './config';
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
@@ -20,7 +19,7 @@ const LoginForm = () => {
     };
 
     try {
-      const response = await fetch(`${config.API_URL}/Users/login`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/Users/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
