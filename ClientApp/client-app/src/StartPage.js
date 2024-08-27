@@ -10,11 +10,7 @@ const StartPage = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      if (userRoles.includes('Admin')) {
-        navigate('/dashboard-admin');
-      } else {
-        navigate('/dashboard');
-      }
+      navigate('/dashboard');
     }
   }, [isAuthenticated, userRoles, navigate]);
 

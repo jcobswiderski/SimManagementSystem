@@ -5,9 +5,9 @@ import ProtectedRoute from './ProtectedRoute';
 import StartPage from './StartPage';
 import NotFound from './NotFound';
 import Unauthorized from './Unauthorized';
-import DashboardAdmin from './DashboardAdmin';
 import Dashboard from './Dashboard'; 
 import Devices from './Devices';
+import Device from './Device';
 import Navbar from './Navbar';
 import "./app.css";
 
@@ -20,9 +20,9 @@ const App = () => {
         <Routes>
           <Route path="/" element={<StartPage />} />
           <Route path="/start" element={<StartPage />} />
-          <Route path="/dashboard-admin" element={<ProtectedRoute roles={['Admin']}><DashboardAdmin /></ProtectedRoute>} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/devices" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Devices /></ProtectedRoute>} />
+          <Route path="/devices/:id" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Device /></ProtectedRoute>} />
           <Route path="/unauthorized" element={<Unauthorized />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './devices.css';
 
 const Devices = () => {
   const [devices, setDevices] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const navigate = useNavigate();
   
   useEffect(() => {
     refreshDevices();
@@ -64,6 +66,10 @@ const Devices = () => {
     }
   };
 
+  const navigateToDevice = (id) => {
+    navigate(`/devices/${id}`);
+  };
+
   return (
     <div className="devices">
       <h1 className="devices__title">Devices</h1>
@@ -75,7 +81,7 @@ const Devices = () => {
       
       {filteredDevices.map(device => (
         <div className="devices__card" key={device.id}>
-          <h2 className="devices__card__title">{device.name}</h2>
+          <h2 className="devices__card__title" onClick={() => navigateToDevice(device.id)}>{device.name}</h2>
           <img className='devices__button devices__button--delete' src="./clear.png" onClick={() => deleteDevice(device.id)}></img>
         </div>
       ))}
