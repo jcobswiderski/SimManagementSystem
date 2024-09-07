@@ -17,6 +17,33 @@ namespace SimManagementSystem.Controllers
             _context = context;
         }
 
+        [HttpGet]
+        public IActionResult GetSimulatorSessions()
+        {
+            var simulatorSession = _context.SimulatorSessions
+                .Include(s => s.PredefinedSessionNavigation)
+                .Include(s => s.PilotSeatNavigation)
+                .Include(s => s.CopilotSeatNavigation)
+                .Include(s => s.ObserverSeatNavigation)
+                .Include(s => s.SupervisorSeatNavigation)
+                .Select(s => new
+                {
+                    s.Id,
+                    s.Date,
+                    PilotName = s.PilotSeatNavigation.FirstName + " " + s.PilotSeatNavigation.LastName,
+                    CopilotName = s.CopilotSeatNavigation.FirstName + " " + s.CopilotSeatNavigation.LastName,
+                    ObserverName = s.ObserverSeatNavigation.FirstName + " " + s.ObserverSeatNavigation.LastName,
+                    SupervisorName = s.SupervisorSeatNavigation.FirstName + " " + s.SupervisorSeatNavigation.LastName,
+                    PredefinedSessionName = s.PredefinedSessionNavigation.Name,
+                    PredefinedSessionDescription = s.PredefinedSessionNavigation.Description,
+                    PredefinedSessionAbbreviation = s.PredefinedSessionNavigation.Abbreviation,
+                    PredefinedSessionDuration = s.PredefinedSessionNavigation.Duration
+                })
+                .ToList();
+
+            return Ok(simulatorSession);
+        }
+
         [HttpGet("{id}")]
         public IActionResult GetSimulatorSession(int id)
         {
@@ -45,8 +72,8 @@ namespace SimManagementSystem.Controllers
             return Ok(simulatorSession);    
         }
 
-        [HttpGet("bydate/{date}")]
-        public IActionResult GetSimulatorSessionsByDate(DateTime date)
+        [HttpGet("byday/{date}")]
+        public IActionResult GetSimulatorSessionsByDay(DateTime date)
         {
             var sessions = _context.SimulatorSessions
                 .Include(s => s.PredefinedSessionNavigation)
@@ -55,6 +82,39 @@ namespace SimManagementSystem.Controllers
                 .Include(s => s.ObserverSeatNavigation)
                 .Include(s => s.SupervisorSeatNavigation)
                 .Where(s => s.Date.Date == date.Date)
+                .Select(s => new
+                {
+                    s.Id,
+                    s.Date,
+                    PilotName = s.PilotSeatNavigation.FirstName + " " + s.PilotSeatNavigation.LastName,
+                    CopilotName = s.CopilotSeatNavigation.FirstName + " " + s.CopilotSeatNavigation.LastName,
+                    ObserverName = s.ObserverSeatNavigation.FirstName + " " + s.ObserverSeatNavigation.LastName,
+                    SupervisorName = s.SupervisorSeatNavigation.FirstName + " " + s.SupervisorSeatNavigation.LastName,
+                    PredefinedSessionName = s.PredefinedSessionNavigation.Name,
+                    PredefinedSessionDescription = s.PredefinedSessionNavigation.Description,
+                    PredefinedSessionAbbreviation = s.PredefinedSessionNavigation.Abbreviation,
+                    PredefinedSessionDuration = s.PredefinedSessionNavigation.Duration
+                })
+                .ToList();
+
+            if (sessions == null || !sessions.Any())
+            {
+                return NotFound($"No sessions found for the date {date.ToShortDateString()}.");
+            }
+
+            return Ok(sessions);
+        }
+
+        [HttpGet("bymonth/{date}")]
+        public IActionResult GetSimulatorSessionsByMonth(DateTime date)
+        {
+            var sessions = _context.SimulatorSessions
+                .Include(s => s.PredefinedSessionNavigation)
+                .Include(s => s.PilotSeatNavigation)
+                .Include(s => s.CopilotSeatNavigation)
+                .Include(s => s.ObserverSeatNavigation)
+                .Include(s => s.SupervisorSeatNavigation)
+                .Where(s => s.Date.Year == date.Year && s.Date.Month == date.Month)
                 .Select(s => new
                 {
                     s.Id,

@@ -41,6 +41,8 @@ const Navbar = () => {
         {isAuthenticated ? (
           <>
             <Link to="/dashboard"><li className="navbar__item">Dashboard</li></Link>
+            <Link to="/calendar"><li className="navbar__item">Calendar</li></Link>
+
             {userRoles.some(role => role === 'Engineer' || role === 'Admin') && (
               <Link to="/devices"><li className="navbar__item">Devices</li></Link>
             )}

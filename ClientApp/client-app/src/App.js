@@ -6,6 +6,7 @@ import StartPage from './StartPage';
 import NotFound from './NotFound';
 import Unauthorized from './Unauthorized';
 import Dashboard from './Dashboard'; 
+import Calendar from './Calendar';
 import Devices from './Devices';
 import Device from './Device';
 import Navbar from './Navbar';
@@ -21,6 +22,7 @@ const App = () => {
           <Route path="/" element={<StartPage />} />
           <Route path="/start" element={<StartPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/calendar" element={<Calendar />} />
           <Route path="/devices" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Devices /></ProtectedRoute>} />
           <Route path="/devices/:id" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Device /></ProtectedRoute>} />
           <Route path="/unauthorized" element={<Unauthorized />} />
