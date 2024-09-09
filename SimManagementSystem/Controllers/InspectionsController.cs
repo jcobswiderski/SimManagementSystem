@@ -22,7 +22,6 @@ namespace SimManagementSystem.Controllers
         public IActionResult GetInspections()
         {
             var inspections = _context.Inspections
-                .Include(i => i.InspectionType)
                 .Select(i => new {
                     i.Id,
                     i.Date,
@@ -37,8 +36,7 @@ namespace SimManagementSystem.Controllers
         public IActionResult GetInspection(int id)
         {
             var inspection = _context.Inspections
-                 .Include(i => i.InspectionType)
-                 .Where(i => i.InspectionTypeId == id)
+                 .Where(i => i.Id == id)
                  .Select(i => new {
                      i.Id,
                      i.Date,

@@ -9,6 +9,8 @@ import Dashboard from './Dashboard';
 import Calendar from './Calendar';
 import Devices from './Devices';
 import Device from './Device';
+import Inspections from './Inspections';
+import Inspection from './Inspection';
 import Navbar from './Navbar';
 import "./app.css";
 
@@ -25,6 +27,8 @@ const App = () => {
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/devices" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Devices /></ProtectedRoute>} />
           <Route path="/devices/:id" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Device /></ProtectedRoute>} />
+          <Route path="/inspections" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Inspections /></ProtectedRoute>} />
+          <Route path="/inspections/:id" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Inspection /></ProtectedRoute>} />
           <Route path="/unauthorized" element={<Unauthorized />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
