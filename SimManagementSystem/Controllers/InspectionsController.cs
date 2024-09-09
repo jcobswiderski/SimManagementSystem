@@ -24,7 +24,7 @@ namespace SimManagementSystem.Controllers
             var inspections = _context.Inspections
                 .Select(i => new {
                     i.Id,
-                    i.Date,
+                    Date = i.Date.ToString("yyyy-MM-dd HH:mm:ss"),
                     InspectionType = i.InspectionType.Name,
                     Operator = i.OperatorNavigation.FirstName + " " + i.OperatorNavigation.LastName
                 })

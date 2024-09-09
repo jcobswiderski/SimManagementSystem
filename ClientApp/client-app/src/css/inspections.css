@@ -1,0 +1,137 @@
+.inspections {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+    margin: 50px;
+}
+
+.inspections__title {
+    padding-bottom: 25px;
+}
+
+.inspections__group {
+    width: 100%;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.inspections__search {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 270px;
+    width: 100%;
+    max-width: 650px;
+    margin-bottom: 15px;
+    border: 1px solid black;
+    padding: 10px;
+}
+
+.inspections__search-icon {
+    width: 18px;
+    margin-right: 10px;
+}
+
+.inspections__search-input {
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid #000;
+    padding: 5px;
+    outline: none;
+    background-color: #8e9199;
+}
+
+.inspections__create {
+    font-size: 1rem;    
+    border: none;    
+    border-bottom: 1px solid black;
+    background: none;
+    padding: 10px;
+    margin-bottom: 30px;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.inspections__create:hover {
+    transform: scale(1.05);
+    background-color: #5a7a59;
+}
+
+.inspections__card {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin: 20px 0;
+    border-bottom: 1px solid black;
+    width: 100%;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.inspections__card:hover {
+    transform: scale(1.01);
+    background-color: #b8860b;
+}
+
+.inspections__card__info {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.inspections__card__title {
+    font-size: 22px;
+    padding-bottom: 10px;
+}
+
+
+.inspections__card__date {
+    padding-left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inspections__card__operator {
+    padding-left: 10px;
+    padding-bottom: 10px;
+}
+
+.inspections__button--delete {
+    width: 18px;
+    margin-left: 10px;
+}
+
+@media (min-width: 1024px) {
+    .inspections {
+        width: 100%;
+    }
+
+    .inspections__card {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .inspections__card__info {
+        display: flex;
+        flex-direction: column;
+        align-items: end;
+    }
+
+    .inspections__card__operator {
+        padding: 0;
+    }
+
+    .inspections__card__date {
+        padding: 0;
+    }
+
+    .inspections__group {
+        flex-direction: row;
+        margin-bottom: 30px;
+    }
+}

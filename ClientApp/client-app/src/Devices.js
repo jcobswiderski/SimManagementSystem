@@ -73,26 +73,28 @@ const Devices = () => {
   return (
     <div className="devices">
       <h1 className="devices__title">Devices</h1>
+      <h2 className="devices__info">Wyszukaj urządzenie po nazwie lub kliknij na nazwę urządzenia aby uzyskać więcej informacji.</h2>
       <div className="devices__search">
-        {/* <label className='devices__label'>Search:</label> */}
         <img className="devices__search-icon" src="./search.png"></img>
-        <input className="devices__input devices__search-input" type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+        <input className="devices__search-input" type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
       </div>
       
-      {filteredDevices.map(device => (
-        <div className="devices__card" key={device.id}>
-          <h2 className="devices__card__title" onClick={() => navigateToDevice(device.id)}>{device.name}</h2>
-          <img className='devices__button devices__button--delete' src="./clear.png" onClick={() => deleteDevice(device.id)}></img>
-        </div>
-      ))}
-
       <div className="devices__group">
-        <h2 className="devices__subtitle">Add new device</h2>
-        {/* <label className='devices__label'>Name:</label> */}
-        <input className="devices__input" type="text" placeholder="Name" id="newDeviceName" />
-        {/* <label className='devices__label'>Tag:</label> */}
-        <input className="devices__input" type="text" placeholder="Tag" id="newDeviceTag" />
-        <img className="devices__button devices__button--add" src="./add.png" onClick={createNewDevice}></img>
+        <div className="devices__group-items">
+          {filteredDevices.map(device => (
+            <div className="devices__card" key={device.id}>
+              <h2 className="devices__card__title" onClick={() => navigateToDevice(device.id)}>{device.name}</h2>
+              <img className='devices__button devices__button--delete' src="./clear.png" onClick={() => deleteDevice(device.id)}></img>
+            </div>
+          ))}
+        </div>
+        
+        <div className="devices__group-creating">
+          <h2 className="devices__subtitle">Add new device</h2>
+          <input className="devices__input" type="text" placeholder="Name" id="newDeviceName" />
+          <input className="devices__input" type="text" placeholder="Tag" id="newDeviceTag" />
+          <img className="devices__button devices__button--add" src="./add.png" onClick={createNewDevice}></img>
+        </div>
       </div>
     </div>
   );

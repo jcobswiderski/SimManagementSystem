@@ -51,39 +51,32 @@ const Inspections = () => {
     }
   };
 
-  const deleteInspection = async (id) => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/Inspections/${id}`, {
-        method: 'DELETE',
-      });
-      
-      if (response.ok) {
-        alert('Inspection deleted successfully!');
-        refreshInspections();
-      } else {
-        alert('Failed to delete inspection.');
-      }
-    } catch (error) {
-      console.error('Error deleting inspection:', error);
-    }
-  };
-
   const navigateToInspection = (id) => {
     navigate(`/inspections/${id}`);
   };
 
   return (
     <div className="inspections">
-      <h1 className="inspections__title">Obsługi</h1>
-      <div className="inspections__search">
-        <img className="inspections__search-icon" src="./search.png"></img>
-        <input className="inspections__input inspections__search-input" type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+      <h1 className="inspections__title">Inspections</h1>
+      <div className="inspections__group">
+        <div className="inspections__search">
+          <img className="inspections__search-icon" src="./search.png"></img>
+          <input className="inspections__input inspections__search-input" type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+        </div>
+        <button className="inspections__create" onClick={() => {navigate('/createInspection');}}>
+          Zaplanuj nową obsługę
+        </button>
       </div>
-      
+    
       {filteredInspections.map(inspection => (
-        <div className="inspections__card" key={inspection.id}>
-          <h2 className="inspections__card__title" onClick={() => navigateToInspection(inspection.id)}>{inspection.inspectionType}</h2>
-          <img className="inspections__button inspections__button--delete" src="./clear.png" onClick={() => deleteInspection(inspection.id)}></img>
+        <div className="inspections__card" key={inspection.id} onClick={() => navigateToInspection(inspection.id)}>
+          <div className="inspections__card__title">
+            {inspection.inspectionType}
+          </div>
+          <div className="inspections__card__info">
+            <div className="inspections__card__date">{inspection.date}</div>
+            <div className="inspections__card__operator">Made by: {inspection.operator}</div>
+          </div>
         </div>
       ))}
     </div>

@@ -12,6 +12,11 @@
     height: 100%;
     justify-content: center;
     align-items: center;
+    /* Darmowa licencja z unsplash.com */
+    background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0)), url('./../../public/theme.jpg');
+    background-size: cover;
+    background-position: center;
+    height: calc(100vh - 50px);
 }
 
 @media (min-width: 1024px) {
@@ -28,5 +33,6 @@
         width: 100%;
         justify-content: center;
         align-items: center;
+        height: 100vh;
     }
 }
