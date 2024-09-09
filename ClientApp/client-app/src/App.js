@@ -12,7 +12,7 @@ import Device from './Device';
 import Inspections from './Inspections';
 import Inspection from './Inspection';
 import Navbar from './Navbar';
-import "./app.css";
+import "./css/app.css";
 
 const App = () => {
   const { isAuthenticated, userRoles } = useContext(AuthContext);

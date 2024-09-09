@@ -2,7 +2,7 @@ import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import AuthContext from './AuthContext';
-import "./loginForm.css";
+import "./css/loginForm.css";
 
 const LoginForm = () => {
   const [login, setLogin] = useState('');

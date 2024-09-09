@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from './AuthContext';
-import './dashboard.css';
+import './css/dashboard.css';
 
 const DashboardPilot = () => {
     const { logout } = useContext(AuthContext);

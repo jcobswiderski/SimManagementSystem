@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './inspections.css';
+import './css/inspections.css';
 
 const Inspections = () => {
   const [inspections, setInspections] = useState([]);

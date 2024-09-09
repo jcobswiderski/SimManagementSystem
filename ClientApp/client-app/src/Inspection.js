@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom'; 
-import './inspection.css';
+import './css/inspection.css';
 
 const Inspection = () => {
     const {id} = useParams();

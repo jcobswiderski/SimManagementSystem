@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LoginForm from './LoginForm';
 import AuthContext from './AuthContext';
-import "./start.css";
+import "./css/start.css";
 
 const StartPage = () => {
   const { isAuthenticated, userRoles } = useContext(AuthContext);
