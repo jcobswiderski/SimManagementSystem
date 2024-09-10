@@ -50,6 +50,10 @@ const Navbar = () => {
             {userRoles.some(role => role === 'Engineer' || role === 'Admin') && (
               <Link to="/inspections"><li className="navbar__item">Inspections</li></Link>
             )}
+
+            {userRoles.some(role => role === 'Admin') && (
+              <Link to="/users"><li className="navbar__item">Users</li></Link>
+            )}
             <li className='navbar__item' onClick={handleLogout}>Logout</li>
           </>
         ) : (

@@ -58,6 +58,7 @@
 .inspections__create:hover {
     transform: scale(1.05);
     background-color: #5a7a59;
+    cursor: pointer;
 }
 
 .inspections__card {
@@ -73,6 +74,7 @@
 .inspections__card:hover {
     transform: scale(1.01);
     background-color: #b8860b;
+    cursor: pointer;
 }
 
 .inspections__card__info {

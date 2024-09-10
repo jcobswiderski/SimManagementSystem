@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SimManagementSystem.DataAccessLayer;
 using SimManagementSystem.DataTransferObjects;
@@ -14,7 +15,7 @@ using static System.Net.WebRequestMethods;
 
 namespace SimManagementSystem.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -31,7 +32,44 @@ namespace SimManagementSystem.Controllers
         [HttpGet]
         public IActionResult GetUsers()
         {
-            var users = _context.Users.ToList();
+            var users = _context.Users
+                .Select(u => new { 
+                    u.Id,
+                    u.FirstName,
+                    u.LastName,
+                    UserRoles = u.Roles,
+                })
+                .ToList();
+            return Ok(users);
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetUser(int id)
+        {
+            var users = _context.Users
+                .Select(u => new {
+                    u.Id,
+                    u.FirstName,
+                    u.LastName,
+                    UserRoles = u.Roles,
+                })
+                .Where(u => u.Id == id)
+                .FirstOrDefault();
+            return Ok(users);
+        }
+
+        [HttpGet("role/engineer")]
+        public IActionResult GetEngineers()
+        {
+            var users = _context.Users
+                .Select(u => new {
+                    u.Id,
+                    u.FirstName,
+                    u.LastName,
+                    UserRoles = u.Roles,
+                })
+                .Where(u => u.UserRoles.Any(r => r.Name == "Engineer"))
+                .ToArray();
             return Ok(users);
         }
 
@@ -93,7 +131,6 @@ namespace SimManagementSystem.Controllers
             });
         }
 
-
         [AllowAnonymous]
         [HttpPost("register")]
         public async Task<IActionResult> Register(CreateUserDTO newUser)
@@ -130,6 +167,65 @@ namespace SimManagementSystem.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult EditUser(int id, [FromBody] EditUserDTO updatedUser)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.Id == id);
+            if (user == null)
+            {
+                return NotFound($"User with ID {id} not found.");
+            }
+
+            user.FirstName = updatedUser.FirstName;
+            user.LastName = updatedUser.LastName;
+
+            _context.SaveChanges();
+
+            return Ok(user);
+        }
+
+        [HttpPost("{id}/AssignRole")]
+        public async Task<IActionResult> AssignRole(int id, [FromBody] AssignRoleDTO assignRoleDTO)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.Id == id);
+            if (user == null) 
+                return NotFound("User not found");
+
+            var role = _context.Roles.FirstOrDefault(r => r.Id == assignRoleDTO.Id);
+            if (role == null) 
+                return NotFound("Role not found.");
+            
+            if (user.Roles.Contains(role)) 
+                return BadRequest("User already has this role.");
+
+            user.Roles.Add(role);
+            await _context.SaveChangesAsync();
+
+            return Ok("Role assigned to user");
+        }
+
+        [HttpDelete("{id}/RemoveRole")]
+        public async Task<IActionResult> RemoveRole(int id, [FromBody] RemoveRoleDTO removeRoleDTO)
+        {
+            var user = _context.Users
+                .Include(u => u.Roles)
+                .FirstOrDefault(u => u.Id == id);
+
+            if (user == null) return NotFound("User not found.");
+
+            var role = _context.Roles.FirstOrDefault(r => r.Id == removeRoleDTO.Id);
+            if (role == null) 
+                return NotFound("Role not found.");
+
+            if (!user.Roles.Contains(role))
+                return BadRequest("User does not have this role");
+
+            user.Roles.Remove(role);
+            await _context.SaveChangesAsync();
+
+            return Ok("Role sucessfuly removed");
         }
     }
 }

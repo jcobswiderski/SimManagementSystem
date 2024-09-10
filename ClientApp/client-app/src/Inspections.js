@@ -25,32 +25,6 @@ const Inspections = () => {
     i.inspectionType.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const createNewInspection = async () => {
-    const newInspectionTypeId = document.querySelector('#newInspectionTypeId').value;
-    const newInspectionDate = document.querySelector('#newInspectionDate').value;
-    const newInspectionOperator = document.querySelector('#newInspectionOperator').value;
-    
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/Inspections`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            inspectionTypeId: newInspectionTypeId,
-            date: newInspectionDate,
-            operator: newInspectionOperator
-        }),
-        });
-      
-        const result = await response.json();
-        alert(result.message || 'Inspection created successfully!');
-        refreshInspections();
-    } catch (error) {
-        console.error('Error creating inspection:', error);
-    }
-  };
-
   const navigateToInspection = (id) => {
     navigate(`/inspections/${id}`);
   };

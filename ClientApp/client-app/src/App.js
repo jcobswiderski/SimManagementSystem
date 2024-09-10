@@ -12,6 +12,8 @@ import Device from './Device';
 import Inspections from './Inspections';
 import Inspection from './Inspection';
 import CreateInspection from './CreateInspection';
+import Users from './Users';
+import User from './User';
 import Navbar from './Navbar';
 import "./css/app.css";
 
@@ -31,6 +33,8 @@ const App = () => {
           <Route path="/inspections" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Inspections /></ProtectedRoute>} />
           <Route path="/inspections/:id" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Inspection /></ProtectedRoute>} />
           {/* <Route path="/createInspection" element={<ProtectedRoute roles={['Admin', 'Engineer']}><CreateInspection /></ProtectedRoute>} /> */}
+          <Route path="/users" element={<ProtectedRoute roles={['Admin']}><Users /></ProtectedRoute>} />
+          <Route path="/users/:id" element={<ProtectedRoute roles={['Admin']}><User /></ProtectedRoute>} />
           <Route path="/unauthorized" element={<Unauthorized />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
