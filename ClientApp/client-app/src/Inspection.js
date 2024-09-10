@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom'; 
+import { useParams, useNavigate } from 'react-router-dom'; 
 import './css/inspection.css';
 
 const Inspection = () => {
     const {id} = useParams();
     const [inspection, setInspection] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         refreshInspection();
@@ -26,7 +27,11 @@ const Inspection = () => {
 
     return (
         <div className="inspection">
-            <h1 className="inspection__title">{inspection.inspectionType}</h1>
+            <div className="inspection__header">
+                <h1 className="inspection__title">{inspection.inspectionType}</h1>
+                <img className="inspection__close" src="./../close.png" alt="go-back-btn" onClick={() => navigate(-1)}/> 
+            </div>
+            
         </div>
     );
 }

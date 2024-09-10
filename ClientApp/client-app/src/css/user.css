@@ -1,3 +1,15 @@
+.user__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.user__close {
+    width: 26px;
+    cursor: pointer;
+}
+
 .user {
     display: flex;
     flex-direction: column;

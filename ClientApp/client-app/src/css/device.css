@@ -1,3 +1,15 @@
+.device__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.device__close {
+    width: 26px;
+    cursor: pointer;
+}
+
 .device {
     display: flex;
     flex-wrap: wrap;
@@ -5,5 +17,10 @@
     align-items: start;
     justify-content: start;
     margin: 50px;
-    /* width: 100%; */
+}
+
+@media (min-width: 1024px) {
+    .device {
+        width: 100%;
+    }
 }

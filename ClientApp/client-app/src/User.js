@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom'; 
+import { useParams, useNavigate } from 'react-router-dom'; 
 import './css/user.css';
 
 const User = () => {
@@ -9,6 +9,7 @@ const User = () => {
     const [userLastName, setUserLastName] = useState(null);
     const [rolesList, setRolesList] = useState([]);
     const [roleToAssignId, setRoleToAssignId] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         refreshUser();
@@ -121,7 +122,10 @@ const User = () => {
 
     return (
         <div className="user">
-            <h1 className="user__title">Account</h1>
+            <div className="user__header">
+                <h1 className="user__title">Account</h1>
+                <img className="user__close" src="./../close.png" alt="go-back-btn" onClick={() => navigate(-1)}/> 
+            </div>
             <div className="user__group">
                 <img className="user__image" src="./../user.png" alt="" />
                 <div className="user__group-inputs">
@@ -160,7 +164,7 @@ const User = () => {
                         ))}
                 </select>
                 <button className="user__save user__save--role" onClick={assignNewRole}>Nadaj nową rolę</button>
-            </div>         
+            </div>
         </div>
     );
 }

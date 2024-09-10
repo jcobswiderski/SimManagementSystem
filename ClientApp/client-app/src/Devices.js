@@ -49,23 +49,6 @@ const Devices = () => {
     }
   };
 
-  const deleteDevice = async (id) => {
-    try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/Devices/${id}`, {
-        method: 'DELETE',
-      });
-      
-      if (response.ok) {
-        alert('Device deleted successfully!');
-        refreshDevices();
-      } else {
-        alert('Failed to delete device.');
-      }
-    } catch (error) {
-      console.error('Error deleting device:', error);
-    }
-  };
-
   const navigateToDevice = (id) => {
     navigate(`/devices/${id}`);
   };
@@ -84,7 +67,7 @@ const Devices = () => {
           {filteredDevices.map(device => (
             <div className="devices__card" key={device.id}>
               <h2 className="devices__card__title" onClick={() => navigateToDevice(device.id)}>{device.name}</h2>
-              <img className='devices__button devices__button--delete' src="./clear.png" onClick={() => deleteDevice(device.id)}></img>
+              <div className="devices__card__tag">{device.tag}</div>
             </div>
           ))}
         </div>

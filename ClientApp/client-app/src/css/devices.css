@@ -66,6 +66,10 @@
     max-width: 650px;
 }
 
+.devices__group-items {
+    width: 100%;
+}
+
 .devices__subtitle {
     margin-bottom: 15px;
 }
@@ -81,9 +85,19 @@
 
 .devices__card {
     display: flex;
+    flex-direction: row;
     align-items: center;
-    justify-content: left;
+    justify-content: space-between;
     margin: 20px 0;
+    border-bottom: 1px solid black;
+    width: 100%;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.devices__card:hover {
+    transform: scale(1.01);
+    background-color: #b8860b;
+    cursor: pointer;
 }
 
 .devices__button--delete {

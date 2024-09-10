@@ -1,0 +1,11 @@
+.inspection__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.inspection__close {
+    width: 26px;
+    cursor: pointer;
+}
