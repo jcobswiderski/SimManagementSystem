@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import './css/createInspection.css';
 
-const CreateInspection = () => {
+const CreateInspection = ({userId}) => {
     const [inspectionTypes, setInspectionTypes] = useState([]);
-    const [inspectionTypeId, setInspectionTypeId] = useState(null);
-    const [inspectionDate, setInspectionDate] = useState(null);
+    const [inspectionTypeId, setInspectionTypeId] = useState('');
+    const [inspectionDate, setInspectionDate] = useState('');
     const navigate = useNavigate();
+    
 
 
     useEffect(() => {
@@ -69,7 +70,7 @@ const CreateInspection = () => {
                 ))}
             </select>
             <input className="inspection__date" type="date" onChange={handleInspectionDateChange}/>
-            <button className="inspection__save" onClick={addNewInspection}>Zapisz</button>
+            <button className="inspection__save" onClick={addNewInspection}>Zapisz{userId}</button>
         </div>
     );
 }

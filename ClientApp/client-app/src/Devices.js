@@ -65,8 +65,8 @@ const Devices = () => {
       <div className="devices__group">
         <div className="devices__group-items">
           {filteredDevices.map(device => (
-            <div className="devices__card" key={device.id}>
-              <h2 className="devices__card__title" onClick={() => navigateToDevice(device.id)}>{device.name}</h2>
+            <div className="devices__card" key={device.id} onClick={() => navigateToDevice(device.id)}>
+              <h2 className="devices__card__title">{device.name}</h2>
               <div className="devices__card__tag">{device.tag}</div>
             </div>
           ))}

@@ -7,12 +7,14 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userRoles, setUserRoles] = useState([]);
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
     const token = Cookies.get('token');
     if (token) {
       setIsAuthenticated(true);
       const decodedToken = jwtDecode(token);
+      setUserId(decodedToken.userId);
       // setUserRoles(decodedToken.role || []);
       setUserRoles(Array.isArray(decodedToken.role) ? decodedToken.role : [decodedToken.role]);
     }
@@ -23,6 +25,7 @@ export const AuthProvider = ({ children }) => {
     Cookies.set('refreshToken', refreshToken, { expires: 7 });
     setIsAuthenticated(true);
     const decodedToken = jwtDecode(token);
+    setUserId(decodedToken.userId);
     // setUserRoles(decodedToken.role || []);
     setUserRoles(Array.isArray(decodedToken.role) ? decodedToken.role : [decodedToken.role]);
   };
@@ -35,7 +38,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, userRoles, login, logout }}>
+    <AuthContext.Provider value={{ userId, isAuthenticated, userRoles, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

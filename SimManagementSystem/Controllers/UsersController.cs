@@ -94,6 +94,7 @@ namespace SimManagementSystem.Controllers
 
             List<Claim> userClaims = new List<Claim>
             {
+                new Claim("userId", user.Id.ToString()),
                 new Claim("login", user.Login)
             };
             
