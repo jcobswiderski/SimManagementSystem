@@ -102,10 +102,6 @@
     border: 2px solid black;
 }
 
-.user__option {
-    border: 1px solid red;
-}
-
 .user__save--role {
     margin-top: 3px;
     width: 100%;

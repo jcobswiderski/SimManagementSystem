@@ -83,5 +83,18 @@ namespace SimManagementSystem.Controllers
             await _context.SaveChangesAsync();
             return NoContent();
         }
+
+        [HttpGet("types")]
+        public IActionResult GetInspectionTypes()
+        {
+            var inspectionTypes = _context.InspectionTypes.ToList();
+
+            if (inspectionTypes == null)
+            {
+                return NotFound("There's no any inspection types.");
+            }
+
+            return Ok(inspectionTypes);
+        }
     }
 }

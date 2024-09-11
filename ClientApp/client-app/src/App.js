@@ -32,7 +32,7 @@ const App = () => {
           <Route path="/devices/:id" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Device /></ProtectedRoute>} />
           <Route path="/inspections" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Inspections /></ProtectedRoute>} />
           <Route path="/inspections/:id" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Inspection /></ProtectedRoute>} />
-          {/* <Route path="/createInspection" element={<ProtectedRoute roles={['Admin', 'Engineer']}><CreateInspection /></ProtectedRoute>} /> */}
+          <Route path="/createInspection" element={<ProtectedRoute roles={['Admin', 'Engineer']}><CreateInspection /></ProtectedRoute>} />
           <Route path="/users" element={<ProtectedRoute roles={['Admin']}><Users /></ProtectedRoute>} />
           <Route path="/users/:id" element={<ProtectedRoute roles={['Admin']}><User /></ProtectedRoute>} />
           <Route path="/unauthorized" element={<Unauthorized />} />

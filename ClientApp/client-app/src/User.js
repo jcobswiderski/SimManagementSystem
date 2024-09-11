@@ -8,7 +8,7 @@ const User = () => {
     const [userFirstName, setUserFirstName] = useState(null);
     const [userLastName, setUserLastName] = useState(null);
     const [rolesList, setRolesList] = useState([]);
-    const [roleToAssignId, setRoleToAssignId] = useState(null);
+    const [roleToAssignId, setRoleToAssignId] = useState(1);
     const navigate = useNavigate();
 
     useEffect(() => {
