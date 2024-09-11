@@ -1,11 +1,38 @@
+.inspection {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+    margin: 50px;
+}
+
 .inspection__header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
+    margin-bottom: 35px;
 }
 
 .inspection__close {
     width: 26px;
     cursor: pointer;
+}
+
+.inspection__label {
+    margin-bottom: 5px;
+}
+
+.inspection__subtitle, .inspection__date, .inspection__operator {
+    font-size: 36px;
+    /* border: 1px solid black; */
+    padding: 5px;
+    margin-bottom: 20px;
+}
+
+@media (min-width: 1024px) {
+    .inspection {
+        width: 100%;
+    }
 }

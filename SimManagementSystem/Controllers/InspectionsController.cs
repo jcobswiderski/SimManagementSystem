@@ -70,7 +70,7 @@ namespace SimManagementSystem.Controllers
             return Ok(inspection);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteInspection(int id)
         {
             var inspectionToDelete = new Inspection

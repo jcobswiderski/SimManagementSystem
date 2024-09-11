@@ -8,8 +8,6 @@ const CreateInspection = ({userId}) => {
     const [inspectionDate, setInspectionDate] = useState('');
     const navigate = useNavigate();
     
-
-
     useEffect(() => {
       refreshData();
     }, []);
@@ -33,44 +31,45 @@ const CreateInspection = ({userId}) => {
     };
 
     const addNewInspection = async () => {
-        // try {
-        //     const response = await fetch(`${process.env.REACT_APP_API_URL}/Inspections`, {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //         },
-        //         body: JSON.stringify({ 
-        //             inspectionTypeId: inspectionTypeId,
-        //             date: inspectionDate,
-        //             operator: ???
-        //          }),
-        //     });
+        try {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/Inspections`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ 
+                    inspectionTypeId: inspectionTypeId,
+                    date: inspectionDate,
+                    operator: userId
+                 }),
+            });
 
-        //     if (response.ok) {
-        //         alert('Inspection added successfully!');
-        //     } else {
-        //         alert('Failed to add inspection.');
-        //     }
-        // } catch (error) {
-        //     console.error('Error adding inspection:', error);
-        // }
+            if (response.ok) {
+                alert('Inspection added successfully!');
+                navigate(-1);
+            } else {
+                alert('Failed to add inspection.');
+            }
+        } catch (error) {
+            console.error('Error adding inspection:', error);
+        }
     };
 
     return ( 
-        <div className="inspection">
-            <div className="inspection__header">
-                <h1 className="inspection__title">Zaplanuj nową obsługę</h1>
-                <img className="inspection__close" src="./../close.png" alt="go-back-btn" onClick={() => navigate(-1)}/> 
+        <div className="createInspection">
+            <div className="createInspection__header">
+                <h1 className="createInspection__title">Zaplanuj nową obsługę</h1>
+                <img className="createInspection__close" src="./../close.png" alt="go-back-btn" onClick={() => navigate(-1)}/> 
             </div>
-            <select className="inspection__select" value={inspectionTypeId} onChange={handleInspectionTypeChange}>
+            <select className="createInspection__select" value={inspectionTypeId} onChange={handleInspectionTypeChange}>
                 {inspectionTypes.map(i => (
-                    <option className="inspection__option" key={i.id} value={i.id}>
+                    <option className="createInspection__option" key={i.id} value={i.id}>
                         {i.name}
                     </option>
                 ))}
             </select>
-            <input className="inspection__date" type="date" onChange={handleInspectionDateChange}/>
-            <button className="inspection__save" onClick={addNewInspection}>Zapisz{userId}</button>
+            <input className="createInspection__date" type="datetime-local" onChange={handleInspectionDateChange}/>
+            <button className="createInspection__save" onClick={addNewInspection}>Zapisz</button>
         </div>
     );
 }
