@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import { useContext } from 'react';
 import AuthContext, { AuthProvider } from './AuthContext';
 import ProtectedRoute from './ProtectedRoute';
+import Navbar from './Navbar';
 import StartPage from './StartPage';
 import NotFound from './NotFound';
 import Unauthorized from './Unauthorized';
@@ -14,7 +15,7 @@ import Inspection from './Inspection';
 import CreateInspection from './CreateInspection';
 import Users from './Users';
 import User from './User';
-import Navbar from './Navbar';
+import Meter from './Meter';
 import "./css/app.css";
 
 const App = () => {
@@ -35,6 +36,7 @@ const App = () => {
           <Route path="/createInspection" element={<ProtectedRoute roles={['Admin', 'Engineer']}><CreateInspection userId={userId} /></ProtectedRoute>} />
           <Route path="/users" element={<ProtectedRoute roles={['Admin']}><Users /></ProtectedRoute>} />
           <Route path="/users/:id" element={<ProtectedRoute roles={['Admin']}><User /></ProtectedRoute>} />
+          <Route path="/meter" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Meter userId={userId} /></ProtectedRoute>} />
           <Route path="/unauthorized" element={<Unauthorized />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
