@@ -22,7 +22,8 @@ namespace SimManagementSystem.Controllers
         public IActionResult GetSimulatorStates()
         {
             var simulatorStates = _context.SimulatorStates
-                .Select(s => new { 
+                .Select(s => new
+                {
                     s.Id,
                     startupTime = s.StartupTime.ToString("yyyy-MM-dd HH:mm:ss"),
                     s.MeterState,
@@ -49,7 +50,7 @@ namespace SimManagementSystem.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteSimulatorState(int id) 
+        public async Task<IActionResult> DeleteSimulatorState(int id)
         {
             var simulatorStateToDelete = new SimulatorState { Id = id };
             _context.SimulatorStates.Attach(simulatorStateToDelete);

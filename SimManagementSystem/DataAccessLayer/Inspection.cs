@@ -13,6 +13,8 @@ public partial class Inspection
 
     public int Operator { get; set; }
 
+    public string? Notice { get; set; }
+
     public virtual InspectionType InspectionType { get; set; } = null!;
 
     public virtual User OperatorNavigation { get; set; } = null!;

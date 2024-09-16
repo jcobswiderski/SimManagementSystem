@@ -33,7 +33,8 @@ namespace SimManagementSystem.Controllers
         public IActionResult GetUsers()
         {
             var users = _context.Users
-                .Select(u => new { 
+                .Select(u => new
+                {
                     u.Id,
                     u.FirstName,
                     u.LastName,
@@ -47,7 +48,8 @@ namespace SimManagementSystem.Controllers
         public IActionResult GetUser(int id)
         {
             var users = _context.Users
-                .Select(u => new {
+                .Select(u => new
+                {
                     u.Id,
                     u.FirstName,
                     u.LastName,
@@ -62,7 +64,8 @@ namespace SimManagementSystem.Controllers
         public IActionResult GetEngineers()
         {
             var users = _context.Users
-                .Select(u => new {
+                .Select(u => new
+                {
                     u.Id,
                     u.FirstName,
                     u.LastName,
@@ -97,7 +100,7 @@ namespace SimManagementSystem.Controllers
                 new Claim("userId", user.Id.ToString()),
                 new Claim("login", user.Login)
             };
-            
+
             var roles = _context.Users
                 .Where(u => u.Login == loginRequest.Login)
                 .SelectMany(u => u.Roles)
@@ -191,14 +194,14 @@ namespace SimManagementSystem.Controllers
         public async Task<IActionResult> AssignRole(int id, [FromBody] AssignRoleDTO assignRoleDTO)
         {
             var user = _context.Users.FirstOrDefault(u => u.Id == id);
-            if (user == null) 
+            if (user == null)
                 return NotFound("User not found");
 
             var role = _context.Roles.FirstOrDefault(r => r.Id == assignRoleDTO.Id);
-            if (role == null) 
+            if (role == null)
                 return NotFound("Role not found.");
-            
-            if (user.Roles.Contains(role)) 
+
+            if (user.Roles.Contains(role))
                 return BadRequest("User already has this role.");
 
             user.Roles.Add(role);
@@ -217,7 +220,7 @@ namespace SimManagementSystem.Controllers
             if (user == null) return NotFound("User not found.");
 
             var role = _context.Roles.FirstOrDefault(r => r.Id == removeRoleDTO.Id);
-            if (role == null) 
+            if (role == null)
                 return NotFound("Role not found.");
 
             if (!user.Roles.Contains(role))

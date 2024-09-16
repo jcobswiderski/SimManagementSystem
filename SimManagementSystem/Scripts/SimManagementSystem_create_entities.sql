@@ -10,6 +10,7 @@ CREATE TABLE Inspection (
     Inspection_Type_ID int  NOT NULL,
     Date datetime  NOT NULL,
     Operator int  NOT NULL,
+    Notice nvarchar(800) NULL,
     CONSTRAINT Inspection_pk PRIMARY KEY  (ID)
 );
 
@@ -86,7 +87,8 @@ CREATE TABLE Session_Category (
 CREATE TABLE Simulator_Session (
     ID int identity(1,1) NOT NULL,
     Predefined_Session int  NOT NULL,
-    Date datetime  NOT NULL,
+    BeginDate datetime  NOT NULL,
+    EndDate datetime NOT NULL,
     Pilot_Seat int  NULL,
     Copilot_Seat int  NULL,
     Supervisor_Seat int  NULL,

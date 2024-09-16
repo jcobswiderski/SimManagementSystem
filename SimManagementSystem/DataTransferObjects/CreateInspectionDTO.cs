@@ -9,5 +9,7 @@ namespace SimManagementSystem.DataTransferObjects
         public DateTime Date { get; set; }
 
         public int Operator { get; set; }
+
+        public string? Notice { get; set; }
     }
 }

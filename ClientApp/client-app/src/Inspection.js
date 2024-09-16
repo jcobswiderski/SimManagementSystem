@@ -57,6 +57,8 @@ const Inspection = () => {
             <div className="inspection__date">{inspection.date}</div>
             <span className="inspection__label">Operator:</span>
             <div className="inspection__operator">{inspection.operator}</div>
+            <span className="inspection__label">Comments:</span>
+            <div className="inspection__date">{inspection.notice != null ? inspection.notice : "---"}</div>
             <button className="inspection__delete" onClick={deleteInspection}>Usuń obsługę</button>
         </div>
     );

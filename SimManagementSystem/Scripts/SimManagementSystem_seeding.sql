@@ -84,10 +84,10 @@ INSERT INTO RecoveryAction (Date, Description, Malfunction_ID) VALUES
 ('2024-04-06 09:30:00', 'Wymiana modułu podświetlenia zegarka', 1),
 ('2024-04-07 10:45:00', 'Restart modułu Autopilota', 2);
 
-INSERT INTO Simulator_Session (Predefined_Session, Date, Pilot_Seat, Copilot_Seat, Supervisor_Seat, Observer_Seat, Realized) VALUES
-(1, '2024-04-01 08:00:00', 4, 5, 6, NULL, 1),
-(2, '2024-04-02 09:30:00', 4, NULL, 6, NULL, 1),
-(1, '2024-04-07 10:45:00', 4, 5, 6, NULL, 0);
+INSERT INTO Simulator_Session (Predefined_Session, BeginDate, EndDate, Pilot_Seat, Copilot_Seat, Supervisor_Seat, Observer_Seat, Realized) VALUES
+(1, '2024-04-01 08:00:00', '2024-04-01 10:00:00', 4, 5, 6, NULL, 1),
+(2, '2024-04-02 09:30:00', '2024-04-01 11:00:00', 4, NULL, 6, NULL, 1),
+(1, '2024-04-07 10:45:00', '2024-04-01 12:45:00', 4, 5, 6, NULL, 0);
 
 INSERT INTO Simulator_State (Startup_Time, Meter_State, Operator) VALUES
 ('2024-04-01 08:00:00', 3221123, 2),

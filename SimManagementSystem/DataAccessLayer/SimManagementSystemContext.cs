@@ -48,7 +48,7 @@ public partial class SimManagementSystemContext : DbContext
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=SimManagementSystem;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -62,12 +62,8 @@ public partial class SimManagementSystemContext : DbContext
             entity.ToTable("Device");
 
             entity.Property(e => e.Id).HasColumnName("ID");
-            entity.Property(e => e.Name)
-                .HasMaxLength(250)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS");
-            entity.Property(e => e.Tag)
-                .HasMaxLength(50)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+            entity.Property(e => e.Name).HasMaxLength(250);
+            entity.Property(e => e.Tag).HasMaxLength(50);
 
             entity.HasMany(d => d.Malfunctions).WithMany(p => p.Devices)
                 .UsingEntity<Dictionary<string, object>>(
@@ -98,6 +94,7 @@ public partial class SimManagementSystemContext : DbContext
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Date).HasColumnType("datetime");
             entity.Property(e => e.InspectionTypeId).HasColumnName("Inspection_Type_ID");
+            entity.Property(e => e.Notice).HasMaxLength(800);
 
             entity.HasOne(d => d.InspectionType).WithMany(p => p.Inspections)
                 .HasForeignKey(d => d.InspectionTypeId)
@@ -119,8 +116,7 @@ public partial class SimManagementSystemContext : DbContext
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Name)
                 .HasMaxLength(80)
-                .IsUnicode(false)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<Maintenance>(entity =>
@@ -152,12 +148,10 @@ public partial class SimManagementSystemContext : DbContext
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Name)
                 .HasMaxLength(64)
-                .IsUnicode(false)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+                .IsUnicode(false);
             entity.Property(e => e.Tasks)
                 .HasMaxLength(2500)
-                .IsUnicode(false)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<Malfunction>(entity =>
@@ -173,12 +167,8 @@ public partial class SimManagementSystemContext : DbContext
             entity.Property(e => e.DateEnd)
                 .HasColumnType("datetime")
                 .HasColumnName("Date_End");
-            entity.Property(e => e.Description)
-                .HasMaxLength(2500)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS");
-            entity.Property(e => e.Name)
-                .HasMaxLength(180)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+            entity.Property(e => e.Description).HasMaxLength(2500);
+            entity.Property(e => e.Name).HasMaxLength(180);
             entity.Property(e => e.UserHandler).HasColumnName("User_Handler");
             entity.Property(e => e.UserReporter).HasColumnName("User_Reporter");
 
@@ -200,15 +190,9 @@ public partial class SimManagementSystemContext : DbContext
             entity.ToTable("Predefined_Session");
 
             entity.Property(e => e.Id).HasColumnName("ID");
-            entity.Property(e => e.Abbreviation)
-                .HasMaxLength(15)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS");
-            entity.Property(e => e.Description)
-                .HasMaxLength(600)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS");
-            entity.Property(e => e.Name)
-                .HasMaxLength(240)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+            entity.Property(e => e.Abbreviation).HasMaxLength(15);
+            entity.Property(e => e.Description).HasMaxLength(600);
+            entity.Property(e => e.Name).HasMaxLength(240);
 
             entity.HasOne(d => d.CategoryNavigation).WithMany(p => p.PredefinedSessions)
                 .HasForeignKey(d => d.Category)
@@ -224,9 +208,7 @@ public partial class SimManagementSystemContext : DbContext
 
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Date).HasColumnType("datetime");
-            entity.Property(e => e.Description)
-                .HasMaxLength(2500)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+            entity.Property(e => e.Description).HasMaxLength(2500);
             entity.Property(e => e.MalfunctionId).HasColumnName("Malfunction_ID");
 
             entity.HasOne(d => d.Malfunction).WithMany(p => p.RecoveryActions)
@@ -244,8 +226,7 @@ public partial class SimManagementSystemContext : DbContext
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Name)
                 .HasMaxLength(80)
-                .IsUnicode(false)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<SessionCategory>(entity =>
@@ -255,9 +236,7 @@ public partial class SimManagementSystemContext : DbContext
             entity.ToTable("Session_Category");
 
             entity.Property(e => e.Id).HasColumnName("ID");
-            entity.Property(e => e.Name)
-                .HasMaxLength(200)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+            entity.Property(e => e.Name).HasMaxLength(200);
         });
 
         modelBuilder.Entity<SimulatorSession>(entity =>
@@ -267,8 +246,9 @@ public partial class SimManagementSystemContext : DbContext
             entity.ToTable("Simulator_Session");
 
             entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.BeginDate).HasColumnType("datetime");
             entity.Property(e => e.CopilotSeat).HasColumnName("Copilot_Seat");
-            entity.Property(e => e.Date).HasColumnType("datetime");
+            entity.Property(e => e.EndDate).HasColumnType("datetime");
             entity.Property(e => e.ObserverSeat).HasColumnName("Observer_Seat");
             entity.Property(e => e.PilotSeat).HasColumnName("Pilot_Seat");
             entity.Property(e => e.PredefinedSession).HasColumnName("Predefined_Session");
@@ -341,16 +321,13 @@ public partial class SimManagementSystemContext : DbContext
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Description)
                 .HasMaxLength(2500)
-                .IsUnicode(false)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+                .IsUnicode(false);
             entity.Property(e => e.Stage)
                 .HasMaxLength(20)
-                .IsUnicode(false)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+                .IsUnicode(false);
             entity.Property(e => e.Title)
                 .HasMaxLength(80)
-                .IsUnicode(false)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<TestResult>(entity =>
@@ -362,8 +339,7 @@ public partial class SimManagementSystemContext : DbContext
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Observation)
                 .HasMaxLength(1200)
-                .IsUnicode(false)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+                .IsUnicode(false);
 
             entity.HasOne(d => d.ExcutorNavigation).WithMany(p => p.TestResults)
                 .HasForeignKey(d => d.Excutor)
@@ -385,25 +361,15 @@ public partial class SimManagementSystemContext : DbContext
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.FirstName)
                 .HasMaxLength(40)
-                .IsUnicode(false)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+                .IsUnicode(false);
             entity.Property(e => e.LastName)
                 .HasMaxLength(60)
-                .IsUnicode(false)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS");
-            entity.Property(e => e.Login)
-                .HasMaxLength(64)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS");
-            entity.Property(e => e.Password)
-                .HasMaxLength(512)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS");
-            entity.Property(e => e.RefreshToken)
-                .HasMaxLength(512)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+                .IsUnicode(false);
+            entity.Property(e => e.Login).HasMaxLength(64);
+            entity.Property(e => e.Password).HasMaxLength(512);
+            entity.Property(e => e.RefreshToken).HasMaxLength(512);
             entity.Property(e => e.RefreshTokenExp).HasColumnType("datetime");
-            entity.Property(e => e.Salt)
-                .HasMaxLength(512)
-                .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+            entity.Property(e => e.Salt).HasMaxLength(512);
 
             entity.HasMany(d => d.Roles).WithMany(p => p.Users)
                 .UsingEntity<Dictionary<string, object>>(

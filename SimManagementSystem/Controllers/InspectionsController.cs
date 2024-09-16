@@ -22,11 +22,13 @@ namespace SimManagementSystem.Controllers
         public IActionResult GetInspections()
         {
             var inspections = _context.Inspections
-                .Select(i => new {
+                .Select(i => new
+                {
                     i.Id,
                     Date = i.Date.ToString("yyyy-MM-dd HH:mm:ss"),
                     InspectionType = i.InspectionType.Name,
-                    Operator = i.OperatorNavigation.FirstName + " " + i.OperatorNavigation.LastName
+                    Operator = i.OperatorNavigation.FirstName + " " + i.OperatorNavigation.LastName,
+                    i.Notice
                 })
                 .ToList();
             return Ok(inspections);
@@ -37,11 +39,13 @@ namespace SimManagementSystem.Controllers
         {
             var inspection = _context.Inspections
                  .Where(i => i.Id == id)
-                 .Select(i => new {
+                 .Select(i => new
+                 {
                      i.Id,
                      i.Date,
                      InspectionType = i.InspectionType.Name,
-                     Operator = i.OperatorNavigation.FirstName + " " + i.OperatorNavigation.LastName
+                     Operator = i.OperatorNavigation.FirstName + " " + i.OperatorNavigation.LastName,
+                     i.Notice
                  })
                  .FirstOrDefault();
 
@@ -61,7 +65,8 @@ namespace SimManagementSystem.Controllers
             {
                 InspectionTypeId = newInspection.InspectionTypeId,
                 Date = newInspection.Date,
-                Operator = newInspection.Operator
+                Operator = newInspection.Operator,
+                Notice = newInspection.Notice
             };
 
             await _context.Inspections.AddAsync(inspection);

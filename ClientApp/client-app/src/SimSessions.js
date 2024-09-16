@@ -64,8 +64,8 @@ const SimSessions = () => {
 
           <div className="simulatorSessions__card-footer">
             <div className="simulatorSessions__card-duration">Czas trwania: {s.duration}</div>
-            <div className="simulatorSessions__card-date">Początek: {s.date}</div>
-            <div className="simulatorSessions__card-date">Koniec: {s.date}</div>
+            <div className="simulatorSessions__card-date">Początek: {s.beginDate}</div>
+            <div className="simulatorSessions__card-date">Koniec: {s.endDate}</div>
           </div>
         </div>
       ))}

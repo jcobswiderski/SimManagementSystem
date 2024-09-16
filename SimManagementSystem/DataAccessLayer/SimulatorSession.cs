@@ -9,7 +9,9 @@ public partial class SimulatorSession
 
     public int PredefinedSession { get; set; }
 
-    public DateTime Date { get; set; }
+    public DateTime BeginDate { get; set; }
+
+    public DateTime EndDate { get; set; }
 
     public int? PilotSeat { get; set; }
 

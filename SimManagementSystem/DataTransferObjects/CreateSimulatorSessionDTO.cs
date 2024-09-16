@@ -6,7 +6,7 @@ namespace SimManagementSystem.DataTransferObjects
     {
         public int PredefinedSession { get; set; }
 
-        public DateTime Date { get; set; }
+        public DateTime BeginDate { get; set; }
 
         public int? PilotSeat { get; set; }
 

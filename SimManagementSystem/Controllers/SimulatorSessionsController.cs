@@ -28,13 +28,13 @@ namespace SimManagementSystem.Controllers
                     Abbreviation = s.PredefinedSessionNavigation.Abbreviation,
                     Description = s.PredefinedSessionNavigation.Description,
                     Duration = s.PredefinedSessionNavigation.Duration,
-                    Date = s.Date.ToString("yyyy-MM-dd HH:mm:ss"),
+                    BeginDate = s.BeginDate.ToString("yyyy-MM-dd HH:mm:ss"),
+                    EndDate = s.EndDate.ToString("yyyy-MM-dd HH:mm:ss"),
                     s.Realized,
                     PilotName = s.PilotSeatNavigation.FirstName + " " + s.PilotSeatNavigation.LastName,
                     CopilotName = s.CopilotSeatNavigation.FirstName + " " + s.CopilotSeatNavigation.LastName,
                     ObserverName = s.ObserverSeatNavigation.FirstName + " " + s.ObserverSeatNavigation.LastName,
                     SupervisorName = s.SupervisorSeatNavigation.FirstName + " " + s.SupervisorSeatNavigation.LastName,
-                    // dodać date end
                 })
                 .ToList();
 
@@ -47,21 +47,22 @@ namespace SimManagementSystem.Controllers
             var simulatorSession = _context.SimulatorSessions
                 .Where(s => s.Id == id)
                 .Select(s => new
-                    {
-                        s.Id,
-                        s.Date,
-                        PilotName = s.PilotSeatNavigation.FirstName + " " + s.PilotSeatNavigation.LastName,
-                        CopilotName = s.CopilotSeatNavigation.FirstName + " " + s.CopilotSeatNavigation.LastName,
-                        ObserverName = s.ObserverSeatNavigation.FirstName + " " + s.ObserverSeatNavigation.LastName,
-                        SupervisorName = s.SupervisorSeatNavigation.FirstName + " " + s.SupervisorSeatNavigation.LastName,
-                        PredefinedSessionName = s.PredefinedSessionNavigation.Name,
-                        PredefinedSessionDescription = s.PredefinedSessionNavigation.Description,
-                        PredefinedSessionAbbreviation = s.PredefinedSessionNavigation.Abbreviation,
-                        PredefinedSessionDuration = s.PredefinedSessionNavigation.Duration
+                {
+                    s.Id,
+                    BeginDate = s.BeginDate.ToString("yyyy-MM-dd HH:mm:ss"),
+                    EndDate = s.EndDate.ToString("yyyy-MM-dd HH:mm:ss"),
+                    PilotName = s.PilotSeatNavigation.FirstName + " " + s.PilotSeatNavigation.LastName,
+                    CopilotName = s.CopilotSeatNavigation.FirstName + " " + s.CopilotSeatNavigation.LastName,
+                    ObserverName = s.ObserverSeatNavigation.FirstName + " " + s.ObserverSeatNavigation.LastName,
+                    SupervisorName = s.SupervisorSeatNavigation.FirstName + " " + s.SupervisorSeatNavigation.LastName,
+                    PredefinedSessionName = s.PredefinedSessionNavigation.Name,
+                    PredefinedSessionDescription = s.PredefinedSessionNavigation.Description,
+                    PredefinedSessionAbbreviation = s.PredefinedSessionNavigation.Abbreviation,
+                    PredefinedSessionDuration = s.PredefinedSessionNavigation.Duration
                 })
                 .FirstOrDefault();
 
-            return Ok(simulatorSession);    
+            return Ok(simulatorSession);
         }
 
         [HttpGet("byday/{date}")]
@@ -73,44 +74,12 @@ namespace SimManagementSystem.Controllers
                 .Include(s => s.CopilotSeatNavigation)
                 .Include(s => s.ObserverSeatNavigation)
                 .Include(s => s.SupervisorSeatNavigation)
-                .Where(s => s.Date.Date == date.Date)
+                .Where(s => s.BeginDate.Date == date.Date)
                 .Select(s => new
                 {
                     s.Id,
-                    s.Date,
-                    PilotName = s.PilotSeatNavigation.FirstName + " " + s.PilotSeatNavigation.LastName,
-                    CopilotName = s.CopilotSeatNavigation.FirstName + " " + s.CopilotSeatNavigation.LastName,
-                    ObserverName = s.ObserverSeatNavigation.FirstName + " " + s.ObserverSeatNavigation.LastName,
-                    SupervisorName = s.SupervisorSeatNavigation.FirstName + " " + s.SupervisorSeatNavigation.LastName,
-                    PredefinedSessionName = s.PredefinedSessionNavigation.Name,
-                    PredefinedSessionDescription = s.PredefinedSessionNavigation.Description,
-                    PredefinedSessionAbbreviation = s.PredefinedSessionNavigation.Abbreviation,
-                    PredefinedSessionDuration = s.PredefinedSessionNavigation.Duration
-                })
-                .ToList();
-
-            if (sessions == null || !sessions.Any())
-            {
-                return NotFound($"No sessions found for the date {date.ToShortDateString()}.");
-            }
-
-            return Ok(sessions);
-        }
-
-        [HttpGet("bymonth/{date}")]
-        public IActionResult GetSimulatorSessionsByMonth(DateTime date)
-        {
-            var sessions = _context.SimulatorSessions
-                .Include(s => s.PredefinedSessionNavigation)
-                .Include(s => s.PilotSeatNavigation)
-                .Include(s => s.CopilotSeatNavigation)
-                .Include(s => s.ObserverSeatNavigation)
-                .Include(s => s.SupervisorSeatNavigation)
-                .Where(s => s.Date.Year == date.Year && s.Date.Month == date.Month)
-                .Select(s => new
-                {
-                    s.Id,
-                    s.Date,
+                    BeginDate = s.BeginDate.ToString("yyyy-MM-dd HH:mm:ss"),
+                    EndDate = s.EndDate.ToString("yyyy-MM-dd HH:mm:ss"),
                     PilotName = s.PilotSeatNavigation.FirstName + " " + s.PilotSeatNavigation.LastName,
                     CopilotName = s.CopilotSeatNavigation.FirstName + " " + s.CopilotSeatNavigation.LastName,
                     ObserverName = s.ObserverSeatNavigation.FirstName + " " + s.ObserverSeatNavigation.LastName,
@@ -133,10 +102,23 @@ namespace SimManagementSystem.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateSession(CreateSimulatorSessionDTO newSession)
         {
+            var predefinedSession = await _context.PredefinedSessions
+                .Where(s => s.Id == newSession.PredefinedSession)
+                .FirstOrDefaultAsync();
+
+            if (predefinedSession == null)
+            {
+                return NotFound("Predefined session not found.");
+            }
+
+            int duration = predefinedSession.Duration;
+            DateTime tempEndDate = newSession.BeginDate.AddMinutes(duration);
+
             var session = new SimulatorSession
             {
                 PredefinedSession = newSession.PredefinedSession,
-                Date = newSession.Date,
+                BeginDate = newSession.BeginDate,
+                EndDate = tempEndDate,
                 PilotSeat = newSession.PilotSeat,
                 CopilotSeat = newSession.CopilotSeat,
                 SupervisorSeat = newSession.SupervisorSeat,
@@ -149,6 +131,7 @@ namespace SimManagementSystem.Controllers
 
             return Ok(session);
         }
+
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSimulatorSession(int id)
