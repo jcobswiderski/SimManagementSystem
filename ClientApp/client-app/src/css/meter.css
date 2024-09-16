@@ -16,13 +16,11 @@
     margin-bottom: 40px;
 }
 
-
 .meter__container {
     display: flex;
     justify-content: space-between;
     width: 100%;
 }
-
 
 .meter__group {
     display: flex;

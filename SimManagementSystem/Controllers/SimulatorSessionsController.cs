@@ -8,11 +8,11 @@ namespace SimManagementSystem.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SimulatorSessionController : ControllerBase
+    public class SimulatorSessionsController : ControllerBase
     {
         private readonly SimManagementSystemContext _context;
 
-        public SimulatorSessionController(SimManagementSystemContext context)
+        public SimulatorSessionsController(SimManagementSystemContext context)
         {
             _context = context;
         }
@@ -21,23 +21,20 @@ namespace SimManagementSystem.Controllers
         public IActionResult GetSimulatorSessions()
         {
             var simulatorSession = _context.SimulatorSessions
-                .Include(s => s.PredefinedSessionNavigation)
-                .Include(s => s.PilotSeatNavigation)
-                .Include(s => s.CopilotSeatNavigation)
-                .Include(s => s.ObserverSeatNavigation)
-                .Include(s => s.SupervisorSeatNavigation)
                 .Select(s => new
                 {
                     s.Id,
-                    s.Date,
+                    Name = s.PredefinedSessionNavigation.Name,
+                    Abbreviation = s.PredefinedSessionNavigation.Abbreviation,
+                    Description = s.PredefinedSessionNavigation.Description,
+                    Duration = s.PredefinedSessionNavigation.Duration,
+                    Date = s.Date.ToString("yyyy-MM-dd HH:mm:ss"),
+                    s.Realized,
                     PilotName = s.PilotSeatNavigation.FirstName + " " + s.PilotSeatNavigation.LastName,
                     CopilotName = s.CopilotSeatNavigation.FirstName + " " + s.CopilotSeatNavigation.LastName,
                     ObserverName = s.ObserverSeatNavigation.FirstName + " " + s.ObserverSeatNavigation.LastName,
                     SupervisorName = s.SupervisorSeatNavigation.FirstName + " " + s.SupervisorSeatNavigation.LastName,
-                    PredefinedSessionName = s.PredefinedSessionNavigation.Name,
-                    PredefinedSessionDescription = s.PredefinedSessionNavigation.Description,
-                    PredefinedSessionAbbreviation = s.PredefinedSessionNavigation.Abbreviation,
-                    PredefinedSessionDuration = s.PredefinedSessionNavigation.Duration
+                    // dodać date end
                 })
                 .ToList();
 
@@ -48,11 +45,6 @@ namespace SimManagementSystem.Controllers
         public IActionResult GetSimulatorSession(int id)
         {
             var simulatorSession = _context.SimulatorSessions
-                .Include(s => s.PredefinedSessionNavigation)
-                .Include(s => s.PilotSeatNavigation)
-                .Include(s => s.CopilotSeatNavigation)
-                .Include(s => s.ObserverSeatNavigation)
-                .Include(s => s.SupervisorSeatNavigation)
                 .Where(s => s.Id == id)
                 .Select(s => new
                     {

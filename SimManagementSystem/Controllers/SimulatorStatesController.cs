@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SimManagementSystem.DataAccessLayer;
 using SimManagementSystem.DataTransferObjects;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SimManagementSystem.Controllers
 {
@@ -20,7 +21,14 @@ namespace SimManagementSystem.Controllers
         [HttpGet]
         public IActionResult GetSimulatorStates()
         {
-            var simulatorStates = _context.SimulatorStates.ToList();
+            var simulatorStates = _context.SimulatorStates
+                .Select(s => new { 
+                    s.Id,
+                    startupTime = s.StartupTime.ToString("yyyy-MM-dd HH:mm:ss"),
+                    s.MeterState,
+                    s.Operator
+                })
+                .ToList();
             return Ok(simulatorStates);
         }
 

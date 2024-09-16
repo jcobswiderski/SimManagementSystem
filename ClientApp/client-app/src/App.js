@@ -16,6 +16,8 @@ import CreateInspection from './CreateInspection';
 import Users from './Users';
 import User from './User';
 import Meter from './Meter';
+import SimSessions from './SimSessions';
+import CreateSimSession from './CreateSimSession';
 import "./css/app.css";
 
 const App = () => {
@@ -37,6 +39,8 @@ const App = () => {
           <Route path="/users" element={<ProtectedRoute roles={['Admin']}><Users /></ProtectedRoute>} />
           <Route path="/users/:id" element={<ProtectedRoute roles={['Admin']}><User /></ProtectedRoute>} />
           <Route path="/meter" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Meter userId={userId} /></ProtectedRoute>} />
+          <Route path="/simSessions" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Planer']}><SimSessions /></ProtectedRoute>} />
+          <Route path="/createSimSession" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Planer']}><CreateSimSession /></ProtectedRoute>} />
           <Route path="/unauthorized" element={<Unauthorized />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
