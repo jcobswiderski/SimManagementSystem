@@ -25,9 +25,9 @@ const SimSessions = () => {
     s.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // const navigateToSession = (id) => {
-  //   navigate(`/inspections/${id}`);
-  // };
+  const navigateToSession = (id) => {
+    navigate(`/simSessions/${id}`);
+  };
 
   if (!simulatorSessions) {
     return <div>Loading...</div>;
@@ -47,12 +47,12 @@ const SimSessions = () => {
       </div>
     
       {filteredSimulatorSessions.map(s => (
-        <div className="simulatorSessions__card" key={s.id}>
+        <div className="simulatorSessions__card" key={s.id} onClick={() => navigateToSession(s.id)}>
 
           <div className="simulatorSessions__card-header">
             <div className="simulatorSessions__card-abbreviation">[{s.abbreviation}]</div>
             <div className="simulatorSessions__card-title">{s.name}</div>
-            <div className="simulatorSessions__card-state">Stan: {s.realized == true ? "zrealizowana" : "zaplanowana"}</div>
+            <div className="simulatorSessions__card-state">Stan: {s.realized == true ? <span class="simulatorSessions__card--done">zrealizowana</span> : <span class="simulatorSessions__card--waiting">zaplanowana</span> }</div>
           </div>
           
           <div className="simulatorSessions__card-content">

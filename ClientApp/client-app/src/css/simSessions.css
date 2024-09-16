@@ -92,6 +92,15 @@
     margin-bottom: 10px;
 }
 
+.simulatorSessions__card--done {
+    color: green;
+}
+
+.simulatorSessions__card--waiting {
+    color: rgba(133, 87, 2, 0.534);
+}
+
+
 @media (min-width: 1024px) {
     .simulatorSessions {
         width: 100%;

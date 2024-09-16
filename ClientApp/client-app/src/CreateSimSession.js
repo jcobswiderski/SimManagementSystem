@@ -4,13 +4,13 @@ import './css/createSimSession.css';
 
 const CreateSimSession = () => {
     const [predefinedSessions, setPredefinedSessions] = useState([]);
-    const [predefinedSessionId, setPredefinedSessionId] = useState('');
+    const [predefinedSessionId, setPredefinedSessionId] = useState(1);
 
     const [users, setUsers] = useState([]);
-    const [pilotId, setPilotId] = useState('');
-    const [copilotId, setCopilotId] = useState('');
-    const [observerId, setObserverId] = useState('');
-    const [supervisorId, setSupervisorId] = useState('');
+    const [pilotId, setPilotId] = useState(null);
+    const [copilotId, setCopilotId] = useState(null);
+    const [observerId, setObserverId] = useState(null);
+    const [supervisorId, setSupervisorId] = useState(null);
 
     const [beginDate, setBeginDate] = useState('');
 
@@ -55,8 +55,36 @@ const CreateSimSession = () => {
     };
 
     const handleBeginDateChange = (e) => {
-      setBeginDate(beginDate);
+      setBeginDate(e.target.value);
     };
+
+    const addSimulatorSession = async () => {
+      try {
+          const response = await fetch(`${process.env.REACT_APP_API_URL}/SimulatorSessions`, {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ 
+                  predefinedSession: predefinedSessionId,
+                  beginDate: beginDate,
+                  pilotSeat: pilotId,
+                  copilotSeat: copilotId,
+                  supervisorSeat: supervisorId,
+                  observerSeat: observerId,
+                  realized: false
+               }),
+          });
+
+          if (response.ok) {
+              navigate(-1);
+          } else {
+              alert('Failed to add simulator session.');
+          }
+      } catch (error) {
+          console.error('Error adding session:', error);
+      }
+  };
 
     return ( 
         <div className="createSimSession">
@@ -79,6 +107,7 @@ const CreateSimSession = () => {
                 <div className="createSimSession__group--single">
                   <span className="createSimSession__label">Pilot</span>
                   <select className="createSimSession__input" value={pilotId} onChange={handlePilotIdChange}>
+                  <option className="createSimSession__option" value={null}>---</option>
                       {users.map(u => (
                           <option className="createSimSession__option" key={u.id} value={u.id}>
                               {u.firstName} {u.lastName}
@@ -90,6 +119,7 @@ const CreateSimSession = () => {
                 <div className="createSimSession__group--single">
                   <span className="createSimSession__label">Copilot</span>
                   <select className="createSimSession__input" value={copilotId} onChange={handleCopilotIdChange}>
+                  <option className="createSimSession__option" value={null}>---</option>
                       {users.map(u => (
                           <option className="createSimSession__option" key={u.id} value={u.id}>
                               {u.firstName} {u.lastName}
@@ -103,6 +133,7 @@ const CreateSimSession = () => {
                 <div className="createSimSession__group--single">
                   <span className="createSimSession__label">Observer</span>
                   <select className="createSimSession__input" value={observerId} onChange={handleObserverIdChange}>
+                      <option className="createSimSession__option" value={null}>---</option>
                       {users.map(u => (
                           <option className="createSimSession__option" key={u.id} value={u.id}>
                               {u.firstName} {u.lastName}
@@ -114,6 +145,7 @@ const CreateSimSession = () => {
                 <div className="createSimSession__group--single">
                   <span className="createSimSession__label">Supervisor</span>
                   <select className="createSimSession__input" value={supervisorId} onChange={handleSupervisorIdChange}>
+                  <option className="createSimSession__option" value={null}>---</option>
                       {users.map(u => (
                           <option className="createSimSession__option" key={u.id} value={u.id}>
                               {u.firstName} {u.lastName}
@@ -130,15 +162,10 @@ const CreateSimSession = () => {
                   <span className="createSimSession__label">Data rozpoczęcia</span> 
                   <input type="datetime-local" className="createSimSession__input" value={beginDate} onChange={handleBeginDateChange}></input>
                 </div>
-
-                <div className="createSimSession__group--single">
-                  <span className="createSimSession__label">Data zakończenia</span> 
-                  <input type="datetime-local" className="createSimSession__input" disabled></input>
-                </div>
               </div>
             </div>
 
-            <button className="createSimSession__save">Zapisz</button>
+            <button className="createSimSession__save" onClick={addSimulatorSession}>Zapisz</button>
         </div>
     );
 }

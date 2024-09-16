@@ -49,16 +49,17 @@ namespace SimManagementSystem.Controllers
                 .Select(s => new
                 {
                     s.Id,
+                    Name = s.PredefinedSessionNavigation.Name,
+                    Abbreviation = s.PredefinedSessionNavigation.Abbreviation,
+                    Description = s.PredefinedSessionNavigation.Description,
+                    Duration = s.PredefinedSessionNavigation.Duration,
                     BeginDate = s.BeginDate.ToString("yyyy-MM-dd HH:mm:ss"),
                     EndDate = s.EndDate.ToString("yyyy-MM-dd HH:mm:ss"),
+                    s.Realized,
                     PilotName = s.PilotSeatNavigation.FirstName + " " + s.PilotSeatNavigation.LastName,
                     CopilotName = s.CopilotSeatNavigation.FirstName + " " + s.CopilotSeatNavigation.LastName,
                     ObserverName = s.ObserverSeatNavigation.FirstName + " " + s.ObserverSeatNavigation.LastName,
                     SupervisorName = s.SupervisorSeatNavigation.FirstName + " " + s.SupervisorSeatNavigation.LastName,
-                    PredefinedSessionName = s.PredefinedSessionNavigation.Name,
-                    PredefinedSessionDescription = s.PredefinedSessionNavigation.Description,
-                    PredefinedSessionAbbreviation = s.PredefinedSessionNavigation.Abbreviation,
-                    PredefinedSessionDuration = s.PredefinedSessionNavigation.Duration
                 })
                 .FirstOrDefault();
 
@@ -129,7 +130,7 @@ namespace SimManagementSystem.Controllers
             await _context.SimulatorSessions.AddAsync(session);
             await _context.SaveChangesAsync();
 
-            return Ok(session);
+            return Ok();
         }
 
 
