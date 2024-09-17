@@ -48,6 +48,10 @@ const Navbar = () => {
             )}
 
             {userRoles.some(role => role === 'Engineer' || role === 'Admin') && (
+                <Link to="/malfunctions"><li className="navbar__item">Malfunctions</li></Link>
+            )}
+
+            {userRoles.some(role => role === 'Engineer' || role === 'Admin') && (
               <Link to="/devices"><li className="navbar__item">Devices</li></Link>
             )}
 

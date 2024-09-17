@@ -1,4 +1,4 @@
-.simulatorSessions {
+.malfunctions {
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
@@ -7,11 +7,11 @@
     margin: 50px;
 }
 
-.simulatorSessions__title {
+.malfunctions__title {
     padding-bottom: 25px;
 }
 
-.simulatorSessions__group {
+.malfunctions__group {
     width: 100%;
     display: flex;
     flex-direction: column-reverse;
@@ -19,7 +19,15 @@
     align-items: center;
 }
 
-.simulatorSessions__search {
+.malfunctions__card-header {
+    display: flex;
+}
+
+.malfunctions__card-subgroup {
+    margin-left: 20px;
+}
+
+.malfunctions__search {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -31,12 +39,12 @@
     padding: 10px;
 }
 
-.simulatorSessions__search-icon {
+.malfunctions__search-icon {
     width: 18px;
     margin-right: 10px;
 }
 
-.simulatorSessions__search-input {
+.malfunctions__search-input {
     width: 100%;
     border: none;
     border-bottom: 2px solid #000;
@@ -45,7 +53,7 @@
     background-color: #B5B6BA;
 }
 
-.simulatorSessions__create {
+.malfunctions__create {
     width: 100%;
     margin-bottom: 20px;
     border: none;
@@ -57,70 +65,70 @@
     cursor: pointer;
 }
 
-.simulatorSessions__create:hover {
+.malfunctions__create:hover {
     transform: scale(1.05);
     background-color: #5a7a59;
     cursor: pointer;
 }
 
-.simulatorSessions__card {
+.malfunctions__card {
     display: flex;
     flex-direction: column;
     align-items: start;
     margin: 20px 0;
-    border-bottom: 1px solid black;
     width: 100%;
     transition: transform 0.3s ease, background-color 0.3s ease;
+    padding: 10px;
 }
 
-.malfunctions__card-id {
-    font-size: 36px;
+.malfunctions__card--green {
+    border-bottom: 1px solid green;
+    box-shadow: 0px 4px 6px rgba(0, 255, 0, 0.3);
+    background: linear-gradient(to bottom, transparent, rgba(0, 255, 0, 0.1));
 }
 
-.simulatorSessions__card-abbreviation {
+.malfunctions__card--red {
+    border-bottom: 1px solid red;
+    box-shadow: 0px 4px 6px rgba(255, 0, 0, 0.3);
+    background: linear-gradient(to bottom, transparent, rgba(255, 0, 0, 0.1));
+}
+
+.malfunctions__card-title {
     font-size: 22px;
 }
 
-.simulatorSessions__card:hover {
+.malfunctions__card:hover {
     transform: scale(1.01);
     background-color: #b8860b;
     cursor: pointer;
 }
 
-.simulatorSessions__card-header {
+.malfunctions__card-header {
     margin-bottom: 10px;
 }
 
-.simulatorSessions__card-content {
+.malfunctions__card-content {
     margin-bottom: 10px;
-}
-
-.simulatorSessions__card--done {
-    color: green;
-}
-
-.simulatorSessions__card--waiting {
-    color: rgba(133, 87, 2, 0.534);
 }
 
 @media (min-width: 1024px) {
-    .simulatorSessions {
+    .malfunctions {
         width: 100%;
     }
 
-    .simulatorSessions__group {
+    .malfunctions__group {
         flex-direction: row;
         margin-bottom: 30px;
     }
 
-    .simulatorSessions__card {
+    .malfunctions__card {
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
         width: 100%;
     }
 
-    .simulatorSessions__create {
+    .malfunctions__create {
         width: 140px;
         margin-bottom: 0;
     }

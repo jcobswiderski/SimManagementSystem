@@ -20,26 +20,25 @@ const Inspection = () => {
             console.error('Error fetching session:', error);
         }
     };
-    
-    // const deleteInspection = async () => {
-    //     try {
-    //         const response = await fetch(`${process.env.REACT_APP_API_URL}/Inspections/${id}`, {
-    //             method: 'DELETE',
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //             }
-    //         });
 
-    //         if (response.ok) {
-    //             alert('Inspection removed successfully!');
-    //             navigate(-1);
-    //         } else {
-    //             alert('Failed to remove inspection.');
-    //         }
-    //     } catch (error) {
-    //         console.error('Error removing inspection:', error);
-    //     }
-    // };
+    const deleteSimSession = async () => {
+        try {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/SimulatorSessions/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+
+            if (response.ok) {
+                navigate(-1);
+            } else {
+                alert('Failed to remove session.');
+            }
+        } catch (error) {
+            console.error('Error removing session:', error);
+        }
+    };
 
     if (!session) {
         return <div>Loading...</div>;
@@ -87,7 +86,7 @@ const Inspection = () => {
             <div className="simSession__buttons">
                 <button className="simSession__button">Oznacz jako ukończona</button>
                 <button className="simSession__button">Wygeneruj raport</button>
-                <button className="simSession__button">Usuń sesję</button>
+                <button className="simSession__button" onClick={deleteSimSession}>Usuń sesję</button>
             </div>
         </div>
     );

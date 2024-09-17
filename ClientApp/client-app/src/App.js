@@ -19,7 +19,10 @@ import Meter from './Meter';
 import SimSessions from './SimSessions';
 import SimSession from './SimSession';
 import CreateSimSession from './CreateSimSession';
+import Malfunctions from "./Malfunctions";
+import Malfunction from "./Malfunction";
 import "./css/app.css";
+
 
 const App = () => {
   const { userId } = useContext(AuthContext);
@@ -43,6 +46,8 @@ const App = () => {
           <Route path="/simSessions" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Planer']}><SimSessions /></ProtectedRoute>} />
           <Route path="/simSessions/:id" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Planer']}><SimSession /></ProtectedRoute>} />
           <Route path="/createSimSession" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Planer']}><CreateSimSession /></ProtectedRoute>} />
+          <Route path="/malfunctions" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Malfunctions /></ProtectedRoute>} />
+          <Route path="/malfunctions/:id" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Malfunction /></ProtectedRoute>} />
           <Route path="/unauthorized" element={<Unauthorized />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
