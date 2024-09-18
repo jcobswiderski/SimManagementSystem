@@ -45,23 +45,6 @@
     margin-top: 5px;
 }
 
-.user__save {
-    margin-top: 15px;
-    width: 100%;
-    border: none;
-    border: 2px solid #000;
-    padding: 5px;
-    outline: none;
-    background-color: #8e9199;
-    transition: transform 0.3s ease, background-color 0.3s ease;
-    cursor: pointer;
-}
-
-.user__save:hover {
-    transform: scale(1.01);
-    background-color: lightgray;
-}
-
 .user__group-roles {
     width: 100%;
     display: flex;
@@ -102,11 +85,6 @@
     border: 2px solid black;
 }
 
-.user__save--role {
-    margin-top: 3px;
-    width: 100%;
-}
-
 @media (min-width: 1024px) {
     .user {
         display: flex;
@@ -130,7 +108,8 @@
         width: 30%;
     }
 
-    .user__save--role {
-        width: 30%;
+    .user__button {
+        width: 20%;
+        margin-top: 10px;
     }
 }

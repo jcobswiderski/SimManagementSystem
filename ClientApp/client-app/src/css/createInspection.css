@@ -24,36 +24,34 @@
     margin-bottom: 10px;
 }
 
+.createInspection__label {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: lightgray;
+    border: 2px solid black;
+    width: 100%;
+}
+
 .createInspection__select {
     width: 100%;
-    margin-top: 20px;
     padding: 10px;
-    background-color: #8e9199;
     border: 2px solid black;
 }
 
-.createInspection__date {
+.createInspection__input {
     width: 100%;
-    margin-top: 20px;
     padding: 10px;
-    background-color: #8e9199;
     border: 2px solid black;
 }
 
-.createInspection__save {
-    font-size: 1rem;    
-    border: none;    
-    border-bottom: 1px solid black;
-    background: none;
+.createInspection__input--text {
+    height: 150px;
     padding: 10px;
-    margin-top: 20px;
-    transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
-.createInspection__save:hover {
-    transform: scale(1.05);
-    background-color: #5a7a59;
-    cursor: pointer;
+.createInspection__button {
+    margin-top: 30px;
+    width: 300px;
 }
 
 @media (min-width: 1024px) {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './css/inspections.css';
+import './css/partials/button.css';
 
 const Inspections = () => {
   const [inspections, setInspections] = useState([]);
@@ -37,7 +38,7 @@ const Inspections = () => {
           <img className="inspections__search-icon" src="./search.png"></img>
           <input className="inspections__input inspections__search-input" type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
         </div>
-        <button className="inspections__create" onClick={() => {navigate('/createInspection');}}>
+        <button className="button" onClick={() => {navigate('/createInspection');}}>
           Zaplanuj nową obsługę
         </button>
       </div>

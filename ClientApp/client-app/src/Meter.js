@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './css/meter.css';
+import './css/partials/button.css';
 
 const Meter = ({userId}) => {
     const [simulatorStates, setSimulatorStates] = useState([]);
@@ -89,7 +90,7 @@ const Meter = ({userId}) => {
                         <input className="meter__input" type="number" onChange={handleMeterChange}></input>
                     </div>
                 </div>
-                <button className="meter__button" onClick={addSimulatorState}>Add</button>
+                <button className="button" onClick={addSimulatorState}>Add</button>
             </div>
             <table className="meter__table">
                 <thead>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom'; 
 import './css/user.css';
+import './css/partials/button.css';
 
 const User = () => {
     const {id} = useParams();
@@ -163,7 +164,7 @@ const User = () => {
                             </option>
                         ))}
                 </select>
-                <button className="user__save user__save--role" onClick={assignNewRole}>Nadaj nową rolę</button>
+                <button className="button user__button" onClick={assignNewRole}>Nadaj nową rolę</button>
             </div>
         </div>
     );

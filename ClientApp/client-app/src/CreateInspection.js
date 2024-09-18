@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import './css/createInspection.css';
+import './css/partials/button.css';
 
 const CreateInspection = ({userId}) => {
     const [inspectionTypes, setInspectionTypes] = useState([]);
-    const [inspectionTypeId, setInspectionTypeId] = useState('');
+    const [inspectionTypeId, setInspectionTypeId] = useState(1);
     const [inspectionDate, setInspectionDate] = useState('');
+    const [inspectionNotice, setInspectionNotice] = useState('');
     const navigate = useNavigate();
     
     useEffect(() => {
@@ -29,6 +31,10 @@ const CreateInspection = ({userId}) => {
     const handleInspectionDateChange = (e) => {
         setInspectionDate(e.target.value);
     };
+    
+    const handleInspectionNoticeChange = (e) => {
+        setInspectionNotice(e.target.value);
+    };
 
     const addNewInspection = async () => {
         try {
@@ -40,12 +46,12 @@ const CreateInspection = ({userId}) => {
                 body: JSON.stringify({ 
                     inspectionTypeId: inspectionTypeId,
                     date: inspectionDate,
-                    operator: userId
+                    operator: userId,
+                    notice: inspectionNotice
                  }),
             });
 
             if (response.ok) {
-                alert('Inspection added successfully!');
                 navigate(-1);
             } else {
                 alert('Failed to add inspection.');
@@ -61,6 +67,8 @@ const CreateInspection = ({userId}) => {
                 <h1 className="createInspection__title">Zaplanuj nową obsługę</h1>
                 <img className="createInspection__close" src="./../close.png" alt="go-back-btn" onClick={() => navigate(-1)}/> 
             </div>
+
+            <span className="createInspection__label">Typ</span>
             <select className="createInspection__select" value={inspectionTypeId} onChange={handleInspectionTypeChange}>
                 {inspectionTypes.map(i => (
                     <option className="createInspection__option" key={i.id} value={i.id}>
@@ -68,8 +76,13 @@ const CreateInspection = ({userId}) => {
                     </option>
                 ))}
             </select>
-            <input className="createInspection__date" type="datetime-local" onChange={handleInspectionDateChange}/>
-            <button className="createInspection__save" onClick={addNewInspection}>Zapisz</button>
+
+            <span className="createInspection__label">Data</span>
+            <input className="createInspection__input" type="datetime-local" onChange={handleInspectionDateChange}/>
+
+            <span className="createInspection__label">Opis</span>
+            <input className="createInspection__input createInspection__input--text" type="text" onChange={handleInspectionNoticeChange} />
+            <button className="button createInspection__button" onClick={addNewInspection}>Zapisz</button>
         </div>
     );
 }

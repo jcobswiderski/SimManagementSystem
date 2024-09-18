@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './css/malfunctions.css';
-import malfunction from "./Malfunction";
+import './css/partials/button.css';
 
 const Malfunctions = () => {
     const [malfunctions, setMalfunctions] = useState([]);
@@ -42,7 +42,7 @@ const Malfunctions = () => {
                     <img className="malfunctions__search-icon" src="./search.png"></img>
                     <input className="malfunctions__input malfunctions__search-input" type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
                 </div>
-                <button className="malfunctions__create">
+                <button className="button">
                     Dodaj nową usterkę
                 </button>
             </div>

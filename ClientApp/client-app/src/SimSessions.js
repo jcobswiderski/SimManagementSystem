@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './css/simSessions.css';
+import './css/partials/button.css';
 
 const SimSessions = () => {
   const [simulatorSessions, setSimulatorSessions] = useState([]);
@@ -41,7 +42,7 @@ const SimSessions = () => {
           <img className="simulatorSessions__search-icon" src="./search.png"></img>
           <input className="simulatorSessions__input simulatorSessions__search-input" type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
         </div>
-        <button className="simulatorSessions__create" onClick={() => {navigate('/createSimSession');}}>
+        <button className="button" onClick={() => {navigate('/createSimSession');}}>
           Zaplanuj nową sesję
         </button>
       </div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './css/malfunction.css';
+import './css/partials/button.css';
 
 const Malfunction = () => {
     const {id} = useParams();
@@ -77,10 +78,10 @@ const Malfunction = () => {
             <h2 className="malfunction__subtitle">{malfunction.dateEnd ? malfunction.dateEnd : "---"}</h2>
 
             <div className="malfunction__buttons">
-                <button className="malfunction__button">Dodaj rozwiąznie</button>
-                <button className="malfunction__button">Zamknij usterkę</button>
-                <button className="malfunction__button">Wygeneruj raport</button>
-                <button className="malfunction__button">Usuń usterkę</button>
+                <button className="button">Dodaj rozwiąznie</button>
+                <button className="button">Zamknij usterkę</button>
+                <button className="button">Wygeneruj raport</button>
+                <button className="button">Usuń usterkę</button>
             </div>
         </div>
     );

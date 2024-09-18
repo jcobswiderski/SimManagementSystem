@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import './css/createSimSession.css';
+import './css/partials/button.css';
 
 const CreateSimSession = () => {
     const [predefinedSessions, setPredefinedSessions] = useState([]);
@@ -165,7 +166,7 @@ const CreateSimSession = () => {
               </div>
             </div>
 
-            <button className="createSimSession__save" onClick={addSimulatorSession}>Zapisz</button>
+            <button className="button createSimSession__button" onClick={addSimulatorSession}>Zapisz</button>
         </div>
     );
 }

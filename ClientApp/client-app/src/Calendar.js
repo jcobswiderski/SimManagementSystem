@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./css/calendar.css";
+import './css/partials/button.css';
 
 const Calendar = () => {
     const [currentDate, setCurrentDate] = useState(new Date());
@@ -93,9 +94,9 @@ const Calendar = () => {
     return (
         <div className="calendar">
             <div className="calendar__header">
-                <button className="calendar__button" onClick={previousWeek}>Poprzedni</button>
+                <button className="button" onClick={previousWeek}>Poprzedni</button>
                 <h2>Tydzień od {weekDays[0].toLocaleDateString()} do {weekDays[6].toLocaleDateString()}</h2>
-                <button className="calendar__button" onClick={nextWeek}>Następny</button>
+                <button className="button" onClick={nextWeek}>Następny</button>
             </div>
             <div className="calendar__grid">
                 <div className="calendar__grid-header">
