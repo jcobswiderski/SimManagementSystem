@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SimManagementSystem.DataAccessLayer;
+using SimManagementSystem.DataTransferObjects;
 
 namespace SimManagementSystem.Controllers
 {
@@ -49,11 +51,55 @@ namespace SimManagementSystem.Controllers
                     userHandler = m.UserHandlerNavigation.FirstName + " " + m.UserHandlerNavigation.LastName,
                     dateBegin = m.DateBegin.ToString("yyyy-MM-dd HH:mm:ss"),
                     dateEnd = m.DateEnd != null ? m.DateEnd.Value.ToString("yyyy-MM-dd HH:mm:ss") : "",
-                    m.Status
+                    m.Status,
+                    devices = string.Join(", ", m.Devices.Select(d => d.Name))
                 })
                 .Where(m => m.Id == id)
                 .FirstOrDefault();
             return Ok(malfunctions);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateMalfunction(CreateMalfunctionDTO newMalfunction)
+        {
+            var devices = await _context.Devices
+                .Where(d => newMalfunction.Devices.Contains(d.Id))
+                .ToListAsync();
+
+            if (devices == null || devices.Count != newMalfunction.Devices.Count)
+            {
+                return BadRequest("Niektóre urządzenia nie istnieją.");
+            }
+
+            var malfunction = new Malfunction
+            {
+                Name = newMalfunction.Name,
+                Description = newMalfunction.Description,
+                UserReporter = newMalfunction.UserReporter,
+                UserHandler = newMalfunction.UserHandler,
+                DateBegin = newMalfunction.DateBegin,
+                Status = newMalfunction.Status,
+                Devices = devices
+            };
+
+            await _context.Malfunctions.AddAsync(malfunction);
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteMalfunction(int id)
+        {
+            var malfunctionToDelete = new Malfunction
+            {
+                Id = id
+            };
+
+            _context.Malfunctions.Attach(malfunctionToDelete);
+            _context.Malfunctions.Remove(malfunctionToDelete);
+            await _context.SaveChangesAsync();
+            return NoContent();
         }
     }
 }

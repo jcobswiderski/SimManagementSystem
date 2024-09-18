@@ -42,7 +42,7 @@ const Malfunctions = () => {
                     <img className="malfunctions__search-icon" src="./search.png"></img>
                     <input className="malfunctions__input malfunctions__search-input" type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
                 </div>
-                <button className="button">
+                <button className="button" onClick={() => {navigate('/createMalfunction');}}>
                     Dodaj nową usterkę
                 </button>
             </div>

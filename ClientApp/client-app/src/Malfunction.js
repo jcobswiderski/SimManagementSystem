@@ -22,24 +22,24 @@ const Malfunction = () => {
         }
     };
 
-    // const deleteMalfunction = async () => {
-    //     try {
-    //         const response = await fetch(`${process.env.REACT_APP_API_URL}/SimulatorSessions/${id}`, {
-    //             method: 'DELETE',
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //             }
-    //         });
-    //
-    //         if (response.ok) {
-    //             navigate(-1);
-    //         } else {
-    //             alert('Failed to remove session.');
-    //         }
-    //     } catch (error) {
-    //         console.error('Error removing session:', error);
-    //     }
-    // };
+    const deleteMalfunction = async () => {
+        try {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/Malfunctions/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+    
+            if (response.ok) {
+                navigate(-1);
+            } else {
+                alert('Failed to remove malfunction.');
+            }
+        } catch (error) {
+            console.error('Error removing malfunction:', error);
+        }
+    };
 
     if (!malfunction) {
         return <div>Loading...</div>;
@@ -64,6 +64,8 @@ const Malfunction = () => {
             <span className="malfunction__label">Status:</span>
             <h2 className="malfunction__subtitle">{malfunction.status ? "Rozwiązana" : "Oczekuje na rozwiązanie"}</h2>
 
+            <span className="malfunction__label">Dotyczy:</span>
+            <h2 className="malfunction__subtitle">{malfunction.devices}</h2>
 
             <span className="malfunction__label">Osoba zgłaszająca:</span>
             <h2 className="malfunction__subtitle">{malfunction.userReporter}</h2>
@@ -81,7 +83,7 @@ const Malfunction = () => {
                 <button className="button">Dodaj rozwiąznie</button>
                 <button className="button">Zamknij usterkę</button>
                 <button className="button">Wygeneruj raport</button>
-                <button className="button">Usuń usterkę</button>
+                <button className="button" onClick={deleteMalfunction}>Usuń usterkę</button>
             </div>
         </div>
     );
