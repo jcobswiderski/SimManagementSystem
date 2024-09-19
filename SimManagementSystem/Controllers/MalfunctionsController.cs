@@ -91,14 +91,19 @@ namespace SimManagementSystem.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMalfunction(int id)
         {
-            var malfunctionToDelete = new Malfunction
-            {
-                Id = id
-            };
+            var malfunctionToDelete = await _context.Malfunctions
+                .Include(m => m.Devices)
+                .Include(m => m.RecoveryActions)
+                .FirstOrDefaultAsync(m => m.Id == id);
 
-            _context.Malfunctions.Attach(malfunctionToDelete);
+            if (malfunctionToDelete == null)
+            {
+                return NotFound();
+            }
+
             _context.Malfunctions.Remove(malfunctionToDelete);
             await _context.SaveChangesAsync();
+
             return NoContent();
         }
     }

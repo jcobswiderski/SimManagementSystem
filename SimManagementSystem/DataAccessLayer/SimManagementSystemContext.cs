@@ -70,11 +70,11 @@ public partial class SimManagementSystemContext : DbContext
                     "MalfunctionDevice",
                     r => r.HasOne<Malfunction>().WithMany()
                         .HasForeignKey("MalfunctionId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("MalfunctionDevice_Malfunction"),
                     l => l.HasOne<Device>().WithMany()
                         .HasForeignKey("DeviceId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("MalfunctionDevice_Device"),
                     j =>
                     {
@@ -174,12 +174,12 @@ public partial class SimManagementSystemContext : DbContext
 
             entity.HasOne(d => d.UserHandlerNavigation).WithMany(p => p.MalfunctionUserHandlerNavigations)
                 .HasForeignKey(d => d.UserHandler)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("Malfunction_Handler");
 
             entity.HasOne(d => d.UserReporterNavigation).WithMany(p => p.MalfunctionUserReporterNavigations)
                 .HasForeignKey(d => d.UserReporter)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("Malfunction_Reporter");
         });
 

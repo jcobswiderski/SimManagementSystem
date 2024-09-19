@@ -23,23 +23,27 @@ const Malfunction = () => {
     };
 
     const deleteMalfunction = async () => {
-        try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/Malfunctions/${id}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            });
-    
-            if (response.ok) {
-                navigate(-1);
-            } else {
-                alert('Failed to remove malfunction.');
+    try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/Malfunctions/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
             }
-        } catch (error) {
-            console.error('Error removing malfunction:', error);
+        });
+
+        const responseBody = await response.text(); // Dodaj to do sprawdzenia, co zwraca odpowiedź
+        console.log(responseBody); // Sprawdź, co zwraca serwer
+
+        if (response.ok) {
+            navigate(-1);
+        } else {
+            alert('Failed to remove malfunction.');
         }
-    };
+    } catch (error) {
+        console.error('Error removing malfunction:', error);
+    }
+};
+
 
     if (!malfunction) {
         return <div>Loading...</div>;
