@@ -213,7 +213,7 @@ public partial class SimManagementSystemContext : DbContext
 
             entity.HasOne(d => d.Malfunction).WithMany(p => p.RecoveryActions)
                 .HasForeignKey(d => d.MalfunctionId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("RecoveryAction_Malfunction");
         });
 

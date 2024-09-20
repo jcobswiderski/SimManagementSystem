@@ -106,5 +106,22 @@ namespace SimManagementSystem.Controllers
 
             return NoContent();
         }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateMalfunctionState(int id, [FromBody] EditMalfunctionDTO updatedUser)
+        {
+            var malfunction = _context.Malfunctions.FirstOrDefault(m => m.Id == id);
+            if (malfunction == null)
+            {
+                return NotFound("Malfunction with not found");
+            }
+
+            malfunction.DateEnd = updatedUser.DateEnd;
+            malfunction.Status = updatedUser.Status;
+
+            _context.SaveChanges();
+
+            return Ok(malfunction);
+        }
     }
 }

@@ -60,32 +60,32 @@ const CreateSimSession = () => {
     };
 
     const addSimulatorSession = async () => {
-      try {
-          const response = await fetch(`${process.env.REACT_APP_API_URL}/SimulatorSessions`, {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({ 
-                  predefinedSession: predefinedSessionId,
-                  beginDate: beginDate,
-                  pilotSeat: pilotId,
-                  copilotSeat: copilotId,
-                  supervisorSeat: supervisorId,
-                  observerSeat: observerId,
-                  realized: false
-               }),
-          });
+        try {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/SimulatorSessions`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    predefinedSession: predefinedSessionId,
+                    beginDate: beginDate,
+                    pilotSeat: pilotId,
+                    copilotSeat: copilotId,
+                    supervisorSeat: supervisorId,
+                    observerSeat: observerId,
+                    realized: false
+                }),
+            });
 
-          if (response.ok) {
-              navigate(-1);
-          } else {
-              alert('Failed to add simulator session.');
-          }
-      } catch (error) {
-          console.error('Error adding session:', error);
-      }
-  };
+            if (response.ok) {
+                navigate(-1);
+            } else {
+                alert('Failed to add simulator session.');
+            }
+        } catch (error) {
+            console.error('Error adding session:', error);
+        }
+    };
 
     return ( 
         <div className="createSimSession">
