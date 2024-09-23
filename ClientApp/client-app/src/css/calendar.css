@@ -23,7 +23,7 @@ html::-webkit-scrollbar {
 .calendar__grid {
   display: grid;
   grid-template-columns: repeat(8, 1fr); /* 7 dni + kolumna na godziny */
-  border-top: 1px solsid #ccc;
+  border-top: 1px solid #ccc;
 }
 
 .calendar__grid-header {
@@ -73,8 +73,12 @@ html::-webkit-scrollbar {
   border-radius: 3px;
   width: 100%;
   box-sizing: border-box;
-  cursor: pointer;
   overflow: hidden;
   z-index: 99;
+  transition: transform 0.3s ease, background-color 0.3s ease;
 }
-  
+
+.calendar__event:hover {
+  background-color: hwb(212 11% 84%);
+  cursor: pointer;
+}

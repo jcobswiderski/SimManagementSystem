@@ -23,7 +23,8 @@ const SimSessions = () => {
   };
 
   const filteredSimulatorSessions = simulatorSessions.filter(s => 
-    s.name.toLowerCase().includes(searchTerm.toLowerCase())
+    s.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (s.beginDate && s.beginDate.includes(searchTerm.toLowerCase()))
   );
 
   const navigateToSession = (id) => {
@@ -48,7 +49,7 @@ const SimSessions = () => {
       </div>
     
       {filteredSimulatorSessions.map(s => (
-        <div className="simulatorSessions__card" key={s.id} onClick={() => navigateToSession(s.id)}>
+        <div className={`simulatorSessions__card ${s.realized ? 'simulatorSessions__card--green' : 'simulatorSessions__card--red'}`} key={s.id} onClick={() => navigateToSession(s.id)}>
 
           <div className="simulatorSessions__card-header">
             <div className="simulatorSessions__card-abbreviation">[{s.abbreviation}]</div>

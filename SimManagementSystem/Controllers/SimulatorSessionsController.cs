@@ -21,6 +21,7 @@ namespace SimManagementSystem.Controllers
         public IActionResult GetSimulatorSessions()
         {
             var simulatorSession = _context.SimulatorSessions
+                .OrderByDescending(m => m.BeginDate)
                 .Select(s => new
                 {
                     s.Id,
@@ -70,6 +71,7 @@ namespace SimManagementSystem.Controllers
         public IActionResult GetSimulatorSessionsByDay(DateTime date)
         {
             var sessions = _context.SimulatorSessions
+                .OrderByDescending(m => m.BeginDate)
                 .Include(s => s.PredefinedSessionNavigation)
                 .Include(s => s.PilotSeatNavigation)
                 .Include(s => s.CopilotSeatNavigation)
@@ -147,6 +149,21 @@ namespace SimManagementSystem.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateSimulatorSessionState(int id)
+        {
+            var simSession = _context.SimulatorSessions.FirstOrDefault(m => m.Id == id);
+            if (simSession == null)
+            {
+                return NotFound("Simulator session not found");
+            }
+
+            simSession.Realized = true;
+            _context.SaveChanges();
+
+            return Ok(simSession);
         }
     }
 }

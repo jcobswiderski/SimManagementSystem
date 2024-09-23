@@ -1,42 +1,28 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 import "./css/calendar.css";
 import './css/partials/button.css';
 
+
 const Calendar = () => {
     const [currentDate, setCurrentDate] = useState(new Date());
+    const [events, setEvents] = useState([]);
+    const navigate = useNavigate();
 
-    const events = [
-    {
-        id: 1,
-        title: "zk",
-        start: "2024-09-09 08:20:00",
-        end: "2024-09-09 10:00:00",
-    },
-    {
-        id: 2,
-        title: "Abb",
-        start: "2024-09-09 12:00:00",
-        end: "2024-09-09 16:00:00",
-    },
-    {
-        id: 3,
-        title: "GDD",
-        start: "2024-09-11 15:00:00",
-        end: "2024-09-11 16:00:00",
-    },
-    {
-        id: 4,
-        title: "Zxda",
-        start: "2024-09-12 10:30:00",
-        end: "2024-09-12 11:00:00",
-    },
-    {
-        id: 5,
-        title: "Fsar",
-        start: "2024-09-13 14:00:00",
-        end: "2024-09-13 15:30:00",
-    }
-    ];
+    useEffect(() => {
+        refreshSimulatorSessions();
+    }, []);
+
+    const refreshSimulatorSessions = async () => {
+        try {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/SimulatorSessions`);
+            const data = await response.json();
+            console.log(data);
+            setEvents(data);
+        } catch (error) {
+            console.error('Error fetching inspections:', error);
+        }
+    };
 
     const previousWeek = () => {
         const tempDate = new Date(currentDate);
@@ -67,7 +53,7 @@ const Calendar = () => {
 
     const getEventsForDay = (day) => {
         return events.filter((event) => {
-            const eventDate = new Date(event.start);
+            const eventDate = new Date(event.beginDate);
             return (
                 eventDate.getDate() === day.getDate() &&
                 eventDate.getMonth() === day.getMonth() &&
@@ -77,8 +63,8 @@ const Calendar = () => {
     };
 
     const calculateEventStyle = (event) => {
-        const start = new Date(event.start);
-        const end = new Date(event.end);
+        const start = new Date(event.beginDate);
+        const end = new Date(event.endDate);
         const startHour = start.getHours() + start.getMinutes() / 60;
         const endHour = end.getHours() + end.getMinutes() / 60;
         const duration = endHour - startHour;
@@ -113,10 +99,10 @@ const Calendar = () => {
                         {weekDays.map((day) => (
                         <div key={day} className="calendar__grid-cell">
                             {getEventsForDay(day).map((event) => {
-                            if (new Date(event.start).getHours() === hour) {
+                            if (new Date(event.beginDate).getHours() === hour) {
                                 return (
-                                    <div key={event.id} className="calendar__event" style={calculateEventStyle(event)}>
-                                        {event.title}
+                                    <div key={event.id} className="calendar__event" style={calculateEventStyle(event)} onClick={() => navigate(`/simSessions/${event.id}`)}>
+                                        {event.abbreviation}
                                     </div>
                                 );
                             }

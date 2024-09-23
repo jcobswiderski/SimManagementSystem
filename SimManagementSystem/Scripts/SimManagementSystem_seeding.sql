@@ -23,7 +23,6 @@ INSERT INTO "User" (FirstName, LastName, Login, Password, Salt) VALUES
 ('Rohan', 'Nelson', 'rnelson', 'E7NNPtF+DAM111+lsHWxtjCjAz4gF/BYPDhmRqg31M8=', 'Ttw6ceK469JKNDNkyzow3w=='),
 ('Raihan', 'Moreno', 'rmoreno', 'N5anourwDxcbKAJ8FGNMz9Vg2GfpfmhCp/AXQ3Iz+EU=', 'ovjyN/x0ZScwLnXDyWExFw==');
 
-
 INSERT INTO "Role" (Name) VALUES
 ('Admin'),
 ('Engineer'),
@@ -76,8 +75,17 @@ INSERT INTO Session_Category (Name) VALUES
 ('Sesja pokazowa');
 
 INSERT INTO Predefined_Session (Category, Name, Description, Duration, Abbreviation) VALUES
-(1, 'Crew resource management', 'Sesja związana z zarządzaniem zasobami załogi.', 120, 'CRM'),
-(2, 'Operator Proficiency Check', 'Sesja oceny sprawności operatora.', 90, 'OPC');
+(1, 'Trening na bazie zewnętrznych punktów odniesienia', 'Sesja treningowa w locie ze wzparciem analogowych przyrządów.', 90, 'VFR'),
+(1, 'Lot według przyrządów', 'Trening lotu według przyrządów. Procedury podejścia do lądowania.', 120, 'IR'),
+(2, 'Ocena orientacji przestrzennej', 'Sesja sprawdzająca orientację przestrzenną załogi w trudnych warunkach pogodowych.', 90, 'SO'),
+(2, 'Ocena sprawności operatora', 'Sesja oceny sprawności operatora.', 90, 'OPC'),
+(4, 'Sesja pokazowa', 'Sesja pokazowa, oblot centrum Warszawy.', 30, 'SIG'),
+(3, 'Sesja techniczna', 'Sesja techniczna.', 120, 'TECH'),
+(1, 'Trening H135', 'Sesja przygotowująca do uzyskania uprawnienia do pilotażu statku powietrznego.', 60, 'TR'),
+(1, 'Trening sytuacji awaryjnych', 'Sesja umożliwiająca analizę zachowania załogi statku powietrznego w sytuacjach krytycznych.', 60, 'ES'),
+(2, 'Type rating', 'Egzamin sprawdzający predyspozcyje egzaminowanego do pilotażu statku powietrznego.', 60, 'ETR'),
+(1, 'Zarządzanie zasobami załogi', 'Sesja związana z zarządzaniem zasobami załogi.', 120, 'CRM'),
+(1, 'Świadomość lokalizacji przyrządów', 'Ćwiczenie pozwalające na trening świadomości położenia przyrządów w kokpicie.', 60, 'IL');
 
 INSERT INTO RecoveryAction (Date, Description, Malfunction_ID) VALUES
 ('2024-04-05 08:00:00', 'Próba przestawienia mechanizmu zegarka.', 1),
