@@ -22,7 +22,10 @@ import CreateSimSession from './CreateSimSession';
 import Malfunctions from "./Malfunctions";
 import Malfunction from "./Malfunction";
 import CreateMalfunction from "./CreateMalfunction";
+import Maintenances from "./Maintenances";
 import "./css/app.css";
+import CreateMaintenance from "./CreateMaintenance";
+
 
 
 
@@ -51,6 +54,8 @@ const App = () => {
           <Route path="/malfunctions" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Malfunctions /></ProtectedRoute>} />
           <Route path="/malfunctions/:id" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Malfunction /></ProtectedRoute>} />
           <Route path="/createMalfunction" element={<ProtectedRoute roles={['Admin', 'Engineer']}><CreateMalfunction userId={userId}/></ProtectedRoute>} />
+          <Route path="/maintenances" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Maintenances /></ProtectedRoute>} />
+          <Route path="/createMaintenance" element={<ProtectedRoute roles={['Admin', 'Engineer']}><CreateMaintenance userId={userId}/></ProtectedRoute>} />
           <Route path="/unauthorized" element={<Unauthorized />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
