@@ -35,7 +35,7 @@ const Navbar = () => {
 
   return (
     <nav className={`navbar ${isMenuOpen ? 'navbar--open' : ''}`}>
-      <img className="navbar__logo" src="./favicon.ico"></img>
+      <img className="navbar__logo" src="./favicon.ico" alt="logo"></img>
       
       <ul className={`${isMenuOpen ? 'navbar__list--open' : 'navbar__list'}`}>
         {isAuthenticated ? (

@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom'; 
 import './css/simSession.css';
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import SimulatorSessionReport from './reports/SimulatorSessionReport';
 
-const Inspection = () => {
+const SimSession = () => {
     const {id} = useParams();
     const [session, setSession] = useState(null);
     const navigate = useNavigate();
@@ -64,8 +66,6 @@ const Inspection = () => {
         } else {
             alert('Cannot update session from the future!');
         }
-
-
     };
 
     if (!session) {
@@ -81,11 +81,11 @@ const Inspection = () => {
 
             <img className="simSession__image" src="./../session.png" alt="session"/>
 
-            <span className="simSession__label">Skrót:</span>
-            <h2 className="simSession__subtitle">{session.abbreviation}</h2>
+            <span className="simSession__label">Rodzaj:</span>
+            <h2 className="simSession__subtitle">{session.category}</h2>
 
             <span className="simSession__label">Nazwa:</span>
-            <h2 className="simSession__subtitle">{session.name}</h2>
+            <h2 className="simSession__subtitle">{session.name} ({session.abbreviation})</h2>
 
             <span className="simSession__label">Opis:</span>
             <h2 className="simSession__subtitle">{session.description}</h2>
@@ -121,7 +121,15 @@ const Inspection = () => {
                             ukończona</button> : null
                     }
                 </>
-                <button className="simSession__button">Wygeneruj raport</button>
+
+                <>
+                    {session.realized === true ?
+                        <PDFDownloadLink document={ <SimulatorSessionReport session={session} /> } fileName={`raport-sesja-symulatorowa-nr${session.id}.pdf`}>
+                            <button className="simSession__button">Wygeneruj raport</button>
+                        </PDFDownloadLink> : null
+                    }
+                </>
+
                 <button className="simSession__button" onClick={deleteSimSession}>Usuń sesję</button>
             </div>
 
@@ -129,4 +137,4 @@ const Inspection = () => {
     );
 }
 
-export default Inspection;
+export default SimSession;

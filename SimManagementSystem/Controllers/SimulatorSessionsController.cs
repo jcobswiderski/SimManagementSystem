@@ -25,6 +25,7 @@ namespace SimManagementSystem.Controllers
                 .Select(s => new
                 {
                     s.Id,
+                    Category = s.PredefinedSessionNavigation.CategoryNavigation.Name,
                     Name = s.PredefinedSessionNavigation.Name,
                     Abbreviation = s.PredefinedSessionNavigation.Abbreviation,
                     Description = s.PredefinedSessionNavigation.Description,
@@ -50,6 +51,7 @@ namespace SimManagementSystem.Controllers
                 .Select(s => new
                 {
                     s.Id,
+                    Category = s.PredefinedSessionNavigation.CategoryNavigation.Name,
                     Name = s.PredefinedSessionNavigation.Name,
                     Abbreviation = s.PredefinedSessionNavigation.Abbreviation,
                     Description = s.PredefinedSessionNavigation.Description,
