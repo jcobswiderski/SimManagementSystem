@@ -1,16 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { useParams, useNavigate } from 'react-router-dom'; 
 import './css/simSession.css';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import SimulatorSessionReport from './reports/SimulatorSessionReport';
+import AuthContext from "./AuthContext";
 
 const SimSession = () => {
+    const {userRoles} = useContext(AuthContext);
     const {id} = useParams();
     const [session, setSession] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
         refreshSession();
+        // eslint-disable-next-line
     }, []);
     
     const refreshSession = async () => {
@@ -130,7 +133,9 @@ const SimSession = () => {
                     }
                 </>
 
-                <button className="simSession__button" onClick={deleteSimSession}>Usuń sesję</button>
+                {userRoles.some(role => role === 'Engineer' || role === 'Admin' || role === 'Planner') && (
+                    <button className="simSession__button" onClick={deleteSimSession}>Usuń sesję</button>
+                )}
             </div>
 
         </div>

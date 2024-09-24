@@ -42,10 +42,7 @@ const Navbar = () => {
           <>
             <Link to="/dashboard"><li className="navbar__item">Dashboard</li></Link>
             <Link to="/calendar"><li className="navbar__item">Calendar</li></Link>
-
-            {userRoles.some(role => role === 'Engineer' || role === 'Admin') && (
-              <Link to="/simSessions"><li className="navbar__item">Sessions</li></Link>
-            )}
+            <Link to="/simSessions"><li className="navbar__item">Sessions</li></Link>
 
             {userRoles.some(role => role === 'Engineer' || role === 'Admin') && (
                 <Link to="/maintenances"><li className="navbar__item">Maintenances</li></Link>

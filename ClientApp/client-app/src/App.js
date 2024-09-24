@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { useContext } from 'react';
 import AuthContext, { AuthProvider } from './AuthContext';
 import ProtectedRoute from './ProtectedRoute';
@@ -23,11 +23,8 @@ import Malfunctions from "./Malfunctions";
 import Malfunction from "./Malfunction";
 import CreateMalfunction from "./CreateMalfunction";
 import Maintenances from "./Maintenances";
-import "./css/app.css";
 import CreateMaintenance from "./CreateMaintenance";
-
-
-
+import "./css/app.css";
 
 const App = () => {
   const { userId } = useContext(AuthContext);
@@ -48,8 +45,8 @@ const App = () => {
           <Route path="/users" element={<ProtectedRoute roles={['Admin']}><Users /></ProtectedRoute>} />
           <Route path="/users/:id" element={<ProtectedRoute roles={['Admin']}><User /></ProtectedRoute>} />
           <Route path="/meter" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Meter userId={userId} /></ProtectedRoute>} />
-          <Route path="/simSessions" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Planer']}><SimSessions /></ProtectedRoute>} />
-          <Route path="/simSessions/:id" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Planer']}><SimSession /></ProtectedRoute>} />
+          <Route path="/simSessions" element={<SimSessions />} />
+          <Route path="/simSessions/:id" element={<SimSession />} />
           <Route path="/createSimSession" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Planer']}><CreateSimSession /></ProtectedRoute>} />
           <Route path="/malfunctions" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Malfunctions /></ProtectedRoute>} />
           <Route path="/malfunctions/:id" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Malfunction /></ProtectedRoute>} />
@@ -63,8 +60,10 @@ const App = () => {
   );
 };
 
-export default () => (
-  <AuthProvider>
-    <App />
-  </AuthProvider>
+const AppWrapper = () => (
+    <AuthProvider>
+      <App />
+    </AuthProvider>
 );
+
+export default AppWrapper;
