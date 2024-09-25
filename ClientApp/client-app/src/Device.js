@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import './css/partials/loading.css';
 import './css/device.css';
 
 const Device = () => {
     const {id} = useParams();
+    const [loading, setLoading] = useState(true);
     const [device, setDevice] = useState(null);
     const [malfunctions, setMalfunctions] = useState([]);
     const navigate = useNavigate();
@@ -28,6 +30,7 @@ const Device = () => {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/Malfunctions/device/${id}`);
             const data = await response.json();
             setMalfunctions(data);
+            setLoading(false);
         } catch (error) {
             console.error('Error fetching malfunctions:', error);
         }
@@ -37,8 +40,8 @@ const Device = () => {
         navigate(`/malfunctions/${id}`);
     };
 
-    if (!device) {
-        return <div>Loading...</div>;
+    if (loading) {
+        return <div className="loading">Loading...</div>;
     }
 
     return (

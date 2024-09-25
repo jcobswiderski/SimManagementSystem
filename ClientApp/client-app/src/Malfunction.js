@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import './css/partials/loading.css';
 import './css/malfunction.css';
 import './css/partials/button.css';
 
 const Malfunction = () => {
     const {id} = useParams();
+    const [loading, setLoading] = useState(true);
     const [malfunction, setMalfunction] = useState(null);
     const [recoveryActions, setRecoveryActions] = useState([]);
 
@@ -28,6 +30,7 @@ const Malfunction = () => {
             const dataRecoveryActions = await responseRecoveryActions.json();
             setRecoveryActions(dataRecoveryActions);
 
+            setLoading(false);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -142,8 +145,8 @@ const Malfunction = () => {
         }
     }
 
-    if (!malfunction) {
-        return <div>Loading...</div>;
+    if (loading) {
+        return <div className="loading">Loading...</div>;
     }
 
     return (

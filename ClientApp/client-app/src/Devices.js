@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './css/devices.css';
+import './css/partials/loading.css';
 
 const Devices = () => {
   const [devices, setDevices] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     refreshDevices();
   }, []);
@@ -16,10 +18,15 @@ const Devices = () => {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/Devices`);
       const data = await response.json();
       setDevices(data);
+      setLoading(false);
     } catch (error) {
       console.error('Error fetching devices:', error);
     }
   };
+
+  if (loading) {
+    return <div className="loading">Loading...</div>;
+  }
 
   const filteredDevices = devices.filter(device => 
     device.name.toLowerCase().includes(searchTerm.toLowerCase())

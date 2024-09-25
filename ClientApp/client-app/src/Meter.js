@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import './css/partials/loading.css';
 import './css/meter.css';
 import './css/partials/button.css';
 
 const Meter = ({userId}) => {
+    const [loading, setLoading] = useState(true);
     const [simulatorStates, setSimulatorStates] = useState([]);
     const [startup, setStartup] = useState('');
     const [meter, setMeter] = useState('');
@@ -16,6 +18,7 @@ const Meter = ({userId}) => {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/SimulatorStates`);
             const data = await response.json();
             setSimulatorStates(data);
+            setLoading(false);
         } catch (error) {
             console.error('Error fetching users:', error);
         }
@@ -72,8 +75,8 @@ const Meter = ({userId}) => {
         }
     }
 
-    if (!simulatorStates) {
-        return <div>Loading...</div>;
+    if (loading) {
+        return <div className="loading">Loading...</div>;
     }
 
     return (

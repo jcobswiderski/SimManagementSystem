@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './css/partials/loading.css';
 import './css/maintenances.css';
 import './css/partials/button.css';
 
 const Maintenances = () => {
+    const [loading, setLoading] = useState(true);
     const [maintenances, setMaintenances] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const navigate = useNavigate();
@@ -17,6 +19,7 @@ const Maintenances = () => {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/Maintenances`);
             const data = await response.json();
             setMaintenances(data);
+            setLoading(false);
         } catch (error) {
             console.error('Error fetching maintenances:', error);
         }
@@ -45,13 +48,13 @@ const Maintenances = () => {
         }
     }
 
-    if (!maintenances) {
-        return <div>Loading...</div>;
+    if (loading) {
+        return <div className="loading">Loading...</div>;
     }
 
     return (
         <div className="maintenances">
-            <h1 className="maintenances__title">Konserwacja symulatora</h1>
+            <h1 className="maintenances__title">Obsługa symulatora</h1>
             <div className="maintenances__group">
                 <div className="maintenances__search">
                     <img className="maintenances__search-icon" src="./search.png"></img>

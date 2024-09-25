@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './css/partials/loading.css';
 import './css/users.css';
 
 const Users = () => {
+    const [loading, setLoading] = useState(true);
     const [users, setUsers] = useState([]);
     const navigate = useNavigate();
 
@@ -19,13 +21,14 @@ const Users = () => {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/Users`);
             const data = await response.json();
             setUsers(data);
+            setLoading(false);
         } catch (error) {
             console.error('Error fetching users:', error);
         }
     };
-    
-    if (!users) {
-        return <div>Loading...</div>;
+
+    if (loading) {
+        return <div className="loading">Loading...</div>;
     }
 
     return (

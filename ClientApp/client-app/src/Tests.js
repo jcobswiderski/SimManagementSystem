@@ -1,11 +1,13 @@
 import React, {useState, useEffect, useContext} from 'react';
 import { useNavigate } from 'react-router-dom';
+import './css/partials/loading.css';
 import './css/tests.css';
 import './css/partials/button.css';
 import AuthContext from "./AuthContext";
 
 const Tests = () => {
     const {userRoles} = useContext(AuthContext); // przycisk dodwawania tylko dla wybranych, przegladanie dla kazdego
+    const [loading, setLoading] = useState(true);
     const [tests, setTests] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const navigate = useNavigate();
@@ -19,6 +21,7 @@ const Tests = () => {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/TestResults`);
             const data = await response.json();
             setTests(data);
+            setLoading(false);
         } catch (error) {
             console.error('Error fetching test results:', error);
         }
@@ -33,8 +36,8 @@ const Tests = () => {
         navigate(`/tests/${id}`);
     };
 
-    if (!tests) {
-        return <div>Loading...</div>;
+    if (loading) {
+        return <div className="loading">Loading...</div>;
     }
 
     return (

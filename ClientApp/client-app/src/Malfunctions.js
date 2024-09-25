@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './css/partials/loading.css';
 import './css/malfunctions.css';
 import './css/partials/button.css';
 
 const Malfunctions = () => {
+    const [loading, setLoading] = useState(true);
     const [malfunctions, setMalfunctions] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const navigate = useNavigate();
@@ -17,6 +19,7 @@ const Malfunctions = () => {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/Malfunctions`);
             const data = await response.json();
             setMalfunctions(data);
+            setLoading(false);
         } catch (error) {
             console.error('Error fetching malfunctions:', error);
         }
@@ -30,8 +33,8 @@ const Malfunctions = () => {
         navigate(`/malfunctions/${id}`);
     };
 
-    if (!malfunctions) {
-        return <div>Loading...</div>;
+    if (loading) {
+        return <div className="loading">Loading...</div>;
     }
 
     return (

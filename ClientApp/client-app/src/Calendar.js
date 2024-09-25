@@ -1,10 +1,12 @@
 import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import './css/partials/loading.css';
 import "./css/calendar.css";
 import './css/partials/button.css';
 
 
 const Calendar = () => {
+    const [loading, setLoading] = useState(true);
     const [currentDate, setCurrentDate] = useState(new Date());
     const [events, setEvents] = useState([]);
     const navigate = useNavigate();
@@ -17,8 +19,8 @@ const Calendar = () => {
         try {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/SimulatorSessions`);
             const data = await response.json();
-            console.log(data);
             setEvents(data);
+            setLoading(false);
         } catch (error) {
             console.error('Error fetching inspections:', error);
         }
@@ -76,6 +78,10 @@ const Calendar = () => {
     };
 
     const weekDays = getWeekDays(currentDate);
+
+    if (loading) {
+        return <div className="loading">Loading...</div>;
+    }
 
     return (
         <div className="calendar">

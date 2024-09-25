@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom'; 
+import { useParams, useNavigate } from 'react-router-dom';
+import './css/partials/loading.css';
 import './css/inspection.css';
 import './css/partials/button.css';
 
 const Inspection = () => {
     const {id} = useParams();
+    const [loading, setLoading] = useState(true);
     const [inspection, setInspection] = useState(null);
     const navigate = useNavigate();
 
@@ -17,6 +19,7 @@ const Inspection = () => {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/Inspections/${id}`);
             const data = await response.json();
             setInspection(data);
+            setLoading(false);
         } catch (error) {
             console.error('Error fetching inspection:', error);
         }
@@ -42,8 +45,8 @@ const Inspection = () => {
         }
     };
 
-    if (!inspection) {
-        return <div>Loading...</div>;
+    if (loading) {
+        return <div className="loading">Loading...</div>;
     }
 
     return (

@@ -1,19 +1,20 @@
 import React, {useState, useEffect, useContext} from 'react';
-import { useParams, useNavigate } from 'react-router-dom'; 
-import './css/simSession.css';
-import { PDFDownloadLink } from '@react-pdf/renderer';
-import SimulatorSessionReport from './reports/SimulatorSessionReport';
+import { useParams, useNavigate } from 'react-router-dom';
 import AuthContext from "./AuthContext";
+import SimulatorSessionReport from './reports/SimulatorSessionReport';
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import './css/partials/loading.css';
+import './css/simSession.css';
 
 const SimSession = () => {
     const {userRoles} = useContext(AuthContext);
     const {id} = useParams();
+    const [loading, setLoading] = useState(true);
     const [session, setSession] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
         refreshSession();
-        // eslint-disable-next-line
     }, []);
     
     const refreshSession = async () => {
@@ -21,6 +22,7 @@ const SimSession = () => {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/SimulatorSessions/${id}`);
             const data = await response.json();
             setSession(data);
+            setLoading(false);
         } catch (error) {
             console.error('Error fetching session:', error);
         }
@@ -71,8 +73,8 @@ const SimSession = () => {
         }
     };
 
-    if (!session) {
-        return <div>Loading...</div>;
+    if (loading) {
+        return <div className="loading">Loading...</div>;
     }
 
     return (

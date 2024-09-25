@@ -1,11 +1,13 @@
 import React, {useState, useEffect, useContext} from 'react';
 import { useNavigate } from 'react-router-dom';
+import './css/partials/loading.css';
 import './css/simSessions.css';
 import './css/partials/button.css';
 import AuthContext from "./AuthContext";
 
 const SimSessions = () => {
   const {userRoles} = useContext(AuthContext);
+  const [loading, setLoading] = useState(true);
   const [simulatorSessions, setSimulatorSessions] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
@@ -19,6 +21,7 @@ const SimSessions = () => {
       const response = await fetch(`${process.env.REACT_APP_API_URL}/SimulatorSessions`);
       const data = await response.json();
       setSimulatorSessions(data);
+      setLoading(false);
     } catch (error) {
       console.error('Error fetching inspections:', error);
     }
@@ -33,9 +36,9 @@ const SimSessions = () => {
     navigate(`/simSessions/${id}`);
   };
 
-  if (!simulatorSessions) {
-    return <div>Loading...</div>;
-}
+  if (loading) {
+    return <div className="loading">Loading...</div>;
+  }
 
   return (
     <div className="simulatorSessions">
