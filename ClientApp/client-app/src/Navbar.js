@@ -64,6 +64,10 @@ const Navbar = () => {
               <Link to="/meter"><li className="navbar__item">Meter</li></Link>
             )}
 
+            {userRoles.some(role => role === 'Engineer' || role === 'Admin') && (
+                <Link to="/tests"><li className="navbar__item">Tests QTG</li></Link>
+            )}
+
             {userRoles.some(role => role === 'Admin') && (
               <Link to="/users"><li className="navbar__item">Users</li></Link>
             )}

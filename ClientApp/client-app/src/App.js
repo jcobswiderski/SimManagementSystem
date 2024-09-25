@@ -24,7 +24,11 @@ import Malfunction from "./Malfunction";
 import CreateMalfunction from "./CreateMalfunction";
 import Maintenances from "./Maintenances";
 import CreateMaintenance from "./CreateMaintenance";
+import Tests from "./Tests";
+import Test from "./Test";
+import CreateTest from "./CreateTest";
 import "./css/app.css";
+
 
 const App = () => {
   const { userId } = useContext(AuthContext);
@@ -53,6 +57,9 @@ const App = () => {
           <Route path="/createMalfunction" element={<ProtectedRoute roles={['Admin', 'Engineer']}><CreateMalfunction userId={userId}/></ProtectedRoute>} />
           <Route path="/maintenances" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Maintenances /></ProtectedRoute>} />
           <Route path="/createMaintenance" element={<ProtectedRoute roles={['Admin', 'Engineer']}><CreateMaintenance userId={userId}/></ProtectedRoute>} />
+          <Route path="/tests" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Tests /></ProtectedRoute>} />
+          <Route path="/tests/:id" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Test /></ProtectedRoute>} />
+          <Route path="/createTest" element={<ProtectedRoute roles={['Admin', 'Engineer']}><CreateTest userId={userId}/></ProtectedRoute>} />
           <Route path="/unauthorized" element={<Unauthorized />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

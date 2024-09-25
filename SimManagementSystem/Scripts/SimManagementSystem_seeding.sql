@@ -106,9 +106,17 @@ INSERT INTO "Statistics" (Date_Begin, Date_End, Malfunctions_Count, Maintenances
 ('2024-04-01 00:00:00', '2024-04-01 23:59:59', 1, 2, 360, 480, 85);
 
 INSERT INTO Test_QTG (Stage, Title, Description) VALUES
-('Test1', 'Title1', 'Description1'),
-('Test2', 'Title2', 'Description2'),
-('Test3', 'Title3', 'Description3');
+('Performance', 'Take-off', 'Acceleration time and distance should be recorded for a minimum of 80% of the total time from brake release to VR.May be combined with normal take-off or rejected take-off. For FTDs test limited to time only.'),
+('Performance', 'Crosswind take-off', 'Record take-off profile from brake release to at least 61 m (200 ft) AGL. Requires test data, including wind profile, for a crosswind component of at least 60% of the AFM value measured at 10m (33 ft) above the runway.'),
+('Performance', 'Level flight acceleration', 'Minimum of 50 kts increase using maximum continuous thrust rating or equivalent. For very small aeroplanes, speed change may be reduced to 80% of operational speed range.'),
+('Handling qualities', 'Static Control checks', 'Pitch, roll and yaw controller position vs. force or time should be measured at the control. An alternative method is to instrument the FSTD in an equivalent manner to the flight test aeroplane. The force and position data from this instrumentation should be directly recorded and matched to the aeroplane data. Such a permanent installation could be used without any time for installation of external devices.'),
+('Handling qualities', 'Power change dynamics', 'Power change from thrust for approach or level flight to maximum continuous or goaround power. Time history of uncontrolled free response for a time increment equal to at least 5 s before initiation of the power change to completion of the power change + 15 s.'),
+('Handling qualities', 'Longitudinal static stability', 'Data for at least two speeds above and two speeds below trim speed. May be a series of snapshot tests. Force tolerance not applicable if forces are generated solely by the use of aeroplane hardware in the FSTD.'),
+('Handling qualities', 'Normal landing', 'Test from a minimum of 61 m (200 ft) AGL to nosewheel touch- down. Two tests should be shown, including two normal landing flaps (if applicable) one of which should be near maximum certificated landing weight, the other at light or medium weight.'),
+('Motion system', 'Frequency response', 'Appropriate test to demonstrate frequency response required. See also AMC1 FSTD(A).300 (b)(4)(iii)(B).'),
+('Motion system', 'In-flight vibrations', 'Test should be conducted to be representative of in-flight vibrations for propeller driven aeroplanes.'),
+('Display system', 'System geometry', 'System geometry should be measured using a visual test pattern filling the entire visual scene (all channels) consisting of a matrix of black and white 5° squares with light points at the intersections. The operator should demonstrate that the angular spacing of any chosen 5° square and the relative spacing of adjacent squares are within the stated tolerances.'),
+('Display system', 'Surface contrast ratio', 'Surface contrast ratio should be measured using a raster drawn test pattern filling the entire visual scene (all channels). The test pattern should consist of black and white squares, five per square with a white square in the centre of each channel.');
 
 INSERT INTO Test_Result (Test, IsPassed, Date, Observation, Excutor) VALUES
 (1, 1, '2024-08-23 00:00:00', 'Passed', 2),

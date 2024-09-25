@@ -1,0 +1,122 @@
+.tests {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+    margin: 50px;
+}
+
+.tests__title {
+    padding-bottom: 25px;
+}
+
+.tests__group {
+    width: 100%;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tests__search {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 270px;
+    width: 100%;
+    max-width: 650px;
+    margin-bottom: 15px;
+    border: 1px solid black;
+    padding: 10px;
+}
+
+.tests__search-icon {
+    width: 18px;
+    margin-right: 10px;
+}
+
+.tests__search-input {
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid #000;
+    padding: 5px;
+    outline: none;
+    background-color: #B5B6BA;
+}
+
+.tests__card {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin: 15px 0;
+    border-bottom: 1px solid black;
+    width: 100%;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    border-bottom: 1px solid green;
+    padding: 10px;
+}
+
+.tests__card--green {
+    box-shadow: 0px 4px 6px rgba(0, 255, 0, 0.3);
+    background: linear-gradient(to bottom, transparent, rgba(0, 255, 0, 0.1));
+    padding: 10px;
+}
+
+.tests__card--red {
+    border-bottom: 1px solid red;
+    box-shadow: 0px 4px 6px rgba(255, 0, 0, 0.3);
+    background: linear-gradient(to bottom, transparent, rgba(255, 0, 0, 0.1));
+}
+.malfunctions__card-id {
+    font-size: 36px;
+}
+
+.tests__card-abbreviation {
+    font-size: 22px;
+}
+
+.tests__card:hover {
+    transform: scale(1.01);
+    background-color: #b8860b;
+    cursor: pointer;
+}
+
+.tests__card-header {
+    margin-bottom: 10px;
+}
+
+.tests__card-content {
+    margin-bottom: 10px;
+}
+
+.tests__card--done {
+    color: green;
+}
+
+.tests__card--waiting {
+    color: rgba(133, 87, 2, 0.534);
+}
+
+@media (min-width: 1024px) {
+    .tests {
+        width: 100%;
+    }
+
+    .tests__group {
+        flex-direction: row;
+        margin-bottom: 30px;
+    }
+
+    .tests__card {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .tests__create {
+        width: 140px;
+        margin-bottom: 0;
+    }
+}

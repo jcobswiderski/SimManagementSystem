@@ -121,8 +121,6 @@ const Malfunction = () => {
         } catch (error) {
             console.error('Error adding recovery action:', error);
         }
-
-
     };
 
     const deleteRecoveryAction = async (id) => {
@@ -143,7 +141,6 @@ const Malfunction = () => {
             console.error('Error removing recovery action:', error);
         }
     }
-
 
     if (!malfunction) {
         return <div>Loading...</div>;
