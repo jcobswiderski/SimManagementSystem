@@ -59,6 +59,28 @@ namespace SimManagementSystem.Controllers
             return Ok(malfunctions);
         }
 
+        [HttpGet("device/{deviceId}")]
+        public IActionResult GetMalfunctionForDevice(int deviceId)
+        {
+            var malfunctions = _context
+                .Malfunctions
+                .Where(m => m.Devices.Any(d => d.Id == deviceId))
+                .OrderByDescending(m => m.DateBegin)
+                .Select(m => new
+                {
+                    m.Id,
+                    m.Name,
+                    m.Description,
+                    userReporter = m.UserReporterNavigation.FirstName + " " + m.UserReporterNavigation.LastName,
+                    userHandler = m.UserHandlerNavigation.FirstName + " " + m.UserHandlerNavigation.LastName,
+                    dateBegin = m.DateBegin.ToString("yyyy-MM-dd HH:mm:ss"),
+                    dateEnd = m.DateEnd != null ? m.DateEnd.Value.ToString("yyyy-MM-dd HH:mm:ss") : "",
+                    m.Status
+                })
+                .ToList();
+            return Ok(malfunctions);
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateMalfunction(CreateMalfunctionDTO newMalfunction)
         {
