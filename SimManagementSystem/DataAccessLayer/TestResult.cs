@@ -11,6 +11,8 @@ public partial class TestResult
 
     public bool IsPassed { get; set; }
 
+    public DateTime Date { get; set; }
+
     public string Observation { get; set; } = null!;
 
     public int Excutor { get; set; }

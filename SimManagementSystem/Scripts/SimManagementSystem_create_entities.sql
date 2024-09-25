@@ -129,6 +129,7 @@ CREATE TABLE Test_Result (
     ID int identity(1,1) NOT NULL,
     Test int  NOT NULL,
     IsPassed bit  NOT NULL,
+    Date datetime  NOT NULL,
     Observation varchar(1200)  NOT NULL,
     Excutor int  NOT NULL,
     CONSTRAINT Test_Result_pk PRIMARY KEY  (ID)

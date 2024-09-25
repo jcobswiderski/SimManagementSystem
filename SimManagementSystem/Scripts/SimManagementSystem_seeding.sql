@@ -110,7 +110,7 @@ INSERT INTO Test_QTG (Stage, Title, Description) VALUES
 ('Test2', 'Title2', 'Description2'),
 ('Test3', 'Title3', 'Description3');
 
-INSERT INTO Test_Result (Test, IsPassed, Observation, Excutor) VALUES
-(1, 1, 'Passed', 2),
-(2, 0, 'Failed, too long opacity', 2),
-(3, 1, 'Passed', 2);
+INSERT INTO Test_Result (Test, IsPassed, Date, Observation, Excutor) VALUES
+(1, 1, '2024-08-23 00:00:00', 'Passed', 2),
+(2, 0, '2024-08-23 00:00:00', 'Failed, too long opacity', 2),
+(3, 1, '2024-08-23 00:00:00', 'Passed', 2);

@@ -337,6 +337,7 @@ public partial class SimManagementSystemContext : DbContext
             entity.ToTable("Test_Result");
 
             entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.Date).HasColumnType("datetime");
             entity.Property(e => e.Observation)
                 .HasMaxLength(1200)
                 .IsUnicode(false);
