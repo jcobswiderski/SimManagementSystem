@@ -64,9 +64,14 @@ const Devices = () => {
     <div className="devices">
       <h1 className="devices__title">Devices</h1>
       <h2 className="devices__info">Wyszukaj urządzenie po nazwie lub kliknij na nazwę urządzenia aby uzyskać więcej informacji.</h2>
-      <div className="devices__search">
-        <img className="devices__search-icon" src="./search.png"></img>
-        <input className="devices__search-input" type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+      <div className="malfunctions__group">
+        <div className="devices__search">
+          <img className="devices__search-icon" src="./search.png"></img>
+          <input className="devices__search-input" type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+        </div>
+        <button className="button" onClick={() => {navigate('/createDevice');}}>
+            Dodaj nowe urządzenie
+        </button>
       </div>
       
       <div className="devices__group">
@@ -77,13 +82,6 @@ const Devices = () => {
               <div className="devices__card__tag">{device.tag}</div>
             </div>
           ))}
-        </div>
-        
-        <div className="devices__group-creating">
-          <h2 className="devices__subtitle">Add new device</h2>
-          <input className="devices__input" type="text" placeholder="Name" id="newDeviceName" />
-          <input className="devices__input" type="text" placeholder="Tag" id="newDeviceTag" />
-          <img className="devices__button devices__button--add" src="./add.png" onClick={createNewDevice}></img>
         </div>
       </div>
     </div>

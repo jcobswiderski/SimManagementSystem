@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import AuthContext, { AuthProvider } from './AuthContext';
 import ProtectedRoute from './ProtectedRoute';
+import Alert from './Alert';
 import Navbar from './Navbar';
 import StartPage from './StartPage';
 import NotFound from './NotFound';
@@ -27,8 +28,8 @@ import CreateMaintenance from "./CreateMaintenance";
 import Tests from "./Tests";
 import Test from "./Test";
 import CreateTest from "./CreateTest";
+import CreateDevice from './CreateDevice';
 import "./css/app.css";
-import Alert from './Alert';
 
 
 const App = () => {
@@ -57,6 +58,7 @@ const App = () => {
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/devices" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Devices /></ProtectedRoute>} />
           <Route path="/devices/:id" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Device /></ProtectedRoute>} />
+          <Route path="/createDevice" element={<ProtectedRoute roles={['Admin', 'Engineer']}><CreateDevice showAlert={showAlertWithMessage} /></ProtectedRoute>} />
           <Route path="/inspections" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Inspections /></ProtectedRoute>} />
           <Route path="/inspections/:id" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Inspection showAlert={showAlertWithMessage}  /></ProtectedRoute>} />
           <Route path="/createInspection" element={<ProtectedRoute roles={['Admin', 'Engineer']}><CreateInspection userId={userId} showAlert={showAlertWithMessage} /></ProtectedRoute>} />
