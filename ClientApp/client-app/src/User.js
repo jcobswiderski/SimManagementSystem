@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import './css/user.css';
 import './css/partials/button.css';
 
-const User = () => {
+const User = ({showAlert}) => {
     const {id} = useParams();
     const [user, setUser] = useState(null);
     const [userFirstName, setUserFirstName] = useState(null);
@@ -65,10 +65,10 @@ const User = () => {
             });
 
             if (response.ok) {
-                alert('User updated successfully!');
+                showAlert('Zaaktualizowano użytkownika!', 'success');
                 refreshUser();
             } else {
-                alert('Failed to update user.');
+                showAlert('Nie udało się zaaktualizować użytkownika!', 'error');
             }
         } catch (error) {
             console.error('Error updating user:', error);
@@ -86,10 +86,10 @@ const User = () => {
             });
 
             if (response.ok) {
-                alert('Role assigned successfully!');
+                showAlert('Nadano nową rolę!', 'success');
                 refreshUser();
             } else {
-                alert('Failed to assign role.');
+                showAlert('Nie udało się nadać nowej roli!', 'error');
             }
         } catch (error) {
             console.error('Error assigning role:', error);
@@ -107,10 +107,10 @@ const User = () => {
             });
 
             if (response.ok) {
-                alert('Role removed successfully!');
+                showAlert('Usunięto rolę użytkownika!', 'success');
                 refreshUser();
             } else {
-                alert('Failed to remove role.');
+                showAlert('Nie udało się usunąć roli użytkownika!', 'error');
             }
         } catch (error) {
             console.error('Error removing role:', error);

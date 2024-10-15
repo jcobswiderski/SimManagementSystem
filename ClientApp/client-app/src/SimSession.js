@@ -6,7 +6,7 @@ import { PDFDownloadLink } from '@react-pdf/renderer';
 import './css/partials/loading.css';
 import './css/simSession.css';
 
-const SimSession = () => {
+const SimSession = ({showAlert}) => {
     const {userRoles} = useContext(AuthContext);
     const {id} = useParams();
     const [loading, setLoading] = useState(true);
@@ -38,12 +38,13 @@ const SimSession = () => {
             });
 
             if (response.ok) {
+                showAlert('Pomyślnie usunięto sesję symulatorową.', 'success');
                 navigate(-1);
             } else {
-                alert('Failed to remove session.');
+                showAlert('Nie udało się usunąć sesji symulatorowej!', 'error');
             }
         } catch (error) {
-            console.error('Error removing session:', error);
+            console.error('Błąd przy usuwaniu sesji symulatorowej:', error);
         }
     };
 
@@ -61,15 +62,16 @@ const SimSession = () => {
                 });
 
                 if (response.ok) {
+                    showAlert('Pomyślnie zaaktualizowano sesję symulatorową!', 'success');
                     refreshSession();
                 } else {
-                    alert('Failed to update simulator session.');
+                    showAlert('Nie udało się zaaktualizować sesji symulatorowej!', 'error');
                 }
             } catch (error) {
-                console.error('Error updating simulator session:', error);
+                console.error('Błąd przy aktualizacji sesji symulatorowej:', error);
             }
         } else {
-            alert('Cannot update session from the future!');
+            showAlert('Nie można aktualizować sesji z przyszłości!', 'info');
         }
     };
 

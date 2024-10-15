@@ -4,7 +4,7 @@ import './css/partials/loading.css';
 import './css/maintenances.css';
 import './css/partials/button.css';
 
-const Maintenances = () => {
+const Maintenances = ({showAlert}) => {
     const [loading, setLoading] = useState(true);
     const [maintenances, setMaintenances] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
@@ -39,12 +39,13 @@ const Maintenances = () => {
             });
 
             if (response.ok) {
+                showAlert('Pomyślnie usunięto obsługę!', 'success');
                 refreshMaintenances();
             } else {
-                alert('Failed to remove maintenance.');
+                showAlert('Nie udało się usunąć obsługi!', 'error');
             }
         } catch (error) {
-            console.error('Error removing maintenance:', error);
+            console.error('Błąd przy usuwaniu obsługi:', error);
         }
     }
 

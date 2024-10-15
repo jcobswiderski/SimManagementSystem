@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './css/createSimSession.css';
 import './css/partials/button.css';
 
-const CreateSimSession = () => {
+const CreateSimSession = ({showAlert}) => {
     const [predefinedSessions, setPredefinedSessions] = useState([]);
     const [predefinedSessionId, setPredefinedSessionId] = useState(1);
 
@@ -78,17 +78,20 @@ const CreateSimSession = () => {
             });
 
             if (response.ok) {
-                navigate(-1);
+              showAlert('Pomyślnie dodano nową sesję symulatorową.', 'success');
+              navigate(-1);
             } else {
-                alert('Failed to add simulator session.');
+              showAlert('Nie udało się dodać sesji symulatorowej, wypełnij wymagane pola!', 'error');
             }
         } catch (error) {
             console.error('Error adding session:', error);
+            showAlert('Wystąpił błąd podczas dodawania sesji symulatorowej!.', 'error');
         }
     };
 
     return ( 
         <div className="createSimSession">
+         {/* {showAlert && <Alert message={alertMessage} onClose={handleCloseAlert} />} */}
             <div className="createSimSession__header">
                 <h1 className="createSimSession__title">Planowanie sesji symulatorowej</h1>
                 <img className="createSimSession__close" src="./../close.png" alt="go-back-btn" onClick={() => navigate(-1)}/> 

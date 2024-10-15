@@ -4,7 +4,7 @@ import './css/partials/loading.css';
 import './css/malfunction.css';
 import './css/partials/button.css';
 
-const Malfunction = () => {
+const Malfunction = ({showAlert}) => {
     const {id} = useParams();
     const [loading, setLoading] = useState(true);
     const [malfunction, setMalfunction] = useState(null);
@@ -61,9 +61,10 @@ const Malfunction = () => {
             console.log(responseBody);
 
             if (response.ok) {
+                showAlert('Usunięto usterkę!', 'success');
                 navigate(-1);
             } else {
-                alert('Failed to remove malfunction.');
+                showAlert('Nie udało się usunąć usterki!', 'error');
             }
         } catch (error) {
             console.error('Error removing malfunction:', error);
@@ -84,9 +85,10 @@ const Malfunction = () => {
             });
 
             if (response.ok) {
+                showAlert('Zaaktualizowano usterkę!', 'success')
                 navigate(-1);
             } else {
-                alert('Failed to update malfunction.');
+                showAlert('Nie udało się zaaktualizować usterki!', 'error');
             }
         } catch (error) {
             console.error('Error updating malfunction:', error);
@@ -95,7 +97,7 @@ const Malfunction = () => {
 
     const addRecoveryAction = async () => {
         if (!recoveryActionDescription || !recoveryActionDate) {
-            alert('Proszę wypełnić wszystkie wymagane pola.');
+            showAlert('Proszę wypełnić wszystkie wymagane pola!', 'info');
             return;
         }
 
@@ -113,13 +115,14 @@ const Malfunction = () => {
             });
 
             if (response.ok) {
+                showAlert('Pomyślnie dodano nowe działanie naprawcze!', 'success');
                 refreshData();
 
                 if(recoveryActionState) {
                     updateMalfunctionState();
                 }
             } else {
-                alert('Failed to add recovery action.');
+                showAlert('Nie udało się dodać nowego działania naprawczego!', 'error');
             }
         } catch (error) {
             console.error('Error adding recovery action:', error);
@@ -136,9 +139,10 @@ const Malfunction = () => {
             });
 
             if (response.ok) {
+                showAlert('Usunięto działanie naprawcze!', 'info');
                 refreshData();
             } else {
-                alert('Failed to remove recovery action.');
+                showAlert('Nie udało się usunąć działania naprawczego!', 'error');
             }
         } catch (error) {
             console.error('Error removing recovery action:', error);

@@ -58,7 +58,7 @@
 
 @media (min-width: 1024px) {
     .simSession {
-        width: 100%;
+        /* width: 100%; */
         align-items: start;
         justify-content: start;
     }

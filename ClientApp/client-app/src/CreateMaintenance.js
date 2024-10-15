@@ -3,7 +3,7 @@ import './css/createMaintenance.css';
 import { useNavigate } from 'react-router-dom';
 import './css/partials/button.css';
 
-const CreateMaintenance = ({userId}) => {
+const CreateMaintenance = ({userId, showAlert}) => {
     const [maintenanceTypes, setMaintenanceTypes] = useState([]);
     const [maintenanceTypeId, setMaintenanceTypeId] = useState(1);
     const [maintenanceDate, setMaintenanceDate] = useState('');
@@ -47,12 +47,13 @@ const CreateMaintenance = ({userId}) => {
             });
 
             if (response.ok) {
+                showAlert('Dodano nową obsługę!', 'success');
                 navigate(-1);
             } else {
-                alert('Failed to add maintenance.');
+                showAlert('Wypełnij wymagane pola przed dodaniem nowej obsługi!', 'error');
             }
         } catch (error) {
-            console.error('Error adding maintenance:', error);
+            console.error('Błąd przy dodawaniu obsługi:', error);
         }
     };
 

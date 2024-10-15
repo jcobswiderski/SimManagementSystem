@@ -38,6 +38,6 @@
 @media (min-width: 1024px) {
     .users {
         margin: 60px;
-        width: 100%;
+        /* width: 100%; */
     }
 }

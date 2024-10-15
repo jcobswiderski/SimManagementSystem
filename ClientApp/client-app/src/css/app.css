@@ -17,7 +17,7 @@
 
 @media (min-width: 1024px) {
     #root {
-        flex-direction: row;
+        flex-direction: column;
         margin-left: 220px;
     }
 }

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './css/createMalfunction.css';
 import './css/partials/button.css';
 
-const CreateMalfunction = ({userId}) => {
+const CreateMalfunction = ({userId, showAlert}) => {
   const [devices, setDevices] = useState([]);
   const [users, setUsers] = useState([]);
 
@@ -57,7 +57,7 @@ const CreateMalfunction = ({userId}) => {
 
 const addMalfunction = async () => {
   if (!name || !description || !dateBegin || deviceIds.length === 0) {
-    alert('Proszę wypełnić wszystkie wymagane pola.');
+    showAlert('Proszę wypełnić wszystkie wymagane pola.', 'info');
     return;
   }
 
@@ -79,9 +79,10 @@ const addMalfunction = async () => {
       });
 
       if (response.ok) {
-          navigate(-1);
+        showAlert('Pomyślnie dodano nową usterkę!', 'success');
+        navigate(-1);
       } else {
-          alert('Failed to add malfunction.');
+        showAlert('Nie udało się dodać nowej usterki!', 'error');
       }
   } catch (error) {
       console.error('Error adding malfunction:', error);

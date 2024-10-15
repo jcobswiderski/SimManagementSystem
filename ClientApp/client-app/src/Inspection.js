@@ -4,7 +4,7 @@ import './css/partials/loading.css';
 import './css/inspection.css';
 import './css/partials/button.css';
 
-const Inspection = () => {
+const Inspection = ({showAlert}) => {
     const {id} = useParams();
     const [loading, setLoading] = useState(true);
     const [inspection, setInspection] = useState(null);
@@ -35,13 +35,13 @@ const Inspection = () => {
             });
 
             if (response.ok) {
-                alert('Inspection removed successfully!');
+                showAlert('Pomyślnie usunięto inspekcję!', 'success');
                 navigate(-1);
             } else {
-                alert('Failed to remove inspection.');
+                showAlert('Nie udało się usunąć inspekcji!', 'error');
             }
         } catch (error) {
-            console.error('Error removing inspection:', error);
+            console.error('Błąd przy usuwaniu inspekcji:', error);
         }
     };
 

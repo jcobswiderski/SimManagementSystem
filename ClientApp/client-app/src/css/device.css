@@ -24,6 +24,6 @@
 }
 @media (min-width: 1024px) {
     .device {
-        width: 100%;
+        /* width: 100%; */
     }
 }

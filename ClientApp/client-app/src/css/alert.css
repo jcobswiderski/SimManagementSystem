@@ -1,0 +1,28 @@
+.alert {
+    position: fixed;
+    top: 0px;
+    background-color: yellow;
+    width: 100%;
+    padding: 20px 40px;
+    z-index: 1000;
+    text-align: center;
+}
+
+.alert--success {
+    background-color: #99e599;
+}
+
+.alert--info {
+    background-color: #eedc82;
+}
+
+.alert--error {
+    background-color: #AA2F33;
+    color: white;
+}
+
+@media (min-width: 1024px) {
+    .alert {
+        position: relative;
+    }
+}

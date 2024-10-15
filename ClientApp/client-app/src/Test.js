@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import './css/test.css';
 import './css/partials/button.css';
 
-const Test = () => {
+const Test = ({showAlert}) => {
     const {id} = useParams();
     const [test, setTest] = useState(null);
 
@@ -36,9 +36,10 @@ const Test = () => {
             console.log(responseBody);
 
             if (response.ok) {
+                showAlert('Usunięto test!', 'success');
                 navigate(-1);
             } else {
-                alert('Failed to remove test.');
+                showAlert('Nie udało się usunąć testu!', 'error');
             }
         } catch (error) {
             console.error('Error removing test:', error);

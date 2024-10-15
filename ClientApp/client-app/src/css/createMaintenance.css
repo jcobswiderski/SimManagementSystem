@@ -42,7 +42,7 @@
 @media (min-width: 1024px) {
     .createMaintenance {
         margin: 60px;
-        width: 100%;
+        /* width: 100%; */
         align-items: start;
         justify-content: start;
     }

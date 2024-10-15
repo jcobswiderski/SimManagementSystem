@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './css/createTest.css';
 import './css/partials/button.css';
 
-const CreateTest = ({userId}) => {
+const CreateTest = ({userId, showAlert}) => {
     const [predefinedTests, setPredefinedTests] = useState([]);
     const [predefinedTestId, setPredefinedTestId] = useState(1);
     const [isPassed, setIsPassed] = useState(false);
@@ -59,9 +59,10 @@ const CreateTest = ({userId}) => {
             });
 
             if (response.ok) {
+                showAlert('Dodano nowy test!', 'success');
                 navigate(-1);
             } else {
-                alert('Failed to add test result.');
+                showAlert('Nie udało się dodać nowego testu!', 'error');
             }
         } catch (error) {
             console.error('Error adding test result:', error);

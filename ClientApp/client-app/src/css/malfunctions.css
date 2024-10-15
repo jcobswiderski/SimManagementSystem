@@ -95,7 +95,7 @@
 
 @media (min-width: 1024px) {
     .malfunctions {
-        width: 100%;
+        /* width: 100%; */
     }
 
     .malfunctions__group {

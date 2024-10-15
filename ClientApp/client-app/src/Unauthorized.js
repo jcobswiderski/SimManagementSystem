@@ -14,9 +14,9 @@ const Unauthorized = () => {
 
     return (
         <div>
-        <h1>Unauthorized</h1>
-        <p>You do not have permission to view this page.</p>
-        <button onClick={handleLogout}>Zaloguj się</button>
+            <h1>Unauthorized</h1>
+            <p>You do not have permission to view this page.</p>
+            <button onClick={handleLogout}>Zaloguj się</button>
         </div>
     );
 };

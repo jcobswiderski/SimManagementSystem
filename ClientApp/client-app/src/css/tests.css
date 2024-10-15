@@ -100,7 +100,7 @@
 
 @media (min-width: 1024px) {
     .tests {
-        width: 100%;
+        /* width: 100%; */
     }
 
     .tests__group {

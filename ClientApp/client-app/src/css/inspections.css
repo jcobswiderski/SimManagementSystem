@@ -92,7 +92,7 @@
 
 @media (min-width: 1024px) {
     .inspections {
-        width: 100%;
+        /* width: 100%; */
     }
 
     .inspections__card {

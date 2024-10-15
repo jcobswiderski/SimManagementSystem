@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './css/createInspection.css';
 import './css/partials/button.css';
 
-const CreateInspection = ({userId}) => {
+const CreateInspection = ({userId, showAlert}) => {
     const [inspectionTypes, setInspectionTypes] = useState([]);
     const [inspectionTypeId, setInspectionTypeId] = useState(1);
     const [inspectionDate, setInspectionDate] = useState('');
@@ -52,12 +52,13 @@ const CreateInspection = ({userId}) => {
             });
 
             if (response.ok) {
+                showAlert('Pomyślnie dodano nową inspekcję!', 'success');
                 navigate(-1);
             } else {
-                alert('Failed to add inspection.');
+                showAlert('Wypełnij wymagane pola przed dodaniem nowej inspekcji!', 'error');
             }
         } catch (error) {
-            console.error('Error adding inspection:', error);
+            console.error('Błąd przy dodawaniu inspekcji:', error);
         }
     };
 
