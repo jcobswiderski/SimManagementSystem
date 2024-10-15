@@ -68,7 +68,7 @@ const Navbar = () => {
                 <Link to="/tests"><li className="navbar__item">Tests QTG</li></Link>
             )}
 
-            {userRoles.some(role => role === 'Admin') && (
+            {userRoles.some(role => role === 'Admin' || role === 'Engineer' || role === 'Planer' || role === 'Instructor') && (
               <Link to="/users"><li className="navbar__item">Users</li></Link>
             )}
             <li className='navbar__item' onClick={handleLogout}>Logout</li>

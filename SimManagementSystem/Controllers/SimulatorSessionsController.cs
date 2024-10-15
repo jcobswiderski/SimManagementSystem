@@ -98,8 +98,39 @@ namespace SimManagementSystem.Controllers
 
             if (sessions == null || !sessions.Any())
             {
-                return NotFound($"No sessions found for the date {date.ToShortDateString()}.");
+                return NotFound("No sessions found for the given date.");
             }
+
+            return Ok(sessions);
+        }
+
+        [HttpGet("byuser/{userId}")]
+        public IActionResult GetSimulatorSessionsByUser(int userId)
+        {
+            var sessions = _context.SimulatorSessions
+                .OrderByDescending(m => m.BeginDate)
+                .Include(s => s.PredefinedSessionNavigation)
+                .Include(s => s.PilotSeatNavigation)
+                .Include(s => s.CopilotSeatNavigation)
+                .Include(s => s.ObserverSeatNavigation)
+                .Include(s => s.SupervisorSeatNavigation)
+                .Where(s => s.PilotSeatNavigation.Id == userId || 
+                        s.SupervisorSeatNavigation.Id == userId ||
+                        s.CopilotSeatNavigation.Id == userId || 
+                        s.ObserverSeatNavigation.Id == userId)
+                .Select(s => new
+                {
+                    s.Id,
+                    BeginDate = s.BeginDate.ToString("yyyy-MM-dd HH:mm:ss"),
+                    EndDate = s.EndDate.ToString("yyyy-MM-dd HH:mm:ss"),
+                    Pilot = s.PilotSeat,
+                    Copilot = s.CopilotSeat,
+                    Observer = s.ObserverSeat,
+                    Supervisor = s.SupervisorSeat,
+                    Name = s.PredefinedSessionNavigation.Name,
+                    Abbreviation = s.PredefinedSessionNavigation.Abbreviation
+                })
+                .ToList();
 
             return Ok(sessions);
         }

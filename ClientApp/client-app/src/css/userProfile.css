@@ -1,0 +1,126 @@
+.user__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.user__close {
+    width: 26px;
+    cursor: pointer;
+}
+
+.user {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    margin: 50px;
+}
+
+.user__group {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.user__image {
+    width: 128px;
+    height: auto;
+}
+
+.user__input {
+    border: none;
+    border-bottom: 2px solid #000;
+    padding: 5px;
+    outline: none;
+    background-color: #8e9199;
+}
+
+.user__group-inputs {
+    display: flex;
+    flex-direction: column;
+    margin-top: 5px;
+}
+
+.user__group-roles {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.user__table-title {
+    margin-top: 60px;
+}
+
+.user__table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.user__table-th, .user__table-td {
+    padding: 10px;
+    border: 1px solid black;
+    text-align: center;
+    text-align: left;
+}
+
+.user__table-th {
+    background-color: lightgray;
+}
+
+.user__table-delete {
+    width: 24px;
+    height: auto;
+    cursor: pointer;
+}
+
+.user__select {
+    width: 100%;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #8e9199;
+    border: 2px solid black;
+}
+
+.user__name {
+    margin-left: 10px;
+}
+
+
+.user__table-tr:hover {
+    background-color: lightgray;
+    cursor: pointer;
+}
+
+@media (min-width: 1024px) {
+    .user {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        justify-content: start;
+        margin: 50px;
+        /* width: 100%; */
+    }
+    
+    .user__group {
+        flex-direction: row;
+    }
+
+    .user__group-inputs {
+        margin-left: 25px;
+        margin-top: 0;
+    }
+
+    .user__select {
+        width: 30%;
+    }
+
+    .user__button {
+        width: 20%;
+        margin-top: 10px;
+    }
+}

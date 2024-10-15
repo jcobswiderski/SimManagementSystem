@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import AuthContext from "./AuthContext";
 import './css/partials/loading.css';
 import './css/users.css';
 
 const Users = () => {
+    const {userRoles} = useContext(AuthContext);
     const [loading, setLoading] = useState(true);
     const [users, setUsers] = useState([]);
     const navigate = useNavigate();
@@ -12,8 +14,12 @@ const Users = () => {
         refreshUsers();
     }, []);
     
-    const navigateToUser = (id) => {
+    const navigateToUserManagement = (id) => {
         navigate(`/users/${id}`);
+    };
+
+    const navigateToUserProfile = (id) => {
+        navigate(`/users/${id}/profile`);
     };
 
     const refreshUsers = async () => {
@@ -41,11 +47,12 @@ const Users = () => {
                         <th className="users__table-th">First Name</th>
                         <th className="users__table-th">Last Name</th>
                         <th className="users__table-th">Roles</th>
+                        <th className="users__table-th">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     {users.map(user => (
-                        <tr onClick={() => navigateToUser(user.id)} className="users__table-tr" key={user.id}>
+                        <tr className="users__table-tr" key={user.id}>
                             <td className="users__table-td">{user.id}</td>
                             <td className="users__table-td">{user.firstName}</td>
                             <td className="users__table-td">{user.lastName}</td>
@@ -53,6 +60,12 @@ const Users = () => {
                             {user.userRoles.length > 0
                                 ? user.userRoles.map(role => role.name).join(', ')
                                 : 'Brak'}
+                            </td>
+                            <td className="users__table-td">
+                                {userRoles.some(role => role === 'Engineer' || role === 'Admin') && (
+                                    <button onClick={() => navigateToUserManagement(user.id)} className="users__button">Zarządzaj</button>
+                                )}
+                                <button onClick={() => navigateToUserProfile(user.id)} className="users__button">Profil</button>
                             </td>
                         </tr>
                     ))}

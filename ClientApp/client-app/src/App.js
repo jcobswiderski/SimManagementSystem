@@ -29,7 +29,9 @@ import Tests from "./Tests";
 import Test from "./Test";
 import CreateTest from "./CreateTest";
 import CreateDevice from './CreateDevice';
+import UserProfile from './UserProfile';
 import "./css/app.css";
+
 
 
 const App = () => {
@@ -62,8 +64,9 @@ const App = () => {
           <Route path="/inspections" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Inspections /></ProtectedRoute>} />
           <Route path="/inspections/:id" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Inspection showAlert={showAlertWithMessage}  /></ProtectedRoute>} />
           <Route path="/createInspection" element={<ProtectedRoute roles={['Admin', 'Engineer']}><CreateInspection userId={userId} showAlert={showAlertWithMessage} /></ProtectedRoute>} />
-          <Route path="/users" element={<ProtectedRoute roles={['Admin']}><Users /></ProtectedRoute>} />
+          <Route path="/users" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Planer', 'Instructor']}><Users /></ProtectedRoute>} />
           <Route path="/users/:id" element={<ProtectedRoute roles={['Admin']}><User showAlert={showAlertWithMessage} /></ProtectedRoute>} />
+          <Route path="/users/:id/profile" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Planer']}><UserProfile /></ProtectedRoute>} />
           <Route path="/meter" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Meter userId={userId} /></ProtectedRoute>} />
           <Route path="/simSessions" element={<SimSessions />} />
           <Route path="/simSessions/:id" element={<SimSession showAlert={showAlertWithMessage} />} />
