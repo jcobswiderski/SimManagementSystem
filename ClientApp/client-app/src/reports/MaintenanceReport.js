@@ -94,53 +94,42 @@ const styles = StyleSheet.create({
     }
 });
 
-const MalfunctionReport = ({ malfunction }) => (
+const MaintenanceReport = ({ maintenance }) => (
     <Document>
         <Page size="A4" style={styles.page}>
 
             <View style={styles.header}>
-                <Image style={styles.header__image} source={{ uri: './../malfunction.png' }}></Image>
-                <Text style={styles.header__title}>Raport rozwiązania usterki</Text>
-                <Text style={styles.header__id}>#{malfunction.id}</Text>
+                <Image style={styles.header__image} source={{ uri: './../maintenance.png' }}></Image>
+                <Text style={styles.header__title}>Raport wykonania obsługi</Text>
+                <Text style={styles.header__id}>#{maintenance.id}</Text>
             </View>
 
             <View style={styles.content}>
-                <Text style={styles.content__section}>Informacje:</Text>
+                <Text style={styles.content__section}>Zadanie:</Text>
 
                 <View style={styles.content__row}>
-                    <Text style={styles.content__name}>Nazwa usterki:</Text>
-                    <Text style={styles.content__value}>{malfunction.name}</Text>
+                    <Text style={styles.content__name}>Nazwa:</Text>
+                    <Text style={styles.content__value}>{maintenance.name}</Text>
                 </View>
 
                 <View style={styles.content__row}>
                     <Text style={styles.content__name}>Opis:</Text>
-                    <Text style={styles.content__value}>{malfunction.description}</Text>
+                    <Text style={styles.content__value}>{maintenance.tasks}</Text>
                 </View>
 
-                <Text style={styles.content__section}>Ramy czasowe:</Text>
+                <Text style={styles.content__section}>Czas:</Text>
 
                 <View style={styles.content__row}>
-                    <Text style={styles.content__name}>Godzina rozpoczęcia:</Text>
-                    <Text style={styles.content__value}>{malfunction.dateBegin}</Text>
-                </View>
-
-                <View style={styles.content__row}>
-                    <Text style={styles.content__name}>Godzina zakończenia:</Text>
-                    <Text style={styles.content__value}>{malfunction.dateEnd}</Text>
+                    <Text style={styles.content__name}>Data wykonania:</Text>
+                    <Text style={styles.content__value}>{maintenance.date}</Text>
                 </View>
 
                 <Text style={styles.content__section}>Personel:</Text>
 
                 <View style={styles.content__row}>
-                    <Text style={styles.content__name}>Osoba zgłaszająca:</Text>
-                    <Text style={styles.content__value}>{malfunction.userReporter}</Text>
-                </View>
-
-                <View style={styles.content__row}>
-                    <Text style={styles.content__name}>Osoba przyjmująca zgłoszenie:</Text>
-                    <Text style={styles.content__value}>{malfunction.userHandler}</Text>
-                </View>
-            
+                    <Text style={styles.content__name}>Osoba wykonująca obsługę:</Text>
+                    <Text style={styles.content__value}>{maintenance.executor}</Text>
+                </View>            
             </View>
 
             <View style={styles.footer}>
@@ -152,4 +141,4 @@ const MalfunctionReport = ({ malfunction }) => (
     </Document>
 );
 
-export default MalfunctionReport;
+export default MaintenanceReport;

@@ -34,6 +34,24 @@ namespace SimManagementSystem.Controllers
             return Ok(maintenances);
         }
 
+        [HttpGet("{id}")]
+        public IActionResult GetMaintenance(int id)
+        {
+            var maintenance = _context.Maintenances
+                .Select(m => new
+                {
+                    m.Id,
+                    name = m.TypeNavigation.Name,
+                    executor = m.ExecutorNavigation.FirstName + " " + m.ExecutorNavigation.LastName,
+                    date = m.Date.ToString("yyyy-MM-dd"),
+                    m.Realized,
+                    tasks = m.TypeNavigation.Tasks
+                })
+                .Where(m => m.Id == id)
+                .FirstOrDefault();
+            return Ok(maintenance);
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateMaintenance(CreateMaintenanceDTO newMaintenance)
         {
@@ -42,7 +60,7 @@ namespace SimManagementSystem.Controllers
                 Type = newMaintenance.Type,
                 Executor = newMaintenance.Executor,
                 Date = newMaintenance.Date,
-                Realized = true
+                Realized = false
             };
 
             await _context.Maintenances.AddAsync(maintenance);
@@ -65,6 +83,22 @@ namespace SimManagementSystem.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateMaintenanceState(int id)
+        {
+            var maintenance = _context.Maintenances.FirstOrDefault(m => m.Id == id);
+            if (maintenance == null)
+            {
+                return NotFound("Maintenance not found");
+            }
+
+            maintenance.Realized = true;
+
+            _context.SaveChanges();
+
+            return Ok(maintenance);
         }
     }
 }

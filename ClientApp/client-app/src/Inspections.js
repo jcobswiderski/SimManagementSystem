@@ -39,7 +39,7 @@ const Inspections = () => {
 
   return (
     <div className="inspections">
-      <h1 className="inspections__title">Inspections</h1>
+      <h1 className="inspections__title">Zadania inspekcyjne</h1>
       <div className="inspections__group">
         <div className="inspections__search">
           <img className="inspections__search-icon" src="./search.png"></img>

@@ -31,6 +31,7 @@ import CreateTest from "./CreateTest";
 import CreateDevice from './CreateDevice';
 import UserProfile from './UserProfile';
 import "./css/app.css";
+import Maintenance from './Maintenance';
 
 
 
@@ -74,7 +75,8 @@ const App = () => {
           <Route path="/malfunctions" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Malfunctions /></ProtectedRoute>} />
           <Route path="/malfunctions/:id" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Malfunction showAlert={showAlertWithMessage} /></ProtectedRoute>} />
           <Route path="/createMalfunction" element={<ProtectedRoute roles={['Admin', 'Engineer']}><CreateMalfunction userId={userId} showAlert={showAlertWithMessage}/></ProtectedRoute>} />
-          <Route path="/maintenances" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Maintenances showAlert={showAlertWithMessage} /></ProtectedRoute>} />
+          <Route path="/maintenances" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Maintenances /></ProtectedRoute>} />
+          <Route path="/maintenances/:id" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Maintenance showAlert={showAlertWithMessage} /></ProtectedRoute>} />
           <Route path="/createMaintenance" element={<ProtectedRoute roles={['Admin', 'Engineer']}><CreateMaintenance userId={userId} showAlert={showAlertWithMessage}/></ProtectedRoute>} />
           <Route path="/tests" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Tests /></ProtectedRoute>} />
           <Route path="/tests/:id" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Test showAlert={showAlertWithMessage}/></ProtectedRoute>} />

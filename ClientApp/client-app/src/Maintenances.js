@@ -4,7 +4,7 @@ import './css/partials/loading.css';
 import './css/maintenances.css';
 import './css/partials/button.css';
 
-const Maintenances = ({showAlert}) => {
+const Maintenances = () => {
     const [loading, setLoading] = useState(true);
     const [maintenances, setMaintenances] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
@@ -29,25 +29,9 @@ const Maintenances = ({showAlert}) => {
         m.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    const deleteMaintenance = async (id) => {
-        try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/Maintenances/${id}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                }
-            });
-
-            if (response.ok) {
-                showAlert('Pomyślnie usunięto obsługę!', 'success');
-                refreshMaintenances();
-            } else {
-                showAlert('Nie udało się usunąć obsługi!', 'error');
-            }
-        } catch (error) {
-            console.error('Błąd przy usuwaniu obsługi:', error);
-        }
-    }
+    const navigateToMaintenance = (id) => {
+        navigate(`/maintenances/${id}`);
+    };
 
     if (loading) {
         return <div className="loading">Loading...</div>;
@@ -61,11 +45,11 @@ const Maintenances = ({showAlert}) => {
                     <img className="maintenances__search-icon" src="./search.png"></img>
                     <input className="maintenances__input maintenances__search-input" type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
                 </div>
-                <button className="button" onClick={() => {navigate('/createMaintenance');}}>Wprowadź nową obsługę</button>
+                <button className="button" onClick={() => {navigate('/createMaintenance');}}>Zaplanuj nową obsługę</button>
             </div>
 
             {filteredMaintenances.map(m => (
-                <div className={`maintenances__card maintenances__card--orange`} key={m.id}>
+                <div className={`maintenances__card ${m.realized ? 'maintenances__card--green' : 'maintenances__card--red'}`} key={m.id} onClick={() => navigateToMaintenance(m.id)}>
 
                     <div className="maintenances__card-header">
                         <div className="maintenances__card-title">{m.id}</div>
@@ -76,8 +60,8 @@ const Maintenances = ({showAlert}) => {
                     </div>
 
                     <div className="maintenances__card-footer">
+                        <div className="maintenances__card-status">Status: {m.realized === true ? 'Wykonano' : 'Zaplanowano'}</div>
                         <div className="maintenances__card-date">Data: {m.date}</div>
-                        <button className="button maintenances__button" onClick={() => deleteMaintenance(m.id)}>Usuń</button>
                     </div>
                 </div>
             ))}

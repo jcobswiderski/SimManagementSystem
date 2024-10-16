@@ -52,7 +52,7 @@ const Inspection = ({showAlert}) => {
     return (
         <div className="inspection">
             <div className="inspection__header">
-                <h1 className="inspection__title">Podgląd obsługi</h1>
+                <h1 className="inspection__title">Podgląd zadania</h1>
                 <img className="inspection__close" src="./../close.png" alt="go-back-btn" onClick={() => navigate(-1)}/> 
             </div>
             <span className="inspection__label">Nazwa:</span>

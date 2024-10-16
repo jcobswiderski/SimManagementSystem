@@ -1,0 +1,128 @@
+.maintenance {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+    margin: 50px;
+}
+
+.maintenance__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 35px;
+}
+
+.maintenance__close {
+    width: 26px;
+    cursor: pointer;
+}
+
+.maintenance__image {
+    margin-bottom: 30px;
+}
+
+.maintenance__label {
+    margin-bottom: 5px;
+}
+
+.maintenance__label-mt30 {
+    margin-top: 20px;
+}
+
+.maintenance__buttons button {
+    margin-right: 5px;
+}
+
+.maintenance__subtitle, .maintenance__date, .maintenance__operator {
+    font-size: 24px;
+    /*padding: 5px;*/
+    margin-bottom: 20px;
+}
+
+.maintenance__action {
+    margin-top: 20px;
+    border-bottom: 1px solid black;
+    /*padding: 10px;*/
+    width: 100%;
+}
+
+.maintenance__action-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.maintenance__action-description {
+    font-size: 24px;
+    padding-top: 5px;
+    padding-bottom: 10px;
+}
+
+.maintenance__action-delete {
+    width: 18px;
+    cursor: pointer;
+}
+
+.maintenance__buttons {
+    margin-top: 30px;
+}
+
+.maintenance__form {
+    width: 100%;
+    margin-top: 50px;
+    border: 1px solid black;
+    padding: 30px;
+}
+
+.maintenance__form-label {
+    padding: 10px;
+    background-color: lightgray;
+    border: 2px solid black;
+    width: 100%;
+}
+
+.maintenance__form-label-check {
+    border: none;
+}
+
+.maintenance__form-input {
+    padding: 10px;
+    border: 2px solid black;
+    height: 42px;
+    width: 100%;
+    border-top: none;
+    margin-bottom: 20px;
+}
+.maintenance__form-check {
+    padding: 10px;
+    width: 42px;
+}
+
+.group {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    border: 2px solid black;
+}
+
+.maintenance__button {
+    width: 100%;
+    margin-top: 15px;
+}
+
+@media (min-width: 1024px) {
+    .maintenance {
+        /* width: 100%; */
+    }
+
+    .maintenance__buttons button {
+        margin-right: 10px;
+    }
+
+    .maintenance__form {
+        width: 600px;
+    }
+}
