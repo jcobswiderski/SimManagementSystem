@@ -49,8 +49,7 @@ INSERT INTO "Role" (Name) VALUES
 ('Planer'),
 ('Pilot'),
 ('Copilot'),
-('Instructor'),
-('Guest');
+('Instructor');
 
 INSERT INTO UserRole (User_ID, Role_ID) VALUES
 (1, 1), -- Maxwell Rodgers / Admin
@@ -59,7 +58,7 @@ INSERT INTO UserRole (User_ID, Role_ID) VALUES
 (4, 4), -- Gordon Rowe / Pilot
 (5, 5), -- Sami Charles / Copilot
 (6, 6), -- Brooke Poole / Instructor
-(7, 7), -- Casper Schnerider / Guest
+(7, 2), -- Casper Schnerider / Engineer
 (8, 4), -- Rohan Nelson / Pilot
 (8, 6), -- Rohan Nelson / Instructor
 (10, 4), -- Pilot
@@ -125,11 +124,11 @@ INSERT INTO Maintenance (Type, Executor, Date, Realized) VALUES
 
 
 INSERT INTO Malfunction (Name, Description, User_Reporter, User_Handler, Date_Begin, Date_End, Status) VALUES
-('Brak podświetlenia zegarka', 'W trakcie misji tarcza zegarka przestała się świecić, w trakcie misji nocnej nie widać wskazania czasu.', 6, 2, '2024-04-01 08:00:00', NULL, 0),
-('Nie działa AP', 'Nie da się uruchomić procedury testowania AP', 6, 2, '2024-04-02 09:30:00', '2024-04-03 10:45:00', 0),
-('Brak obrazu', 'Nie działa wyświetlanie obrazu na trzecim od góry projektorze', 4, 2, '2024-04-03 10:45:00', NULL, 1),
-('Nie działa wyświetlacz ND', 'W trakcie ćwiczenia zgasł wyświetlacz ND zawiesił się ze statycznym obrazem.', 6, 2, '2024-09-03 10:45:00', '2024-09-03 13:30:00', 0),
-('Brak kolizji na pasie EPWR.', 'W trakcie oblotu testowego pojawił się problem z przyziemieniem statku powietrzenego na lotnisku we Wrocławiu. Śmigłowiec wleciał pod ziemię, nie zatrzymując się na przeszkodzie.', 14, 2, '2024-10-04 07:30:00', '2024-10-04 21:13:00', 0);
+('Brak podświetlenia zegarka', 'W trakcie misji tarcza zegarka przestała się świecić, w trakcie misji nocnej nie widać wskazania czasu.', 6, 2, '2024-04-01 08:00:00', '2024-04-06 09:30:00', 1),
+('Nie działa    AP', 'Nie da się uruchomić procedury testowania AP', 6, 2, '2024-04-02 09:30:00', '2024-04-07 10:45:00', 1),
+('Brak obrazu', 'Nie działa wyświetlanie obrazu na trzecim od góry projektorze', 4, 2, '2024-04-03 10:45:00', NULL, 0),
+('Nie działa wyświetlacz ND', 'W trakcie ćwiczenia zgasł wyświetlacz ND zawiesił się ze statycznym obrazem.', 6, 2, '2024-09-03 10:45:00', '2024-10-03 13:30:00', 1),
+('Brak kolizji na pasie EPWR.', 'W trakcie oblotu testowego pojawił się problem z przyziemieniem statku powietrzenego na lotnisku we Wrocławiu. Śmigłowiec wleciał pod ziemię, nie zatrzymując się na przeszkodzie.', 14, 2, '2024-10-04 07:30:00', '2024-10-04 21:13:00', 1);
 
 INSERT INTO MalfunctionDevice (Device_ID, Malfunction_ID) VALUES
 (7, 1),

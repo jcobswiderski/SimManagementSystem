@@ -3,6 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import './css/partials/loading.css';
 import './css/malfunction.css';
 import './css/partials/button.css';
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import MalfunctionReport from './reports/MalfunctionReport';
 
 const Malfunction = ({showAlert}) => {
     const {id} = useParams();
@@ -226,7 +228,13 @@ const Malfunction = ({showAlert}) => {
 
 
             <div className="malfunction__buttons">
-                <button className="button">Wygeneruj raport</button>
+                <>
+                    {malfunction.status === true ?
+                        <PDFDownloadLink document={ <MalfunctionReport malfunction={malfunction} /> } fileName={`raport-usterki-nr${malfunction.id}.pdf`}>
+                            <button className="button">Wygeneruj raport</button>
+                        </PDFDownloadLink> : null
+                    }
+                </>
                 <button className="button" onClick={deleteMalfunction}>Usuń usterkę</button>
             </div>
         </div>

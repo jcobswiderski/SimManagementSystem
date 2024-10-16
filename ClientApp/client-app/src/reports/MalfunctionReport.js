@@ -94,72 +94,53 @@ const styles = StyleSheet.create({
     }
 });
 
-const SimulatorSessionReport = ({ session }) => (
+const MalfunctionReport = ({ malfunction }) => (
     <Document>
         <Page size="A4" style={styles.page}>
 
             <View style={styles.header}>
-                <Image style={styles.header__image} source={{ uri: './../session.png' }}></Image>
-                <Text style={styles.header__title}>Raport Sesji Symulatorowej</Text>
-                <Text style={styles.header__id}>#{session.id}</Text>
+                <Image style={styles.header__image} source={{ uri: './../malfunction.png' }}></Image>
+                <Text style={styles.header__title}>Raport rozwiązania usterki</Text>
+                <Text style={styles.header__id}>#{malfunction.id}</Text>
             </View>
 
             <View style={styles.content}>
                 <Text style={styles.content__section}>Dane sesji:</Text>
 
                 <View style={styles.content__row}>
-                    <Text style={styles.content__name}>Rodzaj sesji:</Text>
-                    <Text style={styles.content__value}>{session.category}</Text>
-                </View>
-
-                <View style={styles.content__row}>
-                    <Text style={styles.content__name}>Nazwa:</Text>
-                    <Text style={styles.content__value}>{session.name} ({session.abbreviation})</Text>
+                    <Text style={styles.content__name}>Nazwa usterki:</Text>
+                    <Text style={styles.content__value}>{malfunction.name}</Text>
                 </View>
 
                 <View style={styles.content__row}>
                     <Text style={styles.content__name}>Opis:</Text>
-                    <Text style={styles.content__value}>{session.description}</Text>
+                    <Text style={styles.content__value}>{malfunction.description}</Text>
                 </View>
 
                 <Text style={styles.content__section}>Ramy czasowe:</Text>
 
                 <View style={styles.content__row}>
                     <Text style={styles.content__name}>Godzina rozpoczęcia:</Text>
-                    <Text style={styles.content__value}>{session.beginDate}</Text>
+                    <Text style={styles.content__value}>{malfunction.dateBegin}</Text>
                 </View>
 
                 <View style={styles.content__row}>
                     <Text style={styles.content__name}>Godzina zakończenia:</Text>
-                    <Text style={styles.content__value}>{session.endDate}</Text>
+                    <Text style={styles.content__value}>{malfunction.dateEnd}</Text>
+                </View>
+
+                <Text style={styles.content__section}>Personel:</Text>
+
+                <View style={styles.content__row}>
+                    <Text style={styles.content__name}>Osoba zgłaszająca:</Text>
+                    <Text style={styles.content__value}>{malfunction.userReporter}</Text>
                 </View>
 
                 <View style={styles.content__row}>
-                    <Text style={styles.content__name}>Czas trwania:</Text>
-                    <Text style={styles.content__value}>{session.duration}</Text>
+                    <Text style={styles.content__name}>Osoba przyjmująca zgłoszenie:</Text>
+                    <Text style={styles.content__value}>{malfunction.userHandler}</Text>
                 </View>
-
-                <Text style={styles.content__section}>Załoga:</Text>
-
-                <View style={styles.content__row}>
-                    <Text style={styles.content__name}>Pilot:</Text>
-                    <Text style={styles.content__value}>{session.pilotName}</Text>
-                </View>
-
-                <View style={styles.content__row}>
-                    <Text style={styles.content__name}>Copilot:</Text>
-                    <Text style={styles.content__value}>{session.copilotName}</Text>
-                </View>
-
-                <View style={styles.content__row}>
-                    <Text style={styles.content__name}>Obserwator:</Text>
-                    <Text style={styles.content__value}>{session.observerName}</Text>
-                </View>
-
-                <View style={styles.content__row}>
-                    <Text style={styles.content__name}>Instruktor:</Text>
-                    <Text style={styles.content__value}>{session.supervisorName}</Text>
-                </View>
+            
             </View>
 
             <View style={styles.footer}>
@@ -171,4 +152,4 @@ const SimulatorSessionReport = ({ session }) => (
     </Document>
 );
 
-export default SimulatorSessionReport;
+export default MalfunctionReport;
