@@ -87,7 +87,18 @@
 }
 
 .user__name {
-    margin-left: 10px;
+    margin-top: 15px;
+}
+ 
+.user__table-tr--green {
+    border-bottom: 1px solid green;
+    box-shadow: 0px 4px 6px #00ff004d;
+    background: linear-gradient(to bottom, transparent, #00ff001a);
+}
+
+.user__table-tr--red {
+    border-bottom: px solid red;
+    background: linear-gradient(to bottom, transparent, #ff00001a);
 }
 
 
@@ -106,6 +117,12 @@
         /* width: 100%; */
     }
     
+
+    .user__name {
+        margin-left: 15px;
+        margin-top: 0;
+    }
+
     .user__group {
         flex-direction: row;
     }

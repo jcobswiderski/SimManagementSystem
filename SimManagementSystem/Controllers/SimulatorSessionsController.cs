@@ -128,7 +128,8 @@ namespace SimManagementSystem.Controllers
                     Observer = s.ObserverSeat,
                     Supervisor = s.SupervisorSeat,
                     Name = s.PredefinedSessionNavigation.Name,
-                    Abbreviation = s.PredefinedSessionNavigation.Abbreviation
+                    Abbreviation = s.PredefinedSessionNavigation.Abbreviation,
+                    s.Realized
                 })
                 .ToList();
 

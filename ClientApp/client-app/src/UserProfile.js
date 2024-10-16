@@ -11,7 +11,6 @@ const UserProfile = () => {
 
     useEffect(() => {
         refreshUser();
-        // refreshRolesList();
         refreshSessionsList();
     }, []);
     
@@ -95,15 +94,17 @@ const UserProfile = () => {
                             <th className="user__table-th">Title</th>
                             <th className="user__table-th">Role</th>
                             <th className="user__table-th">Date</th>
+                            <th className="user__table-th">Status</th>
                         </tr>
                     </thead>
                     <tbody>
                         {userSessions.map(s => (
-                            <tr className="user__table-tr" key={s.id} onClick={() => navigateToSession(s.id)}>
+                            <tr className={`user__table-tr ${s.realized ? 'user__table-tr--green' : 'user__table-tr--red'}`} key={s.id} onClick={() => navigateToSession(s.id)}>
                                 <td className="user__table-td">{s.id}</td>
                                 <td className="user__table-td">[{s.abbreviation}] {s.name}</td>
                                 <td className="user__table-td">{getUserRoleInSession(s)}</td>
                                 <td className="user__table-td">{s.beginDate}</td>
+                                <td className="user__table-td">{s.realized === true ? 'Zrealizowano' : 'Zaplanowana'}</td>
                             </tr>   
                         ))}
                     </tbody>
