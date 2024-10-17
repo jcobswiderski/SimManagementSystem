@@ -32,6 +32,7 @@ import CreateDevice from './CreateDevice';
 import UserProfile from './UserProfile';
 import "./css/app.css";
 import Maintenance from './Maintenance';
+import CreatePredefinedSession from './CreatePredefinedSession';
 
 
 
@@ -72,6 +73,7 @@ const App = () => {
           <Route path="/simSessions" element={<SimSessions />} />
           <Route path="/simSessions/:id" element={<SimSession showAlert={showAlertWithMessage} />} />
           <Route path="/createSimSession" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Planer']}><CreateSimSession showAlert={showAlertWithMessage} /></ProtectedRoute>} />
+          <Route path="/createPredefinedSession" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Planer']}><CreatePredefinedSession showAlert={showAlertWithMessage} /></ProtectedRoute>} />
           <Route path="/malfunctions" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Malfunctions /></ProtectedRoute>} />
           <Route path="/malfunctions/:id" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Malfunction showAlert={showAlertWithMessage} /></ProtectedRoute>} />
           <Route path="/createMalfunction" element={<ProtectedRoute roles={['Admin', 'Engineer']}><CreateMalfunction userId={userId} showAlert={showAlertWithMessage}/></ProtectedRoute>} />

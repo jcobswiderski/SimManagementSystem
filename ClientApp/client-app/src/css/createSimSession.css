@@ -12,7 +12,7 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    margin-bottom: 40px;
+    margin-bottom: 10px;
 }
 
 .createSimSession__close {
@@ -25,6 +25,7 @@
     background-color: lightgray;
     border: 2px solid black;
     width: 300px;
+    width: 100%;
 }
 
 .createSimSession__input {
@@ -33,6 +34,7 @@
     height: 42px;
     border-top: none;
     width: 300px;
+    width: 100%;
 }
 
 .createSimSession__group {
@@ -40,22 +42,31 @@
     flex-direction: column;
     margin-top: 35px;
     flex-wrap: wrap;
+    width: 100%;
+    margin: 20px 0;
 }
 
 .createSimSession__group--row {
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 
 .createSimSession__group--single {
     display: flex;
     flex-direction: column;
     margin-top: 10px;
+    width: 100%;
 }
 
 .createSimSession__button {
     margin-top: 20px;
     width: 300px;
+    margin-left: 5px;
+}
+
+.createSimSession__button--scheme {
+    margin-bottom: 0;
 }
 
 @media (min-width: 1024px) {
@@ -71,5 +82,10 @@
 
     .createSimSession__group--single {
         margin-right: 20px;
+    }
+
+    .createSimSession__button--scheme {
+        margin: 0;
+        margin-top: 45px;
     }
 }

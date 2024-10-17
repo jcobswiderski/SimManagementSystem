@@ -97,14 +97,24 @@ const CreateSimSession = ({showAlert}) => {
                 <img className="createSimSession__close" src="./../close.png" alt="go-back-btn" onClick={() => navigate(-1)}/> 
             </div>
 
-            <span className="createSimSession__label">Typ sesji</span>
-            <select className="createSimSession__input" value={predefinedSessionId} onChange={handlePredefinedSessionIdChange}>
-                {predefinedSessions.map(s => (
-                    <option className="createSimSession__option" key={s.id} value={s.id}>
-                        {s.name}
-                    </option>
-                ))}
-            </select>
+            <div className="createSimSession__group">
+              <div className="createSimSession__group--row">
+                <div className="createSimSession__group--single">
+                  <span className="createSimSession__label">Typ sesji</span>
+                  <select className="createSimSession__input" value={predefinedSessionId} onChange={handlePredefinedSessionIdChange}>
+                      {predefinedSessions.map(s => (
+                          <option className="createSimSession__option" key={s.id} value={s.id}>
+                              {s.name}
+                          </option>
+                      ))}
+                  </select>
+                </div>
+                <div className="createSimSession__group--single">
+                  <button className="button createSimSession__button createSimSession__button--scheme" onClick={() => navigate('/createPredefinedSession')}>Stwórz nowy szablon</button>
+                </div>  
+              </div>
+            </div>
+            
             
             <div className="createSimSession__group">
               <div className="createSimSession__group--row">

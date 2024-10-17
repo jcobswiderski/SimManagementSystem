@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SimManagementSystem.DataAccessLayer;
+using SimManagementSystem.DataTransferObjects;
 
 namespace SimManagementSystem.Controllers
 {
@@ -28,6 +29,24 @@ namespace SimManagementSystem.Controllers
             var predefinedSession = _context.PredefinedSessions
                 .Where(s => s.Id == id)
                 .FirstOrDefault();
+            return Ok(predefinedSession);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreatePredefinedSession(CreatePredefinedSessionDTO newScheme)
+        {
+            var predefinedSession = new PredefinedSession
+            {
+                Category = newScheme.Category,
+                Name = newScheme.Name,
+                Description = newScheme.Description,
+                Duration = newScheme.Duration,
+                Abbreviation = newScheme.Abbreviation
+            };
+
+            await _context.PredefinedSessions.AddAsync(predefinedSession);
+            await _context.SaveChangesAsync();
+
             return Ok(predefinedSession);
         }
     }
