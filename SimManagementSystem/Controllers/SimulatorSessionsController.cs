@@ -136,6 +136,23 @@ namespace SimManagementSystem.Controllers
             return Ok(sessions);
         }
 
+        [HttpGet("byuser/{userId}/last")]
+        public IActionResult GetLastSimulatorSessionsByUser(int userId)
+        {
+            var sessions = _context.SimulatorSessions
+                .Where(s => s.Realized == true && (s.PilotSeatNavigation.Id == userId || s.CopilotSeatNavigation.Id == userId))
+                .Include(s => s.PredefinedSessionNavigation)
+                .GroupBy(s => s.PredefinedSessionNavigation.Name)
+                .Select(g => new
+                {
+                    Session = g.Key,
+                    DaysSinceLastSession = g.Max(s => EF.Functions.DateDiffDay(s.BeginDate, DateTime.Now))
+                })
+                .ToList();
+
+            return Ok(sessions);
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateSession(CreateSimulatorSessionDTO newSession)
         {

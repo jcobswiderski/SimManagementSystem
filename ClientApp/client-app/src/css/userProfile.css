@@ -92,7 +92,6 @@
  
 .user__table-tr--green {
     border-bottom: 1px solid green;
-    box-shadow: 0px 4px 6px #00ff004d;
     background: linear-gradient(to bottom, transparent, #00ff001a);
 }
 
@@ -102,9 +101,19 @@
 }
 
 
+.user__table-tr--yellow {
+    border-bottom: px solid yellow;
+    background: linear-gradient(to bottom, transparent, rgb(203, 203, 18));
+}
+
 .user__table-tr:hover {
     background-color: lightgray;
     cursor: pointer;
+}
+
+.user__table-description {
+    margin: 7px 0;
+    font-style: italic;
 }
 
 @media (min-width: 1024px) {

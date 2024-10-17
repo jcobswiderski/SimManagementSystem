@@ -7,11 +7,13 @@ const UserProfile = () => {
     const {id} = useParams();
     const [user, setUserProfile] = useState(null);
     const [userSessions, setUserSessions] = useState([]);
+    const [daysFromSession, setDaysFromSession] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
         refreshUser();
         refreshSessionsList();
+        refreshDaysFromSession();
     }, []);
     
     const refreshUser = async () => {
@@ -31,6 +33,16 @@ const UserProfile = () => {
             setUserSessions(data);
         } catch (error) {
             console.error('Error fetching user sessions:', error);
+        }
+    };
+
+    const refreshDaysFromSession = async () => {
+        try {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/SimulatorSessions/byuser/${id}/last`);
+            const data = await response.json();
+            setDaysFromSession(data);
+        } catch (error) {
+            console.error('Error fetching days from session:', error);
         }
     };
 
@@ -105,6 +117,27 @@ const UserProfile = () => {
                                 <td className="user__table-td">{getUserRoleInSession(s)}</td>
                                 <td className="user__table-td">{s.beginDate}</td>
                                 <td className="user__table-td">{s.realized === true ? 'Zrealizowano' : 'Zaplanowana'}</td>
+                            </tr>   
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+
+            <div className="user__group-roles">
+                <h2 className="user__table-title">Days from last session</h2>
+                <span className="user__table-description">Liczba dni, które minęły od ostatniej zrealizowanej sesji. Powyżej 90 dni generuje żółte ostrzeżenie. Przekroczenie 180 dni czerwonym kolorem informuje o braku aktualności szkolenia!</span>
+                <table className="user__table">
+                    <thead>
+                        <tr>
+                            <th className="user__table-th">Title</th>
+                            <th className="user__table-th">Interval</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {daysFromSession.map(s => (
+                            <tr className={`${s.daysSinceLastSession >= 180 ? 'user__table-tr--red' : s.daysSinceLastSession > 90 ? 'user__table-tr--yellow' : 'user__table-tr--green'}`} key={s.id}>
+                                <td className="user__table-td">{s.session}</td>
+                                <td className="user__table-td">ostatnia sesja {s.daysSinceLastSession} dni temu</td>
                             </tr>   
                         ))}
                     </tbody>
