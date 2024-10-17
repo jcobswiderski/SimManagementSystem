@@ -2,28 +2,58 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
-    height: 100%;
-}
-
-.start__content {
-    display: flex;
-    width: 100%;
-    height: 100%;
     justify-content: center;
-    align-items: center;
-    /* Darmowa licencja z unsplash.com */
+    width: 100%;
     background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0)), url('./../../public/theme.jpg');
     background-size: cover;
     background-position: center;
     height: calc(100vh - 50px);
 }
 
+.login__form {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border: 2px solid white;
+    min-width: 350px;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 30px;
+    background-color: hwb(212 11% 84%);
+}
+
+.login__wrap {
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    width: 70%;
+}
+
+.login__label {
+    color: white;
+    font-size: 12px;
+    padding-bottom: 5px;
+}
+
+.login__input {
+    width: 100%;
+    height: 30px;
+    border-radius: 5%;
+    background-color: #B5B6BA;
+    color: white;
+
+}
+
+.login__button {
+    margin-top: 10px;
+    width: 100%;
+    padding: 5px;
+}
+
 @media (min-width: 1024px) {
     .start__page {
-        display: flex;
-        flex-direction: row;
-        align-items: stretch;
         height: 100vh;
     }
 

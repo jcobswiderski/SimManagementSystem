@@ -39,7 +39,7 @@ const Maintenances = () => {
 
     return (
         <div className="maintenances">
-            <h1 className="maintenances__title">Obsługa symulatora</h1>
+            <h1 className="maintenances__title">Obsługi symulatora</h1>
             <div className="maintenances__group">
                 <div className="maintenances__search">
                     <img className="maintenances__search-icon" src="./search.png"></img>

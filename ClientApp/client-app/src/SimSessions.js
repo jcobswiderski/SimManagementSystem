@@ -42,7 +42,7 @@ const SimSessions = () => {
 
   return (
     <div className="simulatorSessions">
-      <h1 className="simulatorSessions__title">Simulator sessions</h1>
+      <h1 className="simulatorSessions__title">Sesje symulatorowe</h1>
       <div className="simulatorSessions__group">
         <div className="simulatorSessions__search">
           <img className="simulatorSessions__search-icon" src="./search.png" alt="search-icon"></img>

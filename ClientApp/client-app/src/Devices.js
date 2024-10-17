@@ -62,7 +62,7 @@ const Devices = () => {
 
   return (
     <div className="devices">
-      <h1 className="devices__title">Devices</h1>
+      <h1 className="devices__title">Urządzenia</h1>
       <h2 className="devices__info">Wyszukaj urządzenie po nazwie lub kliknij na nazwę urządzenia aby uzyskać więcej informacji.</h2>
       <div className="malfunctions__group">
         <div className="devices__search">

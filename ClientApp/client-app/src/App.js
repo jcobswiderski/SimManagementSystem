@@ -57,7 +57,7 @@ const App = () => {
       {showAlert && <Alert message={alertMessage} color={alertColor} onClose={() => setShowAlert(false)} />}
         <Routes>
           <Route path="/" element={<StartPage />} />
-          <Route path="/start" element={<StartPage />} />
+          <Route path="/start" element={<StartPage showAlert={showAlertWithMessage} />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/devices" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Devices /></ProtectedRoute>} />
@@ -68,7 +68,7 @@ const App = () => {
           <Route path="/createInspection" element={<ProtectedRoute roles={['Admin', 'Engineer']}><CreateInspection userId={userId} showAlert={showAlertWithMessage} /></ProtectedRoute>} />
           <Route path="/users" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Planer', 'Instructor']}><Users /></ProtectedRoute>} />
           <Route path="/users/:id" element={<ProtectedRoute roles={['Admin']}><User showAlert={showAlertWithMessage} /></ProtectedRoute>} />
-          <Route path="/users/:id/profile" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Planer']}><UserProfile /></ProtectedRoute>} />
+          <Route path="/users/:id/profile" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Planer', 'Instructor']}><UserProfile /></ProtectedRoute>} />
           <Route path="/meter" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Meter userId={userId} /></ProtectedRoute>} />
           <Route path="/simSessions" element={<SimSessions />} />
           <Route path="/simSessions/:id" element={<SimSession showAlert={showAlertWithMessage} />} />

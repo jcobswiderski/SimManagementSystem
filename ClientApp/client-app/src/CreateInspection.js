@@ -55,7 +55,7 @@ const CreateInspection = ({userId, showAlert}) => {
                 showAlert('Pomyślnie dodano nową inspekcję!', 'success');
                 navigate(-1);
             } else {
-                showAlert('Wypełnij wymagane pola przed dodaniem nowej inspekcji!', 'error');
+                showAlert('Wypełnij wymagane pola przed dodaniem nowej aktywności!', 'error');
             }
         } catch (error) {
             console.error('Błąd przy dodawaniu inspekcji:', error);
@@ -65,7 +65,7 @@ const CreateInspection = ({userId, showAlert}) => {
     return ( 
         <div className="createInspection">
             <div className="createInspection__header">
-                <h1 className="createInspection__title">Zaplanuj nową obsługę</h1>
+                <h1 className="createInspection__title">Planowanie nowej aktywności</h1>
                 <img className="createInspection__close" src="./../close.png" alt="go-back-btn" onClick={() => navigate(-1)}/> 
             </div>
 

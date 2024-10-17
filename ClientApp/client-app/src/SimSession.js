@@ -123,9 +123,9 @@ const SimSession = ({showAlert}) => {
 
             <div className="simSession__buttons">
                 <>
-                    {session.realized === false ?
-                        <button className="simSession__button" onClick={updateSimSession}>Oznacz jako ukończona</button> : null
-                    }
+                    {userRoles.some(role => role === 'Engineer' || role === 'Admin' || role === 'Planner' || role === 'Instructor') && session.realized === false && (
+                        <button className="simSession__button" onClick={updateSimSession}>Oznacz jako ukończona</button>
+                    )}
                 </>
 
                 <>
