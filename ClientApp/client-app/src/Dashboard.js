@@ -75,7 +75,7 @@ const Dashboard = () => {
                 )}
 
                 {userRoles.some(role => role === 'Engineer' || role === 'Admin') && (
-                    <div className="dashboard__card" onClick={() => navigate(`/malfunctions`)}>
+                    <div className="dashboard__card" onClick={() => navigate(`/statistics`)}>
                         <img className="dashboard__card-icon" src="./../statistic.png" alt=""/>
                         <h2 className="dashboard__card-title">Statystyki</h2>
                     </div>

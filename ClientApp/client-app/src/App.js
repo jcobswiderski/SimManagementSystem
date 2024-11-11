@@ -33,6 +33,7 @@ import UserProfile from './UserProfile';
 import "./css/app.css";
 import Maintenance from './Maintenance';
 import CreatePredefinedSession from './CreatePredefinedSession';
+import Statistics from './Statistics';
 
 
 
@@ -83,6 +84,7 @@ const App = () => {
           <Route path="/tests" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Tests /></ProtectedRoute>} />
           <Route path="/tests/:id" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Test showAlert={showAlertWithMessage}/></ProtectedRoute>} />
           <Route path="/createTest" element={<ProtectedRoute roles={['Admin', 'Engineer']}><CreateTest userId={userId} showAlert={showAlertWithMessage}/></ProtectedRoute>} />
+          <Route path="/statistics" element={<ProtectedRoute roles={['Admin', 'Engineer']}><Statistics showAlert={showAlertWithMessage}/></ProtectedRoute>} />
           <Route path="/unauthorized" element={<Unauthorized />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using SimManagementSystem.DataAccessLayer;
 using SimManagementSystem.DataTransferObjects;
 
@@ -36,6 +37,21 @@ namespace SimManagementSystem.Controllers
                 .ToList();
             return Ok(malfunctions);
         }
+
+        [HttpGet("count")]
+        public IActionResult GetMalfunctionsCount(DateTime? dateBegin, DateTime? dateEnd)
+        {
+            if (!dateBegin.HasValue || !dateEnd.HasValue) {
+                return BadRequest("Nie wprowadzono daty początku lub końca!");
+            }
+
+            int malfunctionCount = _context.Malfunctions
+                .Where(m => m.DateBegin >= dateBegin.Value && m.DateBegin <= dateEnd.Value)
+                .Count();
+
+            return Ok(malfunctionCount);
+        }
+
 
         [HttpGet("{id}")]
         public IActionResult GetMalfunction(int id)
@@ -80,6 +96,7 @@ namespace SimManagementSystem.Controllers
                 .ToList();
             return Ok(malfunctions);
         }
+
 
         [HttpPost]
         public async Task<IActionResult> CreateMalfunction(CreateMalfunctionDTO newMalfunction)
