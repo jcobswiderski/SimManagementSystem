@@ -1,22 +1,15 @@
 import React from 'react';
-import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import AuthContext from './AuthContext';
+import './css/unauthorized.css';
 
 const Unauthorized = () => {
-    const { logout } = useContext(AuthContext);
     const navigate = useNavigate();
 
-    const handleLogout = () => {
-        logout();
-        navigate('/start');
-    };
-
     return (
-        <div>
-            <h1>Unauthorized</h1>
-            <p>You do not have permission to view this page.</p>
-            <button onClick={handleLogout}>Zaloguj się</button>
+        <div className='unauthorized'>
+            <h1 className='unauthorized__title'>Unauthorized</h1>
+            <p className='unauthorized__subtitle'>You do not have permission to view this page.</p>
+            <button className='button' onClick={() => navigate(-1)}>Back to home.</button>
         </div>
     );
 };
