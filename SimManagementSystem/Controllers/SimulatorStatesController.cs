@@ -33,6 +33,43 @@ namespace SimManagementSystem.Controllers
             return Ok(simulatorStates);
         }
 
+        [HttpGet("difference")]
+        public IActionResult GetSimulatorStateDifference(DateTime date1, DateTime date2)
+        {
+            if (date1 > date2)
+            {
+                return NotFound("Nie znaleziono odpowiednich stanów dla podanych dat.");
+            }
+
+            var firstState = _context.SimulatorStates
+                .OrderBy(s => s.StartupTime)
+                .Where(s => s.StartupTime.Date >= date1.Date)
+                .Select(s => new
+                {
+                    s.StartupTime,
+                    s.MeterState
+                })
+                .FirstOrDefault();
+
+            var lastState = _context.SimulatorStates
+                .OrderByDescending(s => s.StartupTime)
+                .Where(s => s.StartupTime.Date <= date2.Date)
+                .Select(s => new
+                {
+                    s.StartupTime,
+                    s.MeterState
+                })
+                .FirstOrDefault();
+
+            if (firstState != null && lastState != null)
+            {
+                int result = lastState.MeterState - firstState.MeterState;
+                return Ok(result);
+            }
+
+            return NotFound("Nie znaleziono odpowiednich stanów dla podanych dat.");
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateSimulatorState(CreateSimulatorStateDTO createSimulatorStateDTO)
         {

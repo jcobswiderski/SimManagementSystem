@@ -82,6 +82,7 @@
 .maintenances__card:hover {
     transform: scale(1.01);
     background-color: #b8860b;
+    cursor: pointer;
 }
 
 .maintenances__card-header {

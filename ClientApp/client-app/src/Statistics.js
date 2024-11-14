@@ -9,6 +9,7 @@ const Statistics = ({showAlert}) => {
     const [formBeginDate, setFormBeginDate] = useState('');
     const [formEndDate, setFormEndDate] = useState('');
     const [malfunctionsCount, setMalfunctionsCount] = useState(null);
+    const [workingTime, setWorkingTime] = useState(null);
 
     const handleBeginDateChange = (e) => {
         setBeginDate(e.target.value);
@@ -41,6 +42,17 @@ const Statistics = ({showAlert}) => {
         } catch (error) {
             console.error('Error fetching malfunctions count:', error);
         }
+
+        try {
+            const response = await fetch(
+                `${process.env.REACT_APP_API_URL}/SimulatorStates/difference?date1=${beginDate}&date2=${endDate}`
+            );
+
+            const data = await response.json();
+            setWorkingTime(data);
+        } catch (error) {
+            console.error('Error fetching working time:', error);
+        }
     }
 
     return (
@@ -63,14 +75,60 @@ const Statistics = ({showAlert}) => {
                 <button className="button" onClick={generateStatistics}>Generate</button>
             </div>
 
-            <div className="statistics__time">
-                <h2>Od: {formBeginDate || "---"}</h2>
-                <h2>Do: {formEndDate || "---"}</h2>
+            <div className="statistics__item">
+                <h2 className="statistics__subtitle">Analizowany okres</h2>
+                <span className="statistics__description">Data początku oraz końca branych pod uwagę danych.</span>
+                <table className="statistics__table">
+                    <thead>
+                        <tr>
+                            <th className="statistics__table-th">Data początkowa</th>
+                            <th className="statistics__table-th">Data końcowa</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td className="statistics__table-td">{formBeginDate || "---"}</td>
+                            <td className="statistics__table-td">{formEndDate || "---"}</td>
+                        </tr>   
+                    </tbody>
+                </table>
             </div>
 
-            <div className="statistics__malfunctions">
-                <h2>Liczba usterek: {malfunctionsCount || "---"}</h2>
+            <div className="statistics__item">
+                <h2 className="statistics__subtitle">Usterki</h2>
+                <span className="statistics__description">Liczba usterek, które pojawiły się w danym okresie.</span>
+                <table className="statistics__table">
+                    <thead>
+                        <tr>
+                            <th className="statistics__table-th">Liczba usterek</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td className="statistics__table-td">{malfunctionsCount || "---"}</td>
+                        </tr>   
+                    </tbody>
+                </table>
             </div>
+
+            <div className="statistics__item">
+                <h2 className="statistics__subtitle">Czas pracy symulatora</h2>
+                <span className="statistics__description">Czas pracy urządzenia określony w minutach.</span>
+                <table className="statistics__table">
+                    <thead>
+                        <tr>
+                            <th className="statistics__table-th">Czas pracy</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td className="statistics__table-td">{workingTime || "---"}</td>
+                        </tr>   
+                    </tbody>
+                </table>
+            </div>
+
+            
         </div>
     );
 }
