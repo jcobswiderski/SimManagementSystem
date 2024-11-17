@@ -98,7 +98,9 @@ namespace SimManagementSystem.Controllers
             List<Claim> userClaims = new List<Claim>
             {
                 new Claim("userId", user.Id.ToString()),
-                new Claim("login", user.Login)
+                new Claim("login", user.Login),
+                new Claim("firstName", user.FirstName),
+                new Claim("lastName", user.LastName)
             };
 
             var roles = _context.Users
