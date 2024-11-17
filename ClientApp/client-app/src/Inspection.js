@@ -4,6 +4,8 @@ import './css/partials/loading.css';
 import './css/inspection.css';
 import './css/partials/button.css';
 import AuthContext from "./AuthContext";
+import {PDFDownloadLink} from "@react-pdf/renderer";
+import InspectionReport from "./reports/InspectionReport";
 
 const Inspection = ({showAlert}) => {
     const {id} = useParams();
@@ -65,11 +67,20 @@ const Inspection = ({showAlert}) => {
             <div className="inspection__operator">{inspection.operator}</div>
             <span className="inspection__label">Comments:</span>
             <div className="inspection__date">{inspection.notice != null ? inspection.notice : "---"}</div>
-            <>
-                {userRoles.some(role => role === 'Engineer' || role === 'Admin')  && (
-                    <button className="button" onClick={deleteInspection}>Usuń obsługę</button>
-                )}
-            </>
+            <div className="inspection__group">
+                <>
+                    <PDFDownloadLink document={<InspectionReport inspection={inspection}/>} fileName={`raport-inspekcji-nr${inspection.id}.pdf`}>
+                        <button className="button">Wygeneruj raport</button>
+                    </PDFDownloadLink>
+
+                    {userRoles.some(role => role === 'Engineer' || role === 'Admin')  && (
+                        <button className="button ml10" onClick={deleteInspection}>Usuń zadanie</button>
+                    )}
+                </>
+            </div>
+
+
+
         </div>
     );
 }

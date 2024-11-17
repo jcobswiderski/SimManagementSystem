@@ -47,6 +47,10 @@
     background-color: lightgray;
 }
 
+.ml10 {
+    margin-left: 10px;
+}
+
 @media (min-width: 1024px) {
     .inspection {
         /* width: 100%; */
