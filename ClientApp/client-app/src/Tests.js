@@ -29,7 +29,7 @@ const Tests = () => {
 
     const filteredTestResults= tests.filter(t =>
         t.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        (t.date && t.date.includes(searchTerm.toLowerCase()))
+        t.date && t.date.includes(searchTerm.toLowerCase())
     );
 
     const navigateToTest = (id) => {
@@ -64,11 +64,12 @@ const Tests = () => {
                     </div>
 
                     <div className="tests__card-content">
-                        <div className="tests__card-crew">Wykonał: {t.executor}</div>
+                        
                     </div>
 
                     <div className="tests__card-footer">
                         <div className="tests__card-duration">Data: {t.date}</div>
+                        <div className="tests__card-crew">Wykonał: {t.executor}</div>
                     </div>
                 </div>
             ))}

@@ -31,6 +31,19 @@
     cursor: pointer;
 }
 
+.navbar__toggle--open {
+    width: 45px;
+    margin: 10px;
+    font-size: 24px;
+    height: auto;
+    color: white;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    margin-bottom: 80px;
+    margin-top: 0;
+}
+
 .navbar__list {
     display: none;
 }
@@ -133,5 +146,9 @@
 
     .navbar__item--last {
         margin-bottom: 0;
+    }
+
+    .navbar__toggle--open {
+        display: none;
     }
 }

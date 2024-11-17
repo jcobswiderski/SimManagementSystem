@@ -29,7 +29,9 @@ const SimSessions = () => {
 
   const filteredSimulatorSessions = simulatorSessions.filter(s => 
     s.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    (s.beginDate && s.beginDate.includes(searchTerm.toLowerCase()))
+    s.abbreviation.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    s.beginDate && s.beginDate.includes(searchTerm.toLowerCase()) ||
+    s.endDate && s.endDate.includes(searchTerm.toLowerCase())
   );
 
   const navigateToSession = (id) => {

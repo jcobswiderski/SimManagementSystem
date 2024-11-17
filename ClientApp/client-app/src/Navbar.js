@@ -88,7 +88,7 @@ const Navbar = () => {
           </>
         )}
       </ul>
-      <button className="navbar__toggle" onClick={toggleMenu}>☰</button>
+      <button className={`${isMenuOpen ? 'navbar__toggle--open' : 'navbar__toggle'}`} onClick={toggleMenu}>☰</button>
     </nav>
   );
 };

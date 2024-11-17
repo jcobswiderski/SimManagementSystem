@@ -69,75 +69,75 @@ const UserProfile = () => {
     }
 
     return (
-        <div className="user">
-            <div className="user__header">
-                <h1 className="user__title">Profil użytkownika</h1>
-                <img className="user__close" src="./../../close.png" alt="go-back-btn" onClick={() => navigate(-1)}/> 
+        <div className="userProfile">
+            <div className="userProfile__header">
+                <h1 className="userProfile__title">Profil użytkownika</h1>
+                <img className="userProfile__close" src="./../../close.png" alt="go-back-btn" onClick={() => navigate(-1)}/> 
             </div>
-            <div className="user__group">
-                <img className="user__image" src="./../../user.png" alt="" />
-                <h2 className="user__name">{user.firstName} {user.lastName} </h2>
+            <div className="userProfile__group">
+                <img className="userProfile__image" src="./../../user.png" alt="" />
+                <h2 className="userProfile__name">{user.firstName} {user.lastName} </h2>
             </div>   
 
-            <div className="user__group-roles">
-                <h2 className="user__table-title">User roles</h2>
-                <table className="user__table">
+            <div className="userProfile__group-roles">
+                <h2 className="userProfile__table-title">User roles</h2>
+                <table className="userProfile__table">
                     <thead>
                         <tr>
-                            <th className="user__table-th">Role</th>
+                            <th className="userProfile__table-th">Role</th>
                         </tr>
                     </thead>
                     <tbody>
                         {user.userRoles.map(role => (
-                            <tr className="user__table-tr--role" key={role.id}>
-                                <td className="user__table-td">{role.name}</td>
+                            <tr className="userProfile__table-tr--role" key={role.id}>
+                                <td className="userProfile__table-td">{role.name}</td>
                             </tr>   
                         ))}
                     </tbody>
                 </table>
             </div>
 
-            <div className="user__group-roles">
-                <h2 className="user__table-title">User sessions</h2>
-                <table className="user__table">
+            <div className="userProfile__group-roles">
+                <h2 className="userProfile__table-title">userProfile sessions</h2>
+                <table className="userProfile__table">
                     <thead>
                         <tr>
-                            <th className="user__table-th">ID</th>
-                            <th className="user__table-th">Title</th>
-                            <th className="user__table-th">Role</th>
-                            <th className="user__table-th">Date</th>
-                            <th className="user__table-th">Status</th>
+                            <th className="userProfile__table-th">ID</th>
+                            <th className="userProfile__table-th">Title</th>
+                            <th className="userProfile__table-th">Role</th>
+                            <th className="userProfile__table-th">Date</th>
+                            <th className="userProfile__table-th">Status</th>
                         </tr>
                     </thead>
                     <tbody>
                         {userSessions.map(s => (
-                            <tr className={`user__table-tr ${s.realized ? 'user__table-tr--green' : 'user__table-tr--red'}`} key={s.id} onClick={() => navigateToSession(s.id)}>
-                                <td className="user__table-td">{s.id}</td>
-                                <td className="user__table-td">[{s.abbreviation}] {s.name}</td>
-                                <td className="user__table-td">{getUserRoleInSession(s)}</td>
-                                <td className="user__table-td">{s.beginDate}</td>
-                                <td className="user__table-td">{s.realized === true ? 'Zrealizowano' : 'Zaplanowana'}</td>
+                            <tr className={`userProfile__table-tr ${s.realized ? 'userProfile__table-tr--green' : 'userProfile__table-tr--red'}`} key={s.id} onClick={() => navigateToSession(s.id)}>
+                                <td className="userProfile__table-td">{s.id}</td>
+                                <td className="userProfile__table-td">[{s.abbreviation}] {s.name}</td>
+                                <td className="userProfile__table-td">{getUserRoleInSession(s)}</td>
+                                <td className="userProfile__table-td">{s.beginDate}</td>
+                                <td className="userProfile__table-td">{s.realized === true ? 'Zrealizowano' : 'Zaplanowana'}</td>
                             </tr>   
                         ))}
                     </tbody>
                 </table>
             </div>
 
-            <div className="user__group-roles">
-                <h2 className="user__table-title">Days from last session</h2>
-                <span className="user__table-description">Liczba dni, które minęły od ostatniej zrealizowanej sesji. Powyżej 90 dni generuje żółte ostrzeżenie. Przekroczenie 180 dni czerwonym kolorem informuje o braku aktualności szkolenia!</span>
-                <table className="user__table">
+            <div className="userProfile__group-roles">
+                <h2 className="userProfile__table-title">Days from last session</h2>
+                <span className="userProfile__table-description">Liczba dni, które minęły od ostatniej zrealizowanej sesji. Powyżej 90 dni generuje żółte ostrzeżenie. Przekroczenie 180 dni czerwonym kolorem informuje o braku aktualności szkolenia!</span>
+                <table className="userProfile__table">
                     <thead>
                         <tr>
-                            <th className="user__table-th">Title</th>
-                            <th className="user__table-th">Interval</th>
+                            <th className="userProfile__table-th">Title</th>
+                            <th className="userProfile__table-th">Interval</th>
                         </tr>
                     </thead>
                     <tbody>
                         {daysFromSession.map(s => (
-                            <tr className={`${s.daysSinceLastSession >= 180 ? 'user__table-tr--red' : s.daysSinceLastSession > 90 ? 'user__table-tr--yellow' : 'user__table-tr--green'}`} key={s.id}>
-                                <td className="user__table-td">{s.session}</td>
-                                <td className="user__table-td">ostatnia sesja {s.daysSinceLastSession} dni temu</td>
+                            <tr className={`${s.daysSinceLastSession >= 180 ? 'userProfile__table-tr--red' : s.daysSinceLastSession > 90 ? 'userProfile__table-tr--yellow' : 'userProfile__table-tr--green'}`} key={s.id}>
+                                <td className="userProfile__table-td">{s.session}</td>
+                                <td className="userProfile__table-td">ostatnia sesja {s.daysSinceLastSession} dni temu</td>
                             </tr>   
                         ))}
                     </tbody>

@@ -132,7 +132,7 @@ const User = ({showAlert}) => {
                 <div className="user__group-inputs">
                     <input className="user__input" type="text" value={userFirstName} onChange={handleFirstNameChange}  />
                     <input className="user__input" value={userLastName} onChange={handleLastNameChange}  />
-                    <button onClick={updateUserName} className="user__save">Zapisz</button>
+                    <button onClick={updateUserName} className="button user__update-button">Zapisz</button>
                 </div>
             </div>   
             <div className="user__group-roles">

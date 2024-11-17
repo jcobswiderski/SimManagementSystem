@@ -49,15 +49,16 @@
     display: flex;
     flex-direction: column;
     align-items: start;
-    margin: 20px 0;
+    margin: 10px 0;
     border-bottom: 1px solid black;
     width: 100%;
     transition: transform 0.3s ease, background-color 0.3s ease;
+    padding: 10px;
 }
 
 .inspections__card:hover {
     transform: scale(1.01);
-    background-color: #b8860b;
+    background-color: lightgray;
     cursor: pointer;
 }
 

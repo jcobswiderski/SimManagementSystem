@@ -54,7 +54,6 @@ const Maintenances = () => {
                         </button>
                     )}
                 </>
-
             </div>
 
             {filteredMaintenances.map(m => (

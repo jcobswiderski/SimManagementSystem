@@ -1,16 +1,16 @@
-.user__header {
+.userProfile__header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
 }
 
-.user__close {
+.userProfile__close {
     width: 26px;
     cursor: pointer;
 }
 
-.user {
+.userProfile {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -18,7 +18,7 @@
     margin: 50px;
 }
 
-.user__group {
+.userProfile__group {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -26,12 +26,12 @@
     margin-top: 30px;
 }
 
-.user__image {
+.userProfile__image {
     width: 128px;
     height: auto;
 }
 
-.user__input {
+.userProfile__input {
     border: none;
     border-bottom: 2px solid #000;
     padding: 5px;
@@ -39,46 +39,46 @@
     background-color: #8e9199;
 }
 
-.user__group-inputs {
+.userProfile__group-inputs {
     display: flex;
     flex-direction: column;
     margin-top: 5px;
 }
 
-.user__group-roles {
+.userProfile__group-roles {
     width: 100%;
     display: flex;
     flex-direction: column;
 }
 
-.user__table-title {
+.userProfile__table-title {
     margin-top: 60px;
 }
 
-.user__table {
+.userProfile__table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 15px;
 }
 
-.user__table-th, .user__table-td {
+.userProfile__table-th, .userProfile__table-td {
     padding: 10px;
     border: 1px solid black;
     text-align: center;
     text-align: left;
 }
 
-.user__table-th {
+.userProfile__table-th {
     background-color: lightgray;
 }
 
-.user__table-delete {
+.userProfile__table-delete {
     width: 24px;
     height: auto;
     cursor: pointer;
 }
 
-.user__select {
+.userProfile__select {
     width: 100%;
     margin-top: 20px;
     padding: 10px;
@@ -86,38 +86,38 @@
     border: 2px solid black;
 }
 
-.user__name {
+.userProfile__name {
     margin-top: 15px;
 }
  
-.user__table-tr--green {
+.userProfile__table-tr--green {
     border-bottom: 1px solid green;
     background: linear-gradient(to bottom, transparent, #00ff001a);
 }
 
-.user__table-tr--red {
+.userProfile__table-tr--red {
     border-bottom: px solid red;
     background: linear-gradient(to bottom, transparent, #ff00001a);
 }
 
 
-.user__table-tr--yellow {
+.userProfile__table-tr--yellow {
     border-bottom: px solid yellow;
     background: linear-gradient(to bottom, transparent, rgb(203, 203, 18));
 }
 
-.user__table-tr:hover {
+.userProfile__table-tr:hover {
     background-color: lightgray;
     cursor: pointer;
 }
 
-.user__table-description {
+.userProfile__table-description {
     margin: 7px 0;
     font-style: italic;
 }
 
 @media (min-width: 1024px) {
-    .user {
+    .userProfile {
         display: flex;
         flex-direction: column;
         align-items: start;
@@ -127,25 +127,25 @@
     }
     
 
-    .user__name {
+    .userProfile__name {
         margin-left: 15px;
         margin-top: 0;
     }
 
-    .user__group {
+    .userProfile__group {
         flex-direction: row;
     }
 
-    .user__group-inputs {
+    .userProfile__group-inputs {
         margin-left: 25px;
         margin-top: 0;
     }
 
-    .user__select {
+    .userProfile__select {
         width: 30%;
     }
 
-    .user__button {
+    .userProfile__button {
         width: 20%;
         margin-top: 10px;
     }

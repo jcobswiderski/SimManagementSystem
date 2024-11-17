@@ -8,12 +8,18 @@ const Users = ({userId}) => {
     const {userRoles} = useContext(AuthContext);
     const [loading, setLoading] = useState(true);
     const [users, setUsers] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
         refreshUsers();
     }, []);
     
+    const filteredUsers = users.filter(u =>
+        u.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        u.lastName.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     const navigateToUserManagement = (id) => {
         navigate(`/users/${id}`);
     };
@@ -40,6 +46,13 @@ const Users = ({userId}) => {
     return (
         <div className="users">
             <h1 className="users__title">Użytkownicy</h1>
+            <h2 className="users__info">Wyszukaj użytkownika po imieniu lub nazwisku.</h2>
+            <div className="users__group">
+                <div className="users__search">
+                    <img className="users__search-icon" src="./search.png"></img>
+                    <input className="users__input users__search-input" type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+                </div>
+            </div>
             <table className="users__table">
                 <thead>
                     <tr>
@@ -51,7 +64,7 @@ const Users = ({userId}) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {users.map(user => (
+                    {filteredUsers.map(user => (
                         <tr className="users__table-tr" key={user.id}>
                             <td className="users__table-td">{user.id}</td>
                             <td className="users__table-td">{user.firstName}</td>
