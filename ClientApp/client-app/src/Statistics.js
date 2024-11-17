@@ -1,6 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import './css/statistics.css'
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import StatisticsReport from "./reports/StatisticsReport";
+import MaintenanceReport from "./reports/MaintenanceReport";
 
 const Statistics = ({showAlert}) => {
     const navigate = useNavigate();
@@ -8,10 +11,10 @@ const Statistics = ({showAlert}) => {
     const [endDate, setEndDate] = useState('');
     const [formBeginDate, setFormBeginDate] = useState('');
     const [formEndDate, setFormEndDate] = useState('');
-    const [malfunctionsCount, setMalfunctionsCount] = useState(null);
-    const [workingTime, setWorkingTime] = useState(null);
-    const [sessionTime, setSessionTime] = useState(null);
-    const [sessionCount, setSessionCount] = useState(null);
+    const [malfunctionsCount, setMalfunctionsCount] = useState('');
+    const [workingTime, setWorkingTime] = useState('');
+    const [sessionTime, setSessionTime] = useState('');
+    const [sessionCount, setSessionCount] = useState('');
 
     const handleBeginDateChange = (e) => {
         setBeginDate(e.target.value);
@@ -35,37 +38,29 @@ const Statistics = ({showAlert}) => {
         setFormEndDate(endDate);
 
         try {
-            const response = await fetch(
+            // Usterki
+            const responseMalfunctions = await fetch(
                 `${process.env.REACT_APP_API_URL}/Malfunctions/count?dateBegin=${beginDate}&dateEnd=${endDate}`
             );
+            const dataMalfunctions = await responseMalfunctions.json();
+            setMalfunctionsCount(dataMalfunctions || 0);
 
-            const data = await response.json();
-            setMalfunctionsCount(data);
-        } catch (error) {
-            console.error('Error fetching malfunctions count:', error);
-        }
-
-        try {
-            const response = await fetch(
+            // Czas pracy
+            const responseWorkingTime = await fetch(
                 `${process.env.REACT_APP_API_URL}/SimulatorStates/difference?date1=${beginDate}&date2=${endDate}`
             );
+            const dataWorkingTime = await responseWorkingTime.json();
+            setWorkingTime(dataWorkingTime || 0);
 
-            const data = await response.json();
-            setWorkingTime(data);
-        } catch (error) {
-            console.error('Error fetching working time:', error);
-        }
-
-        try {
-            const response = await fetch(
+            // Sesje
+            const responseSessions = await fetch(
                 `${process.env.REACT_APP_API_URL}/SimulatorSessions/statistics?dateBegin=${beginDate}&dateEnd=${endDate}`
             );
-
-            const data = await response.json();
-            setSessionTime(data.duration);
-            setSessionCount(data.count);
+            const dataSessions = await responseSessions.json();
+            setSessionTime(dataSessions.duration || 0);
+            setSessionCount(dataSessions.count || 0);
         } catch (error) {
-            console.error('Error fetching working time:', error);
+            console.error('Error fetching data:', error);
         }
     }
 
@@ -161,6 +156,25 @@ const Statistics = ({showAlert}) => {
                     </tbody>
                 </table>
             </div>
+
+
+
+            <>
+                {formBeginDate != '' && formEndDate != '' ?
+                    <PDFDownloadLink document={ <StatisticsReport
+                        data={{
+                            formBeginDate,
+                            formEndDate,
+                            malfunctionsCount: malfunctionsCount || 0,
+                            workingTime: workingTime || 0,
+                            sessionTime: sessionTime || 0,
+                            sessionCount: sessionCount || 0}
+                        } /> } fileName={`raport-statystyczny.pdf`}>
+
+                        <button className="button statistics__button">Wygeneruj raport</button>
+                    </PDFDownloadLink> : null
+                }
+            </>
 
         </div>
     );

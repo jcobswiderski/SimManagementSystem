@@ -109,6 +109,10 @@
     margin-top: 30px;
 }
 
+.statistics__button {
+    margin-top: 30px;
+}
+
 @media (min-width: 1024px) {
     .statistics {
         display: flex;
