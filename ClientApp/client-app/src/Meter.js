@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import './css/partials/loading.css';
 import './css/meter.css';
 import './css/partials/button.css';
+import AuthContext from "./AuthContext";
 
 const Meter = ({userId}) => {
+    const {userRoles} = useContext(AuthContext);
     const [loading, setLoading] = useState(true);
     const [simulatorStates, setSimulatorStates] = useState([]);
     const [startup, setStartup] = useState('');
@@ -82,38 +84,48 @@ const Meter = ({userId}) => {
     return (
         <div className="meter">
             <h1 className="meter__title">Meter</h1>
-            <div className="meter__form">
-                <div className="meter__container">
-                    <div className="meter__group">
-                        <span className="meter__label">Startup</span>
-                        <input className="meter__input" type="datetime-local" onChange={handleStartupChange}></input>
+            <>
+                {userRoles.some(role => role === 'Engineer' || role === 'Admin')  && (
+                    <div className="meter__form">
+                        <div className="meter__container">
+                            <div className="meter__group">
+                                <span className="meter__label">Startup</span>
+                                <input className="meter__input" type="datetime-local"
+                                       onChange={handleStartupChange}></input>
+                            </div>
+                            <div className="meter__group meter__group--ml10">
+                                <span className="meter__label">Meter</span>
+                                <input className="meter__input" type="number" onChange={handleMeterChange}></input>
+                            </div>
+                        </div>
+                        <button className="button" onClick={addSimulatorState}>Add</button>
                     </div>
-                    <div className="meter__group meter__group--ml10">
-                        <span className="meter__label">Meter</span>
-                        <input className="meter__input" type="number" onChange={handleMeterChange}></input>
-                    </div>
-                </div>
-                <button className="button" onClick={addSimulatorState}>Add</button>
-            </div>
+                )}
+            </>
+
             <table className="meter__table">
                 <thead>
-                    <tr>
-                        <th className="meter__table-th">ID</th>
-                        <th className="meter__table-th">Startup</th>
-                        <th className="meter__table-th">Meter</th>
-                        <th className="meter__table-th">Action</th>
-                    </tr>
+                <tr>
+                    <th className="meter__table-th">ID</th>
+                    <th className="meter__table-th">Startup</th>
+                    <th className="meter__table-th">Meter</th>
+                    <th className="meter__table-th">Action</th>
+                </tr>
                 </thead>
                 <tbody>
-                    {simulatorStates.map(state => (
-                        <tr className="meter__table-tr" key={state.id}>
-                            <td className="meter__table-td">{state.id}</td>
-                            <td className="meter__table-td">{state.startupTime}</td>
-                            <td className="meter__table-td">{state.meterState}</td>
-                            <td className="meter__table-td">
-                                <img className="meter__table-delete" src="./../clear.png" alt="" onClick={() => deleteSimulatorState(state.id)}/>
-                            </td>
-                        </tr>
+                {simulatorStates.map(state => (
+                    <tr className="meter__table-tr" key={state.id}>
+                        <td className="meter__table-td">{state.id}</td>
+                        <td className="meter__table-td">{state.startupTime}</td>
+                        <td className="meter__table-td">{state.meterState}</td>
+                        <td className="meter__table-td">
+                            <>
+                                {userRoles.some(role => role === 'Engineer' || role === 'Admin')  && (
+                                    <img className="meter__table-delete" src="./../clear.png" alt="" onClick={() => deleteSimulatorState(state.id)}/>
+                                )}
+                            </>
+                        </td>
+                    </tr>
                     ))}
                 </tbody>
             </table>

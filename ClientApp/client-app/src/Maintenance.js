@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './css/partials/loading.css';
 import './css/maintenance.css';
 import './css/partials/button.css';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import MaintenanceReport from './reports/MaintenanceReport';
+import AuthContext from "./AuthContext";
 
 const Maintenance = ({showAlert}) => {
+    const {userRoles} = useContext(AuthContext);
     const {id} = useParams();
     const [loading, setLoading] = useState(true);
     const [maintenance, setMaintenance] = useState(null);
@@ -104,12 +106,21 @@ const Maintenance = ({showAlert}) => {
             <div className="maintenance__buttons">
                 <>
                     {maintenance.realized === true ?
-                        <PDFDownloadLink document={ <MaintenanceReport maintenance={maintenance} /> } fileName={`raport-obsługi-nr${maintenance.id}.pdf`}>
+                        <PDFDownloadLink document={<MaintenanceReport maintenance={maintenance}/>} fileName={`raport-obsługi-nr${maintenance.id}.pdf`}>
                             <button className="button">Wygeneruj raport</button>
-                        </PDFDownloadLink> : <button className="button" onClick={() => updateMaintenanceState()}>Potwierdź wykonanie obsługi</button>
+                        </PDFDownloadLink> : null
                     }
+
+                    {maintenance.realized === false && userRoles.some(role => role === 'Engineer' || role === 'Admin') ?
+                        <button className="button" onClick={() => updateMaintenanceState()}>
+                            Potwierdź wykonanie obsługi
+                        </button> : null
+                    }
+
+                    {userRoles.some(role => role === 'Engineer' || role === 'Admin') && (
+                        <button className="button" onClick={deleteMaintenance}>Usuń obsługę</button>
+                    )}
                 </>
-                <button className="button" onClick={deleteMaintenance}>Usuń obsługę</button>
             </div>
         </div>
     );

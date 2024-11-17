@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './css/partials/loading.css';
 import './css/inspection.css';
 import './css/partials/button.css';
+import AuthContext from "./AuthContext";
 
 const Inspection = ({showAlert}) => {
     const {id} = useParams();
+    const {userRoles} = useContext(AuthContext);
     const [loading, setLoading] = useState(true);
     const [inspection, setInspection] = useState(null);
     const navigate = useNavigate();
@@ -53,7 +55,7 @@ const Inspection = ({showAlert}) => {
         <div className="inspection">
             <div className="inspection__header">
                 <h1 className="inspection__title">Podgląd zadania</h1>
-                <img className="inspection__close" src="./../close.png" alt="go-back-btn" onClick={() => navigate(-1)}/> 
+                <img className="inspection__close" src="./../close.png" alt="go-back-btn" onClick={() => navigate(-1)}/>
             </div>
             <span className="inspection__label">Nazwa:</span>
             <h2 className="inspection__subtitle">{inspection.inspectionType}</h2>
@@ -63,9 +65,13 @@ const Inspection = ({showAlert}) => {
             <div className="inspection__operator">{inspection.operator}</div>
             <span className="inspection__label">Comments:</span>
             <div className="inspection__date">{inspection.notice != null ? inspection.notice : "---"}</div>
-            <button className="button" onClick={deleteInspection}>Usuń obsługę</button>
+            <>
+                {userRoles.some(role => role === 'Engineer' || role === 'Admin')  && (
+                    <button className="button" onClick={deleteInspection}>Usuń obsługę</button>
+                )}
+            </>
         </div>
     );
 }
- 
+
 export default Inspection;

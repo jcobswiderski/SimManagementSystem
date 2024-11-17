@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { useNavigate } from 'react-router-dom';
 import './css/partials/loading.css';
 import './css/malfunctions.css';
 import './css/partials/button.css';
+import AuthContext from "./AuthContext";
 
 const Malfunctions = () => {
+    const {userRoles} = useContext(AuthContext);
     const [loading, setLoading] = useState(true);
     const [malfunctions, setMalfunctions] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
@@ -45,9 +47,14 @@ const Malfunctions = () => {
                     <img className="malfunctions__search-icon" src="./search.png"></img>
                     <input className="malfunctions__input malfunctions__search-input" type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
                 </div>
-                <button className="button" onClick={() => {navigate('/createMalfunction');}}>
-                    Dodaj nową usterkę
-                </button>
+
+                <>
+                    {userRoles.some(role => role === 'Engineer' || role === 'Admin')  && (
+                        <button className="button" onClick={() => {navigate('/createMalfunction');}}>
+                            Dodaj nową usterkę
+                        </button>
+                    )}
+                </>
             </div>
 
             {filteredMalfunctions.map(m => (

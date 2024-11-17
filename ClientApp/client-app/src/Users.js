@@ -4,7 +4,7 @@ import AuthContext from "./AuthContext";
 import './css/partials/loading.css';
 import './css/users.css';
 
-const Users = () => {
+const Users = ({userId}) => {
     const {userRoles} = useContext(AuthContext);
     const [loading, setLoading] = useState(true);
     const [users, setUsers] = useState([]);
@@ -62,10 +62,13 @@ const Users = () => {
                                 : 'Brak'}
                             </td>
                             <td className="users__table-td">
-                                {userRoles.some(role => role === 'Engineer' || role === 'Admin') && (
+                                {userRoles.some(role => role === 'Planer' || role === 'Admin') && (
                                     <button onClick={() => navigateToUserManagement(user.id)} className="users__button">Zarządzaj</button>
                                 )}
-                                <button onClick={() => navigateToUserProfile(user.id)} className="users__button">Profil</button>
+                                {(userRoles.some(role => role === 'Engineer' || role === 'Admin' || role === 'Planer' || role === 'Auditor' || role === 'Instructor') || (user.id == userId)) && (
+                                    <button onClick={() => navigateToUserProfile(user.id)}
+                                            className="users__button">Profil</button>
+                                )}
                             </td>
                         </tr>
                     ))}

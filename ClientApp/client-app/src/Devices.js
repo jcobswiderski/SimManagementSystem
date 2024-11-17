@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { useNavigate } from 'react-router-dom';
 import './css/devices.css';
 import './css/partials/loading.css';
+import AuthContext from "./AuthContext";
 
 const Devices = () => {
+  const {userRoles} = useContext(AuthContext);
   const [devices, setDevices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -69,14 +71,19 @@ const Devices = () => {
           <img className="devices__search-icon" src="./search.png"></img>
           <input className="devices__search-input" type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
         </div>
-        <button className="button" onClick={() => {navigate('/createDevice');}}>
-            Dodaj nowe urządzenie
-        </button>
+
+        <>
+          {userRoles.some(role => role === 'Engineer' || role === 'Admin')  && (
+              <button className="button" onClick={() => {navigate('/createDevice');}}>
+                Dodaj nowe urządzenie
+              </button>
+          )}
+        </>
       </div>
-      
+
       <div className="devices__group">
         <div className="devices__group-items">
-          {filteredDevices.map(device => (
+        {filteredDevices.map(device => (
             <div className="devices__card" key={device.id} onClick={() => navigateToDevice(device.id)}>
               <h2 className="devices__card__title">{device.name}</h2>
               <div className="devices__card__tag">{device.tag}</div>

@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './css/partials/loading.css';
 import './css/malfunction.css';
 import './css/partials/button.css';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import MalfunctionReport from './reports/MalfunctionReport';
+import AuthContext from "./AuthContext";
 
 const Malfunction = ({showAlert}) => {
+    const {userRoles} = useContext(AuthContext);
     const {id} = useParams();
     const [loading, setLoading] = useState(true);
     const [malfunction, setMalfunction] = useState(null);
@@ -202,7 +204,7 @@ const Malfunction = ({showAlert}) => {
             ))}
 
             <>
-                {malfunction.status === false ? (
+                {malfunction.status === false && userRoles.some(role => role === 'Engineer' || role === 'Admin') ? (
                     <div className="malfunction__form">
                         <div className="malfunction__form-label">Opisz podjęte działanie naprawcze</div>
                         <input className="malfunction__form-input" type="text"
@@ -234,8 +236,12 @@ const Malfunction = ({showAlert}) => {
                             <button className="button">Wygeneruj raport</button>
                         </PDFDownloadLink> : null
                     }
+
+                    {userRoles.some(role => role === 'Engineer' || role === 'Admin')  && (
+                        <button className="button" onClick={deleteMalfunction}>Usuń usterkę</button>
+                    )}
                 </>
-                <button className="button" onClick={deleteMalfunction}>Usuń usterkę</button>
+
             </div>
         </div>
     );

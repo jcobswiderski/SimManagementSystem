@@ -136,7 +136,7 @@ const CreatePredefinedSession = ({showAlert}) => {
               <div className="createSimSession__group--row">
                 <div className="createSimSession__group--single">
                   <span className="createSimSession__label">Czas trwania sesji (min)</span> 
-                  <input type="value" className="createSimSession__input" value={sessionDuration} onChange={handleSessionDurationChange}></input>
+                  <input type="number" className="createSimSession__input" value={sessionDuration} onChange={handleSessionDurationChange}></input>
                 </div>
               </div>
             </div>

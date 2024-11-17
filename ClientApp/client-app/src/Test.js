@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './css/test.css';
 import './css/partials/button.css';
 import TestQtgReport from './reports/TestQtgReport';
 import { PDFDownloadLink } from '@react-pdf/renderer';
+import AuthContext from "./AuthContext";
 
 const Test = ({showAlert}) => {
+    const {userRoles} = useContext(AuthContext);
     const {id} = useParams();
     const [test, setTest] = useState(null);
 
@@ -84,7 +86,11 @@ const Test = ({showAlert}) => {
                 <PDFDownloadLink document={ <TestQtgReport test={test} /> } fileName={`raport-testQtg-nr${test.id}.pdf`}>
                     <button className="button">Wygeneruj raport</button>
                 </PDFDownloadLink>
-                <button className="button" onClick={deleteTest}>Usuń test</button>
+                <>
+                    {userRoles.some(role => role === 'Engineer' || role === 'Admin')  && (
+                        <button className="button" onClick={deleteTest}>Usuń test</button>
+                    )}
+                </>
             </div>
         </div>
     );

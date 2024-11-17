@@ -6,7 +6,7 @@ import './css/partials/button.css';
 import AuthContext from "./AuthContext";
 
 const Tests = () => {
-    const {userRoles} = useContext(AuthContext); // przycisk dodwawania tylko dla wybranych, przegladanie dla kazdego
+    const {userRoles} = useContext(AuthContext);
     const [loading, setLoading] = useState(true);
     const [tests, setTests] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');

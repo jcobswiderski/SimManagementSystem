@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { useNavigate } from 'react-router-dom';
 import './css/partials/loading.css';
 import './css/inspections.css';
 import './css/partials/button.css';
+import AuthContext from "./AuthContext";
 
 const Inspections = () => {
+  const {userRoles} = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
   const [inspections, setInspections] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -45,13 +47,17 @@ const Inspections = () => {
           <img className="inspections__search-icon" src="./search.png"></img>
           <input className="inspections__input inspections__search-input" type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
         </div>
-        <button className="button" onClick={() => {navigate('/createInspection');}}>
-          Zaplanuj nową czynność
-        </button>
+        <>
+          {userRoles.some(role => role === 'Engineer' || role === 'Admin')  && (
+              <button className="button" onClick={() => {navigate('/createInspection');}}>
+                Zaplanuj nową czynność
+              </button>
+          )}
+        </>
       </div>
-    
+
       {filteredInspections.map(inspection => (
-        <div className="inspections__card" key={inspection.id} onClick={() => navigateToInspection(inspection.id)}>
+          <div className="inspections__card" key={inspection.id} onClick={() => navigateToInspection(inspection.id)}>
           <div className="inspections__card__title">
             {inspection.inspectionType}
           </div>

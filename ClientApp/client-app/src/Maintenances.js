@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { useNavigate } from 'react-router-dom';
 import './css/partials/loading.css';
 import './css/maintenances.css';
 import './css/partials/button.css';
+import AuthContext from "./AuthContext";
 
 const Maintenances = () => {
+    const {userRoles} = useContext(AuthContext);
     const [loading, setLoading] = useState(true);
     const [maintenances, setMaintenances] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
@@ -45,7 +47,14 @@ const Maintenances = () => {
                     <img className="maintenances__search-icon" src="./search.png"></img>
                     <input className="maintenances__input maintenances__search-input" type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
                 </div>
-                <button className="button" onClick={() => {navigate('/createMaintenance');}}>Zaplanuj nową obsługę</button>
+                <>
+                    {userRoles.some(role => role === 'Engineer' || role === 'Admin')  && (
+                        <button className="button" onClick={() => {navigate('/createMaintenance');}}>
+                            Zaplanuj nową obsługę
+                        </button>
+                    )}
+                </>
+
             </div>
 
             {filteredMaintenances.map(m => (

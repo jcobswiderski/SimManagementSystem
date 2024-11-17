@@ -48,7 +48,7 @@ const SimSessions = () => {
           <img className="simulatorSessions__search-icon" src="./search.png" alt="search-icon"></img>
           <input className="simulatorSessions__input simulatorSessions__search-input" type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
         </div>
-        {userRoles.some(role => role === 'Engineer' || role === 'Admin' || role === 'Planner') && (
+        {userRoles.some(role => role === 'Engineer' || role === 'Admin' || role === 'Planer') && (
             <button className="button" onClick={() => { navigate('/createSimSession'); }}>
               Zaplanuj nową sesję
             </button>

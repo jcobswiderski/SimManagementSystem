@@ -49,7 +49,8 @@ INSERT INTO "Role" (Name) VALUES
 ('Planer'),
 ('Pilot'),
 ('Copilot'),
-('Instructor');
+('Instructor'),
+('Auditor');
 
 INSERT INTO UserRole (User_ID, Role_ID) VALUES
 (1, 1), -- Maxwell Rodgers / Admin
@@ -58,7 +59,7 @@ INSERT INTO UserRole (User_ID, Role_ID) VALUES
 (4, 4), -- Gordon Rowe / Pilot
 (5, 5), -- Sami Charles / Copilot
 (6, 6), -- Brooke Poole / Instructor
-(7, 2), -- Casper Schnerider / Engineer
+(7, 7), -- Casper Schnerider / Auditor
 (8, 4), -- Rohan Nelson / Pilot
 (8, 6), -- Rohan Nelson / Instructor
 (10, 4), -- Pilot
