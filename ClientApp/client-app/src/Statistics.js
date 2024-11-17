@@ -10,6 +10,8 @@ const Statistics = ({showAlert}) => {
     const [formEndDate, setFormEndDate] = useState('');
     const [malfunctionsCount, setMalfunctionsCount] = useState(null);
     const [workingTime, setWorkingTime] = useState(null);
+    const [sessionTime, setSessionTime] = useState(null);
+    const [sessionCount, setSessionCount] = useState(null);
 
     const handleBeginDateChange = (e) => {
         setBeginDate(e.target.value);
@@ -53,13 +55,26 @@ const Statistics = ({showAlert}) => {
         } catch (error) {
             console.error('Error fetching working time:', error);
         }
+
+        try {
+            const response = await fetch(
+                `${process.env.REACT_APP_API_URL}/SimulatorSessions/statistics?dateBegin=${beginDate}&dateEnd=${endDate}`
+            );
+
+            const data = await response.json();
+            setSessionTime(data.duration);
+            setSessionCount(data.count);
+        } catch (error) {
+            console.error('Error fetching working time:', error);
+        }
     }
 
     return (
         <div className="statistics">
             <div className="statistics__header">
                 <h1 className="statistics__title">Statistics</h1>
-                <img className="statistics__close" src="./../../close.png" alt="go-back-btn" onClick={() => navigate(-1)}/>
+                <img className="statistics__close" src="./../../close.png" alt="go-back-btn"
+                     onClick={() => navigate(-1)}/>
             </div>
             <div className="statistics__form">
                 <div className="statistics__container">
@@ -80,16 +95,16 @@ const Statistics = ({showAlert}) => {
                 <span className="statistics__description">Data początku oraz końca branych pod uwagę danych.</span>
                 <table className="statistics__table">
                     <thead>
-                        <tr>
-                            <th className="statistics__table-th">Data początkowa</th>
-                            <th className="statistics__table-th">Data końcowa</th>
-                        </tr>
+                    <tr>
+                        <th className="statistics__table-th">Data początkowa</th>
+                        <th className="statistics__table-th">Data końcowa</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td className="statistics__table-td">{formBeginDate || "---"}</td>
-                            <td className="statistics__table-td">{formEndDate || "---"}</td>
-                        </tr>   
+                    <tr>
+                        <td className="statistics__table-td">{formBeginDate || "---"}</td>
+                        <td className="statistics__table-td">{formEndDate || "---"}</td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
@@ -99,14 +114,14 @@ const Statistics = ({showAlert}) => {
                 <span className="statistics__description">Liczba usterek, które pojawiły się w danym okresie.</span>
                 <table className="statistics__table">
                     <thead>
-                        <tr>
-                            <th className="statistics__table-th">Liczba usterek</th>
-                        </tr>
+                    <tr>
+                        <th className="statistics__table-th">Liczba usterek</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td className="statistics__table-td">{malfunctionsCount || "---"}</td>
-                        </tr>   
+                    <tr>
+                        <td className="statistics__table-td">{malfunctionsCount || "---"}</td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
@@ -116,21 +131,39 @@ const Statistics = ({showAlert}) => {
                 <span className="statistics__description">Czas pracy urządzenia określony w minutach.</span>
                 <table className="statistics__table">
                     <thead>
-                        <tr>
-                            <th className="statistics__table-th">Czas pracy</th>
-                        </tr>
+                    <tr>
+                        <th className="statistics__table-th">Czas pracy [min]</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td className="statistics__table-td">{workingTime || "---"}</td>
-                        </tr>   
+                    <tr>
+                        <td className="statistics__table-td">{workingTime || "---"}</td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
 
-            
+            <div className="statistics__item">
+                <h2 className="statistics__subtitle">Wykorzystanie w celach szkoleniowych</h2>
+                <span className="statistics__description">Czas sesji symulatorowych określony w minutach.</span>
+                <table className="statistics__table">
+                    <thead>
+                    <tr>
+                        <th className="statistics__table-th">Czas sesji symulatorowych [min]</th>
+                        <th className="statistics__table-th">Liczba sesji symulatorowych</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td className="statistics__table-td">{sessionTime || "---"}</td>
+                        <td className="statistics__table-td">{sessionCount || "---"}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
         </div>
     );
 }
- 
+
 export default Statistics;

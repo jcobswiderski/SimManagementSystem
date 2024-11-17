@@ -43,6 +43,30 @@ namespace SimManagementSystem.Controllers
             return Ok(simulatorSession);
         }
 
+        [HttpGet("statistics")]
+        public IActionResult GetSimulatorSessionsStatistics(DateTime dateBegin, DateTime dateEnd)
+        {
+            var simulatorSessions = _context.SimulatorSessions
+                .Where(s => s.BeginDate.Date >= dateBegin.Date && s.EndDate.Date <= dateEnd.Date && s.Realized == true)
+                .Select(s => new
+                {
+                    s.Id,
+                    Duration = s.PredefinedSessionNavigation.Duration,
+                    s.Realized,
+                })
+                .ToList();
+
+            var totalDuration = simulatorSessions.Sum(s => s.Duration);
+            var count = simulatorSessions.Count;
+
+            var result = new { 
+                Duration = totalDuration,
+                Count = count
+            };
+
+            return Ok(result);
+        }
+
         [HttpGet("{id}")]
         public IActionResult GetSimulatorSession(int id)
         {
