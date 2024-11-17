@@ -67,7 +67,7 @@ const Statistics = ({showAlert}) => {
     return (
         <div className="statistics">
             <div className="statistics__header">
-                <h1 className="statistics__title">Statistics</h1>
+                <h1 className="statistics__title">Statystyka</h1>
                 <img className="statistics__close" src="./../../close.png" alt="go-back-btn"
                      onClick={() => navigate(-1)}/>
             </div>

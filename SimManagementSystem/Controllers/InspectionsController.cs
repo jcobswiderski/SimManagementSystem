@@ -22,6 +22,7 @@ namespace SimManagementSystem.Controllers
         public IActionResult GetInspections()
         {
             var inspections = _context.Inspections
+                .OrderByDescending(i => i.Date)
                 .Select(i => new
                 {
                     i.Id,

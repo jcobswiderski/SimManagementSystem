@@ -59,20 +59,20 @@ const App = () => {
         <Routes>
           <Route path="/" element={<StartPage />} />
           <Route path="/start" element={<StartPage showAlert={showAlertWithMessage} />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/calendar" element={<Calendar />} />
+          <Route path="/dashboard" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Auditor', 'Instructor', 'Pilot', 'Copilot', 'Planer']}><Dashboard /></ProtectedRoute>} />
+          <Route path="/calendar" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Auditor', 'Instructor', 'Pilot', 'Copilot', 'Planer']}><Calendar /></ProtectedRoute>} />
           <Route path="/devices" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Auditor']}><Devices /></ProtectedRoute>} />
           <Route path="/devices/:id" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Auditor']}><Device /></ProtectedRoute>} />
           <Route path="/createDevice" element={<ProtectedRoute roles={['Admin', 'Engineer']}><CreateDevice showAlert={showAlertWithMessage} /></ProtectedRoute>} />
           <Route path="/inspections" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Auditor']}><Inspections /></ProtectedRoute>} />
           <Route path="/inspections/:id" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Auditor']}><Inspection showAlert={showAlertWithMessage}  /></ProtectedRoute>} />
           <Route path="/createInspection" element={<ProtectedRoute roles={['Admin', 'Engineer']}><CreateInspection userId={userId} showAlert={showAlertWithMessage} /></ProtectedRoute>} />
-          <Route path="/users" element={<Users userId={userId} />} />
+          <Route path="/users" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Auditor', 'Instructor', 'Pilot', 'Copilot', 'Planer']}><Users userId={userId} /></ProtectedRoute>} />
           <Route path="/users/:id" element={<ProtectedRoute roles={['Admin', 'Planer']}><User showAlert={showAlertWithMessage} /></ProtectedRoute>} />
           <Route path="/users/:id/profile" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Planer', 'Instructor', 'Auditor', 'Pilot', 'Copilot']}><UserProfile /></ProtectedRoute>} />
-          <Route path="/meter" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Auditor']}><Meter userId={userId} /></ProtectedRoute>} />
-          <Route path="/simSessions" element={<SimSessions />} />
-          <Route path="/simSessions/:id" element={<SimSession showAlert={showAlertWithMessage} />} />
+          <Route path="/meter" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Auditor']}><Meter userId={userId} showAlert={showAlertWithMessage} /></ProtectedRoute>} />
+          <Route path="/simSessions" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Auditor', 'Instructor', 'Pilot', 'Copilot', 'Planer']}><SimSessions/></ProtectedRoute>} />
+          <Route path="/simSessions/:id" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Auditor', 'Instructor', 'Pilot', 'Copilot', 'Planer']}><SimSession showAlert={showAlertWithMessage} /></ProtectedRoute>} />
           <Route path="/createSimSession" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Planer']}><CreateSimSession showAlert={showAlertWithMessage} /></ProtectedRoute>} />
           <Route path="/createPredefinedSession" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Planer']}><CreatePredefinedSession showAlert={showAlertWithMessage} /></ProtectedRoute>} />
           <Route path="/malfunctions" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Auditor', 'Instructor']}><Malfunctions /></ProtectedRoute>} />

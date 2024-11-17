@@ -22,6 +22,7 @@ namespace SimManagementSystem.Controllers
         public IActionResult GetSimulatorStates()
         {
             var simulatorStates = _context.SimulatorStates
+                .OrderByDescending(s => s.StartupTime)
                 .Select(s => new
                 {
                     s.Id,

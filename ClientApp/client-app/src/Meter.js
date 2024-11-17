@@ -4,7 +4,7 @@ import './css/meter.css';
 import './css/partials/button.css';
 import AuthContext from "./AuthContext";
 
-const Meter = ({userId}) => {
+const Meter = ({userId, showAlert}) => {
     const {userRoles} = useContext(AuthContext);
     const [loading, setLoading] = useState(true);
     const [simulatorStates, setSimulatorStates] = useState([]);
@@ -34,7 +34,22 @@ const Meter = ({userId}) => {
         setMeter(e.target.value);
     };
 
+    const getLastSimulatorState = () => {
+        if(simulatorStates.length === 0) {
+            return null;
+        }
+        const lastState = simulatorStates[simulatorStates.length - 1];
+        return lastState.meterState;
+    }
+
     const addSimulatorState = async () => {
+        const lastMeterValue = getLastSimulatorState();
+
+        if (lastMeterValue !== null && meter <= lastMeterValue) {
+            showAlert('Próba wprowadzenia licznika mniejszego niż ostatni wprowadzony!', 'error');
+            return;
+        }
+
         try {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/SimulatorStates`, {
                 method: 'POST',
@@ -50,8 +65,9 @@ const Meter = ({userId}) => {
 
             if (response.ok) {
                 refreshSimulatorStates();
+                showAlert('Dodano nowy stan licznika!', 'success');
             } else {
-                alert('Failed to add state.');
+                showAlert('Nie udało się dodać nowego stanu!', 'error');
             }
         } catch (error) {
             console.error('Error adding state:', error);
@@ -69,8 +85,9 @@ const Meter = ({userId}) => {
 
             if (response.ok) {
                 refreshSimulatorStates();
+                showAlert('Pomyślnie usunięto stan licznika!', 'success');
             } else {
-                alert('Failed to remove state.');
+                showAlert('Nie udało się usunąć stanu!', 'error');
             }
         } catch (error) {
             console.error('Error removing state:', error);
@@ -83,7 +100,7 @@ const Meter = ({userId}) => {
 
     return (
         <div className="meter">
-            <h1 className="meter__title">Meter</h1>
+            <h1 className="meter__title">Licznik</h1>
             <>
                 {userRoles.some(role => role === 'Engineer' || role === 'Admin')  && (
                     <div className="meter__form">

@@ -124,7 +124,7 @@ const User = ({showAlert}) => {
     return (
         <div className="user">
             <div className="user__header">
-                <h1 className="user__title">Account</h1>
+                <h1 className="user__title">Zarządzanie użytkownikiem</h1>
                 <img className="user__close" src="./../close.png" alt="go-back-btn" onClick={() => navigate(-1)}/> 
             </div>
             <div className="user__group">

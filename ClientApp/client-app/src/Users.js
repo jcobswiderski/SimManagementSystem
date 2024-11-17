@@ -39,7 +39,7 @@ const Users = ({userId}) => {
 
     return (
         <div className="users">
-            <h1 className="users__title">Users</h1>
+            <h1 className="users__title">Użytkownicy</h1>
             <table className="users__table">
                 <thead>
                     <tr>
