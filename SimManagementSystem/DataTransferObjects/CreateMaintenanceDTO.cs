@@ -6,8 +6,6 @@ namespace SimManagementSystem.DataTransferObjects
     {
         public int Type { get; set; }
 
-        public int Executor { get; set; }
-
         public DateTime Date { get; set; }
     }
 }

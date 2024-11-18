@@ -63,7 +63,7 @@ const SimSessions = () => {
           <div className="simulatorSessions__card-header">
             <div className="simulatorSessions__card-abbreviation">[{s.abbreviation}]</div>
             <div className="simulatorSessions__card-title">{s.name}</div>
-            <div className="simulatorSessions__card-state">Stan: {s.realized === true ? <span class="simulatorSessions__card--done">zrealizowana</span> : <span class="simulatorSessions__card--waiting">zaplanowana</span> }</div>
+            <div className="simulatorSessions__card-state">Stan: {s.realized === true ? <span className="simulatorSessions__card--done">zrealizowana</span> : <span className="simulatorSessions__card--waiting">zaplanowana</span> }</div>
           </div>
           
           <div className="simulatorSessions__card-content">

@@ -81,7 +81,7 @@ const App = () => {
           <Route path="/malfunctions/:id" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Auditor', 'Instructor']}><Malfunction showAlert={showAlertWithMessage} /></ProtectedRoute>} />
           <Route path="/createMalfunction" element={<ProtectedRoute roles={['Admin', 'Engineer']}><CreateMalfunction userId={userId} showAlert={showAlertWithMessage}/></ProtectedRoute>} />
           <Route path="/maintenances" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Auditor']}><Maintenances /></ProtectedRoute>} />
-          <Route path="/maintenances/:id" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Auditor']}><Maintenance showAlert={showAlertWithMessage} /></ProtectedRoute>} />
+          <Route path="/maintenances/:id" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Auditor']}><Maintenance userId={userId} showAlert={showAlertWithMessage} /></ProtectedRoute>} />
           <Route path="/createMaintenance" element={<ProtectedRoute roles={['Admin', 'Engineer']}><CreateMaintenance userId={userId} showAlert={showAlertWithMessage}/></ProtectedRoute>} />
           <Route path="/tests" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Auditor']}><Tests /></ProtectedRoute>} />
           <Route path="/tests/:id" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Auditor']}><Test showAlert={showAlertWithMessage}/></ProtectedRoute>} />

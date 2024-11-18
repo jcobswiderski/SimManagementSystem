@@ -9,13 +9,13 @@ public partial class Maintenance
 
     public int Type { get; set; }
 
-    public int Executor { get; set; }
+    public int? Executor { get; set; }
 
     public DateTime Date { get; set; }
 
     public bool Realized { get; set; }
 
-    public virtual User ExecutorNavigation { get; set; } = null!;
+    public virtual User? ExecutorNavigation { get; set; }
 
     public virtual MaintenanceType TypeNavigation { get; set; } = null!;
 }

@@ -130,7 +130,6 @@ public partial class SimManagementSystemContext : DbContext
 
             entity.HasOne(d => d.ExecutorNavigation).WithMany(p => p.Maintenances)
                 .HasForeignKey(d => d.Executor)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Maintenance_User");
 
             entity.HasOne(d => d.TypeNavigation).WithMany(p => p.Maintenances)

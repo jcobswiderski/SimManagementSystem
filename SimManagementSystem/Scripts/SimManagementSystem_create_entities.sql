@@ -23,7 +23,7 @@ CREATE TABLE Inspection_Type (
 CREATE TABLE Maintenance (
     ID int identity(1,1)  NOT NULL,
     Type int  NOT NULL,
-    Executor int  NOT NULL,
+    Executor int  NULL,
     Date datetime  NOT NULL,
     Realized bit  NOT NULL,
     CONSTRAINT Maintenance_pk PRIMARY KEY  (ID)

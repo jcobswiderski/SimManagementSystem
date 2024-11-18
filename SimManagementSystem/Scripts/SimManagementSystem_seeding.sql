@@ -25,7 +25,10 @@ INSERT INTO "Inspection_Type" (Name) VALUES
 ('Naprawa urządzenia'),
 ('Wymiana baterii CMOS'),
 ('Wymiana filtrów chłodniczych'),
-('Wykonanie kopii zapasowej');
+('Wykonanie kopii zapasowej'),
+('Przegląd klimatyzacji'),
+('Przegląd systemów alarmowych'),
+('Przegląd systemów przeciwpożarowych');
 
 INSERT INTO "User" (FirstName, LastName, Login, Password, Salt) VALUES
 ('Maxwell', 'Rodgers', 'mrodgers', 'kf/dwpqPjMk5hNZOlP7/5aomgQqMrsGYzD3X+BcTk5U=', 'EsYJwGkRd6ortKIiH1bjRQ=='),

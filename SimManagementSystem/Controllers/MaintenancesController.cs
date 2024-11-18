@@ -58,7 +58,6 @@ namespace SimManagementSystem.Controllers
             var maintenance = new Maintenance
             {
                 Type = newMaintenance.Type,
-                Executor = newMaintenance.Executor,
                 Date = newMaintenance.Date,
                 Realized = false
             };
@@ -86,7 +85,7 @@ namespace SimManagementSystem.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateMaintenanceState(int id)
+        public IActionResult UpdateMaintenanceState(int id, [FromBody] EditMaintenanceDTO maintenanceToEdit)
         {
             var maintenance = _context.Maintenances.FirstOrDefault(m => m.Id == id);
             if (maintenance == null)
@@ -95,6 +94,7 @@ namespace SimManagementSystem.Controllers
             }
 
             maintenance.Realized = true;
+            maintenance.Executor = maintenanceToEdit.Executor;
 
             _context.SaveChanges();
 

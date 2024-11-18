@@ -41,7 +41,6 @@ const CreateMaintenance = ({userId, showAlert}) => {
                 },
                 body: JSON.stringify({
                     type: maintenanceTypeId,
-                    executor: userId,
                     date: maintenanceDate
                 }),
             });

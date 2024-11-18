@@ -6,8 +6,9 @@ import './css/partials/button.css';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import MaintenanceReport from './reports/MaintenanceReport';
 import AuthContext from "./AuthContext";
+import user from "./User";
 
-const Maintenance = ({showAlert}) => {
+const Maintenance = ({userId, showAlert}) => {
     const {userRoles} = useContext(AuthContext);
     const {id} = useParams();
     const [loading, setLoading] = useState(true);
@@ -37,7 +38,7 @@ const Maintenance = ({showAlert}) => {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
-                }
+                },
             });
 
             const responseBody = await response.text();
@@ -61,6 +62,9 @@ const Maintenance = ({showAlert}) => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                body: JSON.stringify({
+                    executor: userId,
+                })
             });
 
             if (response.ok) {
