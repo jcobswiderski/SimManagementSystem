@@ -42,14 +42,22 @@
     padding-top: 5px;
 }
 
-.dashboard__statistics {
+.dashboard__statistics-card {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 90px;
+    margin: 40px 10px;
     box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
     padding: 10px;
+    min-width: 270px;
+}
+
+.dashboard__statistics {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 .color-red {

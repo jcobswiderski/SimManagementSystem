@@ -98,7 +98,7 @@ const UserProfile = () => {
             </div>
 
             <div className="userProfile__group-roles">
-                <h2 className="userProfile__table-title">userProfile sessions</h2>
+                <h2 className="userProfile__table-title">User sessions</h2>
                 <table className="userProfile__table">
                     <thead>
                         <tr>

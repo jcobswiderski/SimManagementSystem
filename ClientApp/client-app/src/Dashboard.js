@@ -9,6 +9,8 @@ const Dashboard = () => {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
     const [malfunctionsCount, setMalfunctionsCount] = useState(null);
+    const [sessionsCount, setSessionsCount] = useState(null);
+    const [maintenancesCount, setMaintenancesCount] = useState(null);
 
     useEffect(() => {
         refreshData();
@@ -19,6 +21,14 @@ const Dashboard = () => {
             const responseMalfunctions = await fetch(`${process.env.REACT_APP_API_URL}/Malfunctions/count/unsolved`);
             const dataMalfunctions = await responseMalfunctions.json();
             setMalfunctionsCount(dataMalfunctions);
+
+            const responseSessions = await fetch(`${process.env.REACT_APP_API_URL}/SimulatorSessions/count/planned`);
+            const dataSessions = await responseSessions.json();
+            setSessionsCount(dataSessions);
+
+            const responseMaintenances = await fetch(`${process.env.REACT_APP_API_URL}/Maintenances/count/incomplete`);
+            const dataMaintenances = await responseMaintenances.json();
+            setMaintenancesCount(dataMaintenances);
 
             setLoading(false);
         } catch (error) {
@@ -101,13 +111,35 @@ const Dashboard = () => {
                 )}
 
             </div>
+
+
             <div className="dashboard__statistics">
-                <span
-                    className={`dashboard__statistics-malfunctions ${malfunctionsCount > 0 ? 'color-red' : 'color-green'}`}>
-                    {malfunctionsCount}
-                </span>
-                <h2 className="dashboard__statistics-title">Liczba nierozwiązanych usterek</h2>
+                <div className="dashboard__statistics-card">
+                    <span
+                        className={`dashboard__statistics-malfunctions ${malfunctionsCount > 0 ? 'color-red' : 'color-green'}`}>
+                        {malfunctionsCount}
+                    </span>
+                    <h2 className="dashboard__statistics-title">Liczba nierozwiązanych usterek</h2>
+                </div>
+
+                <div className="dashboard__statistics-card">
+                    <span
+                        className={`dashboard__statistics-malfunctions ${sessionsCount == 0 ? 'color-red' : 'color-green'}`}>
+                        {sessionsCount}
+                    </span>
+                    <h2 className="dashboard__statistics-title">Liczba zaplanowanych sesji</h2>
+                </div>
+
+                <div className="dashboard__statistics-card">
+                    <span
+                        className={`dashboard__statistics-malfunctions ${maintenancesCount > 0 ? 'color-red' : 'color-green'}`}>
+                        {maintenancesCount}
+                    </span>
+                    <h2 className="dashboard__statistics-title">Liczba zaległych obsług</h2>
+                </div>
             </div>
+
+
         </div>
     );
 }

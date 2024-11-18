@@ -34,6 +34,16 @@ namespace SimManagementSystem.Controllers
             return Ok(maintenances);
         }
 
+        [HttpGet("count/incomplete")]
+        public IActionResult GetIncompleteMaintenancesCount()
+        {
+            var maintenancesCount = _context.Maintenances
+                .Where(m => m.Date <= DateTime.Now && m.Realized == false)
+                .Count();
+
+            return Ok(maintenancesCount);
+        }
+
         [HttpGet("{id}")]
         public IActionResult GetMaintenance(int id)
         {

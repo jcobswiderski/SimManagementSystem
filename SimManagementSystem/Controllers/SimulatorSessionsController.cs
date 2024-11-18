@@ -43,6 +43,16 @@ namespace SimManagementSystem.Controllers
             return Ok(simulatorSession);
         }
 
+        [HttpGet("count/planned")]
+        public IActionResult GetPlannedSimulatorSessionsCount()
+        {
+            var simulatorSessionCount = _context.SimulatorSessions
+                .Where(s => s.Realized == false)
+                .Count();
+
+            return Ok(simulatorSessionCount);
+        }
+
         [HttpGet("statistics")]
         public IActionResult GetSimulatorSessionsStatistics(DateTime dateBegin, DateTime dateEnd)
         {
