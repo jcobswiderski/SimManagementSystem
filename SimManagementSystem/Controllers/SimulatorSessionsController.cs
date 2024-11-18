@@ -67,6 +67,19 @@ namespace SimManagementSystem.Controllers
             return Ok(result);
         }
 
+        [HttpGet("checkConflict")]
+        public IActionResult CheckSimSessionConflict(DateTime dateBegin, int duration)
+        {
+            var dateEnd = dateBegin.AddMinutes(duration);
+
+            var conflictingSessions = _context.SimulatorSessions
+                .Where(s => s.BeginDate < dateEnd && s.EndDate > dateBegin)
+                .Count();
+
+            return Ok(conflictingSessions);
+        }
+
+
         [HttpGet("{id}")]
         public IActionResult GetSimulatorSession(int id)
         {

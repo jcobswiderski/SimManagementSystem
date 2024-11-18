@@ -59,7 +59,26 @@ const CreateSimSession = ({showAlert}) => {
       setBeginDate(e.target.value);
     };
 
+    const checkIfConflictOccurs = async () => {
+        const duration = predefinedSessions[predefinedSessionId].duration;
+        try {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/SimulatorSessions/checkConflict?dateBegin=${beginDate}&duration=${duration}`);
+            const data = await response.json();
+            return data || 0;
+        } catch (error) {
+            console.error('Error fetching conflict sessions:', error);
+        }
+    }
+
     const addSimulatorSession = async () => {
+        const isConflict = await checkIfConflictOccurs();
+
+        if(isConflict && isConflict > 0)
+        {
+            showAlert('Niepowodzenie! W tym czasie zaplanowano inną sesję!', 'error');
+            return;
+        }
+
         try {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/SimulatorSessions`, {
                 method: 'POST',
