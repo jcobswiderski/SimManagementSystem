@@ -4,6 +4,7 @@ import AuthContext, { AuthProvider } from './AuthContext';
 import ProtectedRoute from './ProtectedRoute';
 import Alert from './Alert';
 import Navbar from './Navbar';
+import Register from "./Register";
 import StartPage from './StartPage';
 import NotFound from './NotFound';
 import Unauthorized from './Unauthorized';
@@ -59,6 +60,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<StartPage />} />
           <Route path="/start" element={<StartPage showAlert={showAlertWithMessage} />} />
+          <Route path="/register" element={<Register showAlert={showAlertWithMessage} />} />
           <Route path="/dashboard" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Auditor', 'Instructor', 'Pilot', 'Copilot', 'Planer']}><Dashboard /></ProtectedRoute>} />
           <Route path="/calendar" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Auditor', 'Instructor', 'Pilot', 'Copilot', 'Planer']}><Calendar /></ProtectedRoute>} />
           <Route path="/devices" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Auditor']}><Devices /></ProtectedRoute>} />

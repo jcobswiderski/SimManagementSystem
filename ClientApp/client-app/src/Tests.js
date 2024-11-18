@@ -60,7 +60,7 @@ const Tests = () => {
 
                     <div className="tests__card-header">
                         <div className="tests__card-title">{t.title}</div>
-                        <div className="tests__card-state">Wynik: {t.isPassed === true ? <span class="tests__card--done">pozytywny</span> : <span class="tests__card--waiting">negatywny</span> }</div>
+                        <div className="tests__card-state">Wynik: {t.isPassed === true ? <span className="tests__card--done">pozytywny</span> : <span class="tests__card--waiting">negatywny</span> }</div>
                     </div>
 
                     <div className="tests__card-content">

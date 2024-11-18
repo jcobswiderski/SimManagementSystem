@@ -85,6 +85,7 @@ const Navbar = () => {
         ) : (
           <>
             <Link to="/start"><li className="navbar__item">Login</li></Link>
+            <Link to="/register"><li className="navbar__item">Register</li></Link>
           </>
         )}
       </ul>

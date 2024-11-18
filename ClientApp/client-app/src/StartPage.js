@@ -80,7 +80,7 @@ const StartPage = ({showAlert}) => {
         </div>
 
         <div className='login__wrap'>
-          <button className='login__button' type="submit">Zaloguj się</button>
+          <button className='button login__button' type="submit">Zaloguj się</button>
         </div>
         
       </form>
