@@ -52,6 +52,16 @@ namespace SimManagementSystem.Controllers
             return Ok(malfunctionCount);
         }
 
+        [HttpGet("count/unsolved")]
+        public IActionResult GetUnsolvedMalfunctionsCount()
+        {
+            int malfunctionCount = _context.Malfunctions
+                .Where(m => m.Status == false)
+                .Count();
+
+            return Ok(malfunctionCount);
+        }
+
 
         [HttpGet("{id}")]
         public IActionResult GetMalfunction(int id)

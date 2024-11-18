@@ -39,6 +39,32 @@
     padding-top: 5px;
 }
 
+.dashboard__statistics {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 90px;
+    box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
+    padding: 10px;
+}
+
+.color-red {
+    color: darkred;
+}
+
+.color-green {
+    color: green;
+}
+
+.dashboard__statistics-title {
+    font-size: 18px;
+}
+
+.dashboard__statistics-malfunctions {
+    font-size: 36px;
+}
+
 @media (min-width: 1024px) {
     .dashboard {
         /* width: 100%; */

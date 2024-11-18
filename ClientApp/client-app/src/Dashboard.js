@@ -1,11 +1,34 @@
-import React, { useContext } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import AuthContext from './AuthContext';
+import './css/partials/loading.css';
 import './css/dashboard.css';
 
 const Dashboard = () => {
     const { userRoles } = useContext(AuthContext);
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
+    const [malfunctionsCount, setMalfunctionsCount] = useState(null);
+
+    useEffect(() => {
+        refreshData();
+    }, []);
+
+    const refreshData = async () => {
+        try {
+            const responseMalfunctions = await fetch(`${process.env.REACT_APP_API_URL}/Malfunctions/count/unsolved`);
+            const dataMalfunctions = await responseMalfunctions.json();
+            setMalfunctionsCount(dataMalfunctions);
+
+            setLoading(false);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
+    if (loading) {
+        return <div className="loading">Loading...</div>;
+    }
 
     return (
         <div className="dashboard">
@@ -77,6 +100,13 @@ const Dashboard = () => {
                     </div>
                 )}
 
+            </div>
+            <div className="dashboard__statistics">
+                <span
+                    className={`dashboard__statistics-malfunctions ${malfunctionsCount > 0 ? 'color-red' : 'color-green'}`}>
+                    {malfunctionsCount}
+                </span>
+                <h2 className="dashboard__statistics-title">Liczba nierozwiązanych usterek</h2>
             </div>
         </div>
     );
