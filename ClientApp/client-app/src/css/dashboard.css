@@ -18,7 +18,9 @@
 }
 
 .dashboard__card {
-    width: 200px;
+    flex: 0 0 calc(50% - 20px);
+    width: auto;
+    min-width: 150px;
     height: 200px;
     border: 3px solid black;
     display: flex;
@@ -26,6 +28,7 @@
     justify-content: center;
     align-items: center;
     margin: 10px;
+    box-sizing: border-box;
 }
 
 .dashboard__card:hover {
@@ -70,5 +73,17 @@
         /* width: 100%; */
         align-items: start;
         justify-content: start;
+    }
+}
+
+@media (min-width: 600px) {
+    .dashboard__card {
+        flex: 0 0 calc(50% - 20px);
+    }
+}
+
+@media (min-width: 1170px) {
+    .dashboard__card {
+        flex: 0 0 calc(20% - 20px);
     }
 }
