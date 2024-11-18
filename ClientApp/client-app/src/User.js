@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import './css/user.css';
 import './css/partials/button.css';
 
-const User = ({showAlert}) => {
+const User = ({userId, showAlert}) => {
     const {id} = useParams();
     const [user, setUser] = useState(null);
     const [userFirstName, setUserFirstName] = useState(null);
@@ -26,6 +26,29 @@ const User = ({showAlert}) => {
             setUserLastName(data.lastName);
         } catch (error) {
             console.error('Error fetching user:', error);
+        }
+    };
+
+    const deleteUser = async () => {
+        try {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/Users/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            const responseBody = await response.text();
+            console.log(responseBody);
+
+            if (response.ok) {
+                showAlert('Usunięto użytkownika!', 'success');
+                navigate(-1);
+            } else {
+                showAlert('Nie udało się usunąć użytkownika!', 'error');
+            }
+        } catch (error) {
+            console.error('Error removing user:', error);
         }
     };
 
@@ -166,6 +189,12 @@ const User = ({showAlert}) => {
                 </select>
                 <button className="button user__button" onClick={assignNewRole}>Nadaj nową rolę</button>
             </div>
+            <>
+                {id !== userId ?
+                    <button onClick={deleteUser} className="button">Usuń użytkownika</button> : null
+                }
+            </>
+
         </div>
     );
 }
