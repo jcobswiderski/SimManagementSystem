@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom'; 
-import './css/userProfile.css';
+import { useParams, useNavigate } from 'react-router-dom';
 import './css/partials/button.css';
+import './css/userProfile.css';
 import {PDFDownloadLink} from "@react-pdf/renderer";
 import WorktimeSummaryReport from "./reports/WorktimeSummaryReport";
 import MaintenanceReport from "./reports/MaintenanceReport";
 
-const UserProfile = () => {
+const UserProfile = ({userId}) => {
     const {id} = useParams();
     const [user, setUserProfile] = useState(null);
     const [userSessions, setUserSessions] = useState([]);
@@ -92,7 +92,15 @@ const UserProfile = () => {
             <div className="userProfile__group">
                 <img className="userProfile__image" src="./../../user.png" alt="" />
                 <h2 className="userProfile__name">{user.firstName} {user.lastName} </h2>
-            </div>   
+                <>
+                    {userId == id ?
+                        <button className="button userProfile__change" onClick={() => navigate(`changePassword`)}>
+                            Change password
+                        </button> : null}
+                </>
+            </div>
+
+
 
             <div className="userProfile__group-roles">
                 <h2 className="userProfile__table-title">User roles</h2>

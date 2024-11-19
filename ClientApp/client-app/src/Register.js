@@ -27,7 +27,6 @@ const Register = ({showAlert}) => {
         return upperCase && specialChar && isValidLength;
     };
 
-
     const handleSubmit = async (event) => {
         event.preventDefault();
 

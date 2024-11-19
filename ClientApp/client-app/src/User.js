@@ -140,6 +140,28 @@ const User = ({userId, showAlert}) => {
         }
     };
 
+    const resetPassword = async () => {
+        try {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/Users/${id}/resetPassword`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                alert("Nowe tymczasowe hasło dla użytkownika: " + data.tempPassword);
+                showAlert('Pomyślnie zresetowano hasło!', 'success');
+            } else {
+                showAlert('Nie udało się zresetować hasła użytkownika!', 'error');
+            }
+        } catch (error) {
+            console.error('Error reseting password:', error);
+        }
+    };
+
     if (!user) {
         return <div>Loading...</div>;
     }
@@ -147,56 +169,57 @@ const User = ({userId, showAlert}) => {
     return (
         <div className="user">
             <div className="user__header">
-                <h1 className="user__title">Zarządzanie użytkownikiem</h1>
-                <img className="user__close" src="./../close.png" alt="go-back-btn" onClick={() => navigate(-1)}/> 
+                <h1 className="user__title">User management</h1>
+                <img className="user__close" src="./../close.png" alt="go-back-btn" onClick={() => navigate(-1)}/>
             </div>
             <div className="user__group">
-                <img className="user__image" src="./../user.png" alt="" />
+                <img className="user__image" src="./../user.png" alt=""/>
                 <div className="user__group-inputs">
-                    <input className="user__input" type="text" value={userFirstName} onChange={handleFirstNameChange}  />
-                    <input className="user__input" value={userLastName} onChange={handleLastNameChange}  />
-                    <button onClick={updateUserName} className="button user__update-button">Zapisz</button>
+                    <input className="user__input" type="text" value={userFirstName} onChange={handleFirstNameChange}/>
+                    <input className="user__input" value={userLastName} onChange={handleLastNameChange}/>
+                    <button onClick={updateUserName} className="button user__update-button">Save</button>
                 </div>
-            </div>   
+            </div>
             <div className="user__group-roles">
                 <h2 className="user__table-title">User roles</h2>
                 <table className="user__table">
                     <thead>
-                        <tr>
-                            <th className="user__table-th">ID</th>
-                            <th className="user__table-th">Role</th>
-                            <th className="user__table-th">Action</th>
-                        </tr>
+                    <tr>
+                        <th className="user__table-th">ID</th>
+                        <th className="user__table-th">Role</th>
+                        <th className="user__table-th">Action</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        {user.userRoles.map(role => (
-                            <tr className="user__table-tr" key={role.id}>
-                                <td className="user__table-td">{role.id}</td>
-                                <td className="user__table-td">{role.name}</td>
-                                <td className="user__table-td">
-                                    <img className="user__table-delete" src="./../clear.png" alt="" onClick={() => deleteRole(role.id)}/>
-                                </td>
-                            </tr>   
-                        ))}
+                    {user.userRoles.map(role => (
+                        <tr className="user__table-tr" key={role.id}>
+                            <td className="user__table-td">{role.id}</td>
+                            <td className="user__table-td">{role.name}</td>
+                            <td className="user__table-td">
+                                <img className="user__table-delete" src="./../clear.png" alt=""
+                                     onClick={() => deleteRole(role.id)}/>
+                            </td>
+                        </tr>
+                    ))}
                     </tbody>
                 </table>
                 <select className="user__select" value={roleToAssignId} onChange={handleRoleChange}>
-                        {rolesList.map(r => (
-                            <option className="user__option" key={r.id} value={r.id}>
-                                {r.name}
-                            </option>
-                        ))}
+                    {rolesList.map(r => (
+                        <option className="user__option" key={r.id} value={r.id}>
+                            {r.name}
+                        </option>
+                    ))}
                 </select>
-                <button className="button user__button" onClick={assignNewRole}>Nadaj nową rolę</button>
+                <button className="button user__button" onClick={assignNewRole}>Assign role</button>
             </div>
+            <button className="button user__button-secondary" onClick={resetPassword}>Reset password</button>
             <>
                 {id !== userId ?
-                    <button onClick={deleteUser} className="button">Usuń użytkownika</button> : null
+                    <button onClick={deleteUser} className="button user__button-secondary">Delete user</button> : null
                 }
             </>
-
         </div>
     );
 }
- 
+
 export default User;

@@ -35,6 +35,7 @@ import "./css/app.css";
 import Maintenance from './Maintenance';
 import CreatePredefinedSession from './CreatePredefinedSession';
 import Statistics from './Statistics';
+import ChangePassword from "./ChangePassword";
 
 
 
@@ -71,7 +72,8 @@ const App = () => {
           <Route path="/createInspection" element={<ProtectedRoute roles={['Admin', 'Engineer']}><CreateInspection userId={userId} showAlert={showAlertWithMessage} /></ProtectedRoute>} />
           <Route path="/users" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Auditor', 'Instructor', 'Pilot', 'Copilot', 'Planer']}><Users userId={userId} /></ProtectedRoute>} />
           <Route path="/users/:id" element={<ProtectedRoute roles={['Admin', 'Planer']}><User userId={userId} showAlert={showAlertWithMessage} /></ProtectedRoute>} />
-          <Route path="/users/:id/profile" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Planer', 'Instructor', 'Auditor', 'Pilot', 'Copilot']}><UserProfile /></ProtectedRoute>} />
+          <Route path="/users/:id/profile" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Planer', 'Instructor', 'Auditor', 'Pilot', 'Copilot']}><UserProfile userId={userId} /></ProtectedRoute>} />
+          <Route path="/users/:id/profile/changePassword" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Auditor', 'Instructor', 'Pilot', 'Copilot', 'Planer']}><ChangePassword userId={userId} showAlert={showAlertWithMessage} /></ProtectedRoute>} />
           <Route path="/meter" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Auditor']}><Meter userId={userId} showAlert={showAlertWithMessage} /></ProtectedRoute>} />
           <Route path="/simSessions" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Auditor', 'Instructor', 'Pilot', 'Copilot', 'Planer']}><SimSessions/></ProtectedRoute>} />
           <Route path="/simSessions/:id" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Auditor', 'Instructor', 'Pilot', 'Copilot', 'Planer']}><SimSession showAlert={showAlertWithMessage} /></ProtectedRoute>} />

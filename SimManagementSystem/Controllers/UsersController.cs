@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -78,7 +79,7 @@ namespace SimManagementSystem.Controllers
 
         [AllowAnonymous]
         [HttpPost("login")]
-        public IActionResult Login(LoginRequest loginRequest)
+        public IActionResult Login(DataTransferObjects.LoginRequest loginRequest)
         {
             var user = _context.Users.Where(user => user.Login == loginRequest.Login).FirstOrDefault();
 
@@ -158,6 +159,52 @@ namespace SimManagementSystem.Controllers
             await _context.SaveChangesAsync();
 
             return Ok(user);
+        }
+
+        [HttpPost("{id}/resetPassword")]
+        public IActionResult ResetPassword(int id)
+        {
+            var user = _context.Users.Where(user => user.Id == id).FirstOrDefault();
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            string tempPassword = RandomPasswordGenerator.GetRandomPassword();
+
+            string tempHashedPassword = PasswordChecker.GetEncryptedPassword(tempPassword, user.Salt);
+            user.Password = tempHashedPassword;
+
+            _context.SaveChanges();
+
+            return Ok(new
+            {
+                tempPassword
+            });
+        }
+
+        [HttpPost("{id}/changePassword")]
+        public IActionResult ChangePassword(int id, [FromBody] ChangePasswordDTO data)
+        {
+            var user = _context.Users.Where(user => user.Id == id).FirstOrDefault();
+
+            if (user == null) { return NotFound(); }
+
+            string passwordHash = user.Password;
+            string curHashedPassword = PasswordChecker.GetEncryptedPassword(data.OldPassword, user.Salt);
+
+            if (passwordHash != curHashedPassword)
+            {
+                return Unauthorized();
+            }
+
+            string newHashedPassword = PasswordChecker.GetEncryptedPassword(data.NewPassword, user.Salt);
+            user.Password = newHashedPassword;
+
+            _context.SaveChanges();
+
+            return Ok();
         }
 
         [HttpDelete("{id}")]
