@@ -36,7 +36,7 @@ namespace SimManagementSystem.Controllers
         public async Task<IActionResult> CreatePredefinedSession(CreatePredefinedSessionDTO newScheme)
         {
             var predefinedSession = new PredefinedSession
-            {
+            {   
                 Category = newScheme.Category,
                 Name = newScheme.Name,
                 Description = newScheme.Description,

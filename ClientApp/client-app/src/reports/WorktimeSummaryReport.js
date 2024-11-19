@@ -99,7 +99,7 @@ const WorktimeSummaryReport = ({ user, sessions, statistics }) => (
         <Page size="A4" style={styles.page}>
 
             <View style={styles.header}>
-                <Image style={styles.header__image} source={{ uri: './../session.png' }}></Image>
+                <Image style={styles.header__image} source={{ uri: './../../session.png' }}></Image>
                 <Text style={styles.header__title}>Zestawienie Sesji Symulatorowych</Text>
                 <Text style={styles.header__id}>{user.firstName} {user.lastName}</Text>
             </View>

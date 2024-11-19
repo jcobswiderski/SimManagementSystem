@@ -59,8 +59,13 @@ const CreateSimSession = ({showAlert}) => {
       setBeginDate(e.target.value);
     };
 
+    const getDurationForSessionId = async (id) => {
+        const tempSession = predefinedSessions.find(s => s.id == id);
+        return tempSession.duration;
+    }
+
     const checkIfConflictOccurs = async () => {
-        const duration = predefinedSessions[predefinedSessionId].duration;
+        const duration = await getDurationForSessionId(predefinedSessionId);
         try {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/SimulatorSessions/checkConflict?dateBegin=${beginDate}&duration=${duration}`);
             const data = await response.json();
@@ -123,7 +128,7 @@ const CreateSimSession = ({showAlert}) => {
                   <select className="createSimSession__input" value={predefinedSessionId} onChange={handlePredefinedSessionIdChange}>
                       {predefinedSessions.map(s => (
                           <option className="createSimSession__option" key={s.id} value={s.id}>
-                              {s.name}
+                              {s.name} {s.id}
                           </option>
                       ))}
                   </select>
