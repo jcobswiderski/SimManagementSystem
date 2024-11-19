@@ -4,7 +4,7 @@ import AuthContext from './AuthContext';
 import './css/navbar.css';
 
 const Navbar = () => {
-  const {isAuthenticated, logout, userRoles, firstName, lastName} = useContext(AuthContext);
+  const {userId, isAuthenticated, logout, userRoles, firstName, lastName} = useContext(AuthContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -75,7 +75,7 @@ const Navbar = () => {
             <Link to="/users"><li className="navbar__item navbar__item--last">Users</li></Link>
 
             <li className='navbar__profile'>
-              <div className='navbar__profile-info'>
+              <div className='navbar__profile-info' onClick={() => navigate(`/users/${userId}/profile`)}>
                 <img className="navbar__profile-img" src="./user2.png"></img>{firstName} {lastName}
               </div>
               <img className="navbar__profile-img navbar__profile-logout" src="./logout.png" onClick={handleLogout}></img> 

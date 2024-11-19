@@ -112,6 +112,7 @@
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
+    cursor: pointer;
 }
 
 .navbar__profile-info img {

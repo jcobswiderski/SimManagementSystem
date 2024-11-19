@@ -183,6 +183,36 @@ namespace SimManagementSystem.Controllers
             return Ok(sessions);
         }
 
+        [HttpGet("byuser/{userId}/count")]
+        public IActionResult GetSimulatorSessionsByUserCount(int userId)
+        {
+            var sessionsAsTrained = _context.SimulatorSessions
+                .Where(s => (s.PilotSeatNavigation.Id == userId || s.CopilotSeatNavigation.Id == userId) && s.Realized == true)
+                .Count();
+
+            var sessionsAsTrainedDuration = _context.SimulatorSessions
+                .Where(s => (s.PilotSeatNavigation.Id == userId || s.CopilotSeatNavigation.Id == userId) && s.Realized == true)
+                .Sum(s => s.PredefinedSessionNavigation.Duration);
+
+            var sessionsAsSupervisor = _context.SimulatorSessions
+                .Where(s => (s.SupervisorSeatNavigation.Id == userId) && s.Realized == true)
+                .Count();
+
+            var sessionsAsSupervisorDuration = _context.SimulatorSessions
+               .Where(s => (s.SupervisorSeatNavigation.Id == userId) && s.Realized == true)
+               .Sum(s => s.PredefinedSessionNavigation.Duration);
+
+            var result = new
+            {
+                sessionsAsTrained = sessionsAsTrained,
+                sessionsAsTrainedDuration = sessionsAsTrainedDuration,
+                sessionsAsSupervisor = sessionsAsSupervisor,
+                sessionsAsSupervisorDuration = sessionsAsSupervisorDuration
+            };
+
+            return Ok(result);
+        }
+
         [HttpGet("byuser/{userId}/last")]
         public IActionResult GetLastSimulatorSessionsByUser(int userId)
         {

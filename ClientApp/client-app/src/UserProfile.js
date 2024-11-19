@@ -2,18 +2,23 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom'; 
 import './css/userProfile.css';
 import './css/partials/button.css';
+import {PDFDownloadLink} from "@react-pdf/renderer";
+import WorktimeSummaryReport from "./reports/WorktimeSummaryReport";
+import MaintenanceReport from "./reports/MaintenanceReport";
 
 const UserProfile = () => {
     const {id} = useParams();
     const [user, setUserProfile] = useState(null);
     const [userSessions, setUserSessions] = useState([]);
     const [daysFromSession, setDaysFromSession] = useState([]);
+    const [sessionStatistics, setSessionStatistics] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
         refreshUser();
         refreshSessionsList();
         refreshDaysFromSession();
+        refreshStatistics();
     }, []);
     
     const refreshUser = async () => {
@@ -46,22 +51,32 @@ const UserProfile = () => {
         }
     };
 
+    const refreshStatistics = async () => {
+        try {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/SimulatorSessions/byuser/${id}/count`);
+            const data = await response.json();
+            setSessionStatistics(data);
+        } catch (error) {
+            console.error('Error fetching session statistics:', error);
+        }
+    };
+
     const navigateToSession = (id) => {
         navigate(`/simSessions/${id}`);
     };
 
     const getUserRoleInSession = (session) => {
-        if (session.pilot === user.id) 
+        if (session.pilot === user.id)
             return 'Pilot';
 
         if (session.copilot === user.id) 
             return 'Copilot';
 
-        if (session.instructor === user.id) 
-            return 'Instructor';
-
-        if (session.observer === user.id) 
+        if (session.observer === user.id)
             return 'Observer';
+
+        if (session.supervisor === user.id)
+            return 'Instructor';
     };
 
     if (!user) {
@@ -143,6 +158,10 @@ const UserProfile = () => {
                     </tbody>
                 </table>
             </div>
+
+            <PDFDownloadLink document={<WorktimeSummaryReport user={user} sessions={userSessions.filter(s => s.realized == true)} statistics={sessionStatistics}/>} fileName={`zestawienie-sesji.pdf`}>
+                <button className="button mt30">Wygeneruj zestawienie</button>
+            </PDFDownloadLink>
         </div>
     );
 }
