@@ -21,6 +21,12 @@ namespace SimManagementSystem.Controllers
         public async Task<IActionResult> GetPredefinedSessions()
         {
             var predefinedSessions = await _context.PredefinedSessions.ToListAsync();
+
+            if (predefinedSessions == null)
+            {
+                return NotFound("Predefined session not found.");
+            }
+
             return Ok(predefinedSessions);
         }
 
@@ -30,6 +36,12 @@ namespace SimManagementSystem.Controllers
             var predefinedSession = _context.PredefinedSessions
                 .Where(s => s.Id == id)
                 .FirstOrDefaultAsync();
+
+            if (predefinedSession == null)
+            {
+                return NotFound("Predefined session with given ID not found.");
+            }
+
             return Ok(predefinedSession);
         }
 

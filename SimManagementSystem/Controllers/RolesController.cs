@@ -21,6 +21,12 @@ namespace SimManagementSystem.Controllers
         public async Task<IActionResult> GetRoles()
         {
             var roles = await _context.Roles.ToListAsync();
+
+            if (roles == null)
+            {
+                return NotFound("Roles not found.");
+            }
+
             return Ok(roles);
         }
     }

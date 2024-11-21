@@ -31,6 +31,12 @@ namespace SimManagementSystem.Controllers
                     m.Realized
                 })
                 .ToListAsync();
+
+            if (maintenances == null)
+            {
+                return NotFound("Maintenances not found.");
+            }
+
             return Ok(maintenances);
         }
 
@@ -59,6 +65,12 @@ namespace SimManagementSystem.Controllers
                 })
                 .Where(m => m.Id == id)
                 .FirstOrDefaultAsync();
+
+            if (maintenance == null)
+            {
+                return NotFound("Maintenance with given ID not found.");
+            }
+
             return Ok(maintenance);
         }
 
@@ -106,7 +118,7 @@ namespace SimManagementSystem.Controllers
             maintenance.Realized = true;
             maintenance.Executor = maintenanceToEdit.Executor;
 
-            _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
             return Ok(maintenance);
         }

@@ -42,13 +42,19 @@ namespace SimManagementSystem.Controllers
                     UserRoles = u.Roles,
                 })
                 .ToListAsync();
+
+            if (users == null)
+            {
+                return NotFound("Users not found.");
+            }
+
             return Ok(users);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUser(int id)
         {
-            var users = await _context.Users
+            var user = await _context.Users
                 .Select(u => new
                 {
                     u.Id,
@@ -58,7 +64,13 @@ namespace SimManagementSystem.Controllers
                 })
                 .Where(u => u.Id == id)
                 .FirstOrDefaultAsync();
-            return Ok(users);
+
+            if (user == null)
+            {
+                return NotFound("User with given ID not found.");
+            }
+
+            return Ok(user);
         }
 
         [HttpGet("role/engineer")]
@@ -74,6 +86,12 @@ namespace SimManagementSystem.Controllers
                 })
                 .Where(u => u.UserRoles.Any(r => r.Name == "Engineer"))
                 .ToArrayAsync();
+
+            if (users == null)
+            {
+                return NotFound("Engineers not found.");
+            }
+
             return Ok(users);
         }
 
@@ -168,7 +186,7 @@ namespace SimManagementSystem.Controllers
 
             if (user == null)
             {
-                return NotFound();
+                return NotFound("User with given ID not found.");
             }
 
             string tempPassword = RandomPasswordGenerator.GetRandomPassword();
@@ -189,7 +207,10 @@ namespace SimManagementSystem.Controllers
         {
             var user = await _context.Users.Where(user => user.Id == id).FirstOrDefaultAsync();
 
-            if (user == null) { return NotFound(); }
+            if (user == null)
+            {
+                return NotFound("User with given ID not found.");
+            }
 
             string passwordHash = user.Password;
             string curHashedPassword = PasswordChecker.GetEncryptedPassword(data.OldPassword, user.Salt);
@@ -235,7 +256,7 @@ namespace SimManagementSystem.Controllers
             user.FirstName = updatedUser.FirstName;
             user.LastName = updatedUser.LastName;
 
-            _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
             return Ok(user);
         }

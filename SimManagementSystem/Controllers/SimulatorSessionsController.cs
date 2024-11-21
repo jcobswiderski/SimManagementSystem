@@ -40,6 +40,11 @@ namespace SimManagementSystem.Controllers
                 })
                 .ToListAsync();
 
+            if (simulatorSession == null)
+            {
+                return NotFound("Simulator session not found.");
+            }
+
             return Ok(simulatorSession);
         }
 
@@ -65,6 +70,11 @@ namespace SimManagementSystem.Controllers
                     s.Realized,
                 })
                 .ToListAsync();
+
+            if (simulatorSessions == null)
+            {
+                return NotFound("Simulator sessions not found.");
+            }
 
             var totalDuration = simulatorSessions.Sum(s => s.Duration);
             var count = simulatorSessions.Count;
@@ -111,6 +121,11 @@ namespace SimManagementSystem.Controllers
                     SupervisorName = s.SupervisorSeatNavigation.FirstName + " " + s.SupervisorSeatNavigation.LastName,
                 })
                 .FirstOrDefaultAsync();
+
+            if (simulatorSession == null)
+            {
+                return NotFound("Simulator session with given ID not found.");
+            }
 
             return Ok(simulatorSession);
         }
@@ -179,6 +194,11 @@ namespace SimManagementSystem.Controllers
                 })
                 .ToListAsync();
 
+            if (sessions == null || !sessions.Any())
+            {
+                return NotFound("No sessions found for the given user.");
+            }
+
             return Ok(sessions);
         }
 
@@ -225,6 +245,11 @@ namespace SimManagementSystem.Controllers
                     DaysSinceLastSession = g.Max(s => EF.Functions.DateDiffDay(s.BeginDate, DateTime.Now))
                 })
                 .ToListAsync();
+
+            if (sessions == null)
+            {
+                return NotFound("Last simulator sessions for given user not found.");
+            }
 
             return Ok(sessions);
         }
@@ -288,7 +313,7 @@ namespace SimManagementSystem.Controllers
             }
 
             simSession.Realized = true;
-            _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
             return Ok(simSession);
         }

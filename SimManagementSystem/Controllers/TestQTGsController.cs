@@ -20,6 +20,12 @@ namespace SimManagementSystem.Controllers
         public async Task<IActionResult> GetQtgTests()
         {
             var testQtgs = await _context.TestQtgs.ToListAsync();
+
+            if (testQtgs == null)
+            {
+                return NotFound("Test QTGs not found.");
+            }
+
             return Ok(testQtgs);
         }
     }

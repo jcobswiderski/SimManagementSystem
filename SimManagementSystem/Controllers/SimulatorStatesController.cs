@@ -31,6 +31,12 @@ namespace SimManagementSystem.Controllers
                     s.Operator
                 })
                 .ToListAsync();
+
+            if (simulatorStates == null)
+            {
+                return NotFound("Simulator states not found");
+            }
+
             return Ok(simulatorStates);
         }
 

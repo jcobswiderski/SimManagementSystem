@@ -76,6 +76,11 @@ const CreateSimSession = ({showAlert}) => {
     }
 
     const addSimulatorSession = async () => {
+        if (!predefinedSessionId || !supervisorId || !beginDate) {
+            showAlert('Proszę wypełnić wszystkie wymagane pola.', 'info');
+            return;
+        }
+
         const isConflict = await checkIfConflictOccurs();
 
         if(isConflict && isConflict > 0)
@@ -143,7 +148,7 @@ const CreateSimSession = ({showAlert}) => {
             <div className="createSimSession__group">
               <div className="createSimSession__group--row">
                 <div className="createSimSession__group--single">
-                  <span className="createSimSession__label">Pilot</span>
+                  <span className="createSimSession__label">Pilot (optional)</span>
                   <select className="createSimSession__input" value={pilotId} onChange={handlePilotIdChange}>
                   <option className="createSimSession__option" value={null}>---</option>
                       {users.map(u => (
@@ -155,7 +160,7 @@ const CreateSimSession = ({showAlert}) => {
                 </div>
 
                 <div className="createSimSession__group--single">
-                  <span className="createSimSession__label">Copilot</span>
+                  <span className="createSimSession__label">Copilot (optional)</span>
                   <select className="createSimSession__input" value={copilotId} onChange={handleCopilotIdChange}>
                   <option className="createSimSession__option" value={null}>---</option>
                       {users.map(u => (
@@ -169,7 +174,7 @@ const CreateSimSession = ({showAlert}) => {
               
               <div className="createSimSession__group--row">
                 <div className="createSimSession__group--single">
-                  <span className="createSimSession__label">Observer</span>
+                  <span className="createSimSession__label">Observer (optional)</span>
                   <select className="createSimSession__input" value={observerId} onChange={handleObserverIdChange}>
                       <option className="createSimSession__option" value={null}>---</option>
                       {users.map(u => (

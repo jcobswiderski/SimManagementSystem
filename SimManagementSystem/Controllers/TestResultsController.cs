@@ -31,6 +31,12 @@ namespace SimManagementSystem.Controllers
                     executor = t.ExcutorNavigation.FirstName + " " + t.ExcutorNavigation.LastName
                 })
                 .ToListAsync();
+
+            if (testResults == null)
+            {
+                return NotFound("Test results not found.");
+            }
+
             return Ok(testResults);
         }
 
@@ -51,6 +57,12 @@ namespace SimManagementSystem.Controllers
                 })
                 .Where(t => t.Id == id)
                 .FirstOrDefaultAsync();
+
+            if (test == null)
+            {
+                return NotFound("Test results for given ID not found.");
+            }
+
             return Ok(test);
         }
 

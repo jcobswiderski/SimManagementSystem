@@ -23,6 +23,12 @@ namespace SimManagementSystem.Controllers
         public async Task<IActionResult> GetDevices()
         {
             var devices = await _context.Devices.ToListAsync();
+
+            if (devices == null)
+            {
+                return NotFound("Devices not found.");
+            }
+
             return Ok(devices);
         }
 
@@ -33,7 +39,7 @@ namespace SimManagementSystem.Controllers
 
             if (device == null)
             {
-                return NotFound();
+                return NotFound("Device with given ID not found.");
             }
 
             return Ok(device);
@@ -51,7 +57,7 @@ namespace SimManagementSystem.Controllers
             await _context.Devices.AddAsync(device);
             await _context.SaveChangesAsync();
 
-            return Ok(device);
+            return Created();
         }
 
         [HttpDelete("{id}")]

@@ -65,7 +65,7 @@ const App = () => {
           <Route path="/dashboard" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Auditor', 'Instructor', 'Pilot', 'Copilot', 'Planer']}><Dashboard /></ProtectedRoute>} />
           <Route path="/calendar" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Auditor', 'Instructor', 'Pilot', 'Copilot', 'Planer']}><Calendar /></ProtectedRoute>} />
           <Route path="/devices" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Auditor']}><Devices /></ProtectedRoute>} />
-          <Route path="/devices/:id" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Auditor']}><Device /></ProtectedRoute>} />
+          <Route path="/devices/:id" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Auditor']}><Device showAlert={showAlertWithMessage} /></ProtectedRoute>} />
           <Route path="/createDevice" element={<ProtectedRoute roles={['Admin', 'Engineer']}><CreateDevice showAlert={showAlertWithMessage} /></ProtectedRoute>} />
           <Route path="/inspections" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Auditor']}><Inspections /></ProtectedRoute>} />
           <Route path="/inspections/:id" element={<ProtectedRoute roles={['Admin', 'Engineer', 'Auditor']}><Inspection showAlert={showAlertWithMessage}  /></ProtectedRoute>} />

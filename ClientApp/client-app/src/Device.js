@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import './css/partials/loading.css';
 import './css/device.css';
 
-const Device = () => {
+const Device = ({showAlert}) => {
     const {id} = useParams();
     const [loading, setLoading] = useState(true);
     const [device, setDevice] = useState('');
@@ -38,6 +38,26 @@ const Device = () => {
 
     const navigateToMalfunction = (id) => {
         navigate(`/malfunctions/${id}`);
+    };
+
+    const deleteDevice = async () => {
+        try {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/Devices/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+
+            if (response.ok) {
+                showAlert('Usunięto urządzenie!', 'success');
+                navigate(-1);
+            } else {
+                showAlert('Nie udało się usunąć urządzenia!', 'error');
+            }
+        } catch (error) {
+            console.error('Error removing device:', error);
+        }
     };
 
     if (loading) {
@@ -75,6 +95,12 @@ const Device = () => {
                     </div>
                 </div>
             ))}
+            <>
+                {malfunctions.length === 0 ? 
+                    <button className="button" onClick={deleteDevice}>Delete device</button> : null
+                } 
+            </>
+            
         </div>
     );
 }

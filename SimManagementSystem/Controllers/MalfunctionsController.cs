@@ -35,6 +35,12 @@ namespace SimManagementSystem.Controllers
                     m.Status
                 })
                 .ToListAsync();
+
+            if (malfunctions == null)
+            {
+                return NotFound("Malfunctions not found.");
+            }
+
             return Ok(malfunctions);
         }
 
@@ -66,7 +72,7 @@ namespace SimManagementSystem.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetMalfunction(int id)
         {
-            var malfunctions = await _context.Malfunctions
+            var malfunction = await _context.Malfunctions
                 .OrderByDescending(m => m.DateBegin)
                 .Select(m => new
                 {
@@ -82,7 +88,14 @@ namespace SimManagementSystem.Controllers
                 })
                 .Where(m => m.Id == id)
                 .FirstOrDefaultAsync();
-            return Ok(malfunctions);
+
+
+            if (malfunction == null)
+            {
+                return NotFound("Malfunction with given ID not found.");
+            }
+
+            return Ok(malfunction);
         }
 
         [HttpGet("device/{deviceId}")]
@@ -104,6 +117,12 @@ namespace SimManagementSystem.Controllers
                     m.Status
                 })
                 .ToListAsync();
+
+            if (malfunctions == null)
+            {
+                return NotFound("Malfunctions for specific device not found.");
+            }
+
             return Ok(malfunctions);
         }
 
@@ -168,7 +187,7 @@ namespace SimManagementSystem.Controllers
             malfunction.DateEnd = updatedUser.DateEnd;
             malfunction.Status = updatedUser.Status;
 
-            _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
             return Ok(malfunction);
         }

@@ -20,6 +20,12 @@ namespace SimManagementSystem.Controllers
         public async Task<IActionResult> GetMaintenanceTypes()
         {
             var maintenanceTypes = await _context.MaintenanceTypes.ToListAsync();
+
+            if (maintenanceTypes == null)
+            {
+                return NotFound("Maintenance types not found.");
+            }
+
             return Ok(maintenanceTypes);
         }
     }

@@ -31,6 +31,11 @@ namespace SimManagementSystem.Controllers
                 .Where(r => r.MalfunctionId == malfunctionId)
                 .ToListAsync();
 
+            if (recoveryActions == null)
+            {
+                return NotFound("Recovery actions not found.");
+            }
+
             return Ok(recoveryActions);
         }
 

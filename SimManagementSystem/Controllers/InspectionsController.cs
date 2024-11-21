@@ -32,6 +32,12 @@ namespace SimManagementSystem.Controllers
                     i.Notice
                 })
                 .ToListAsync();
+
+            if (inspections == null)
+            {
+                return NotFound("Inspections not found.");
+            }
+
             return Ok(inspections);
         }
 
@@ -54,7 +60,6 @@ namespace SimManagementSystem.Controllers
             {
                 return NotFound("Inspection with given ID not found!");
             }
-
 
             return Ok(inspection);
         }
