@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SimManagementSystem.DataAccessLayer;
 using SimManagementSystem.DataTransferObjects;
 
@@ -17,9 +18,9 @@ namespace SimManagementSystem.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetSessionCategories()
+        public async Task<IActionResult> GetSessionCategories()
         {
-            var categories = _context.SessionCategories.ToList();
+            var categories = await _context.SessionCategories.ToListAsync();
             return Ok(categories);
         }
     }

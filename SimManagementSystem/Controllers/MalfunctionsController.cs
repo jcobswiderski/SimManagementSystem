@@ -19,12 +19,12 @@ namespace SimManagementSystem.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetMalfunctions()
+        public async Task<IActionResult> GetMalfunctions()
         {
-            var malfunctions = _context.Malfunctions
+            var malfunctions = await _context.Malfunctions
                 .OrderByDescending(m => m.DateBegin)
-                .Select(m => new 
-                { 
+                .Select(m => new
+                {
                     m.Id,
                     m.Name,
                     m.Description,
@@ -34,39 +34,39 @@ namespace SimManagementSystem.Controllers
                     dateEnd = m.DateEnd != null ? m.DateEnd.Value.ToString("yyyy-MM-dd HH:mm:ss") : "",
                     m.Status
                 })
-                .ToList();
+                .ToListAsync();
             return Ok(malfunctions);
         }
 
         [HttpGet("count")]
-        public IActionResult GetMalfunctionsCount(DateTime? dateBegin, DateTime? dateEnd)
+        public async Task<IActionResult> GetMalfunctionsCount(DateTime? dateBegin, DateTime? dateEnd)
         {
             if (!dateBegin.HasValue || !dateEnd.HasValue) {
-                return BadRequest("Nie wprowadzono daty początku lub końca!");
+                return BadRequest("Please enter date begin and date end!");
             }
 
-            int malfunctionCount = _context.Malfunctions
+            int malfunctionCount = await _context.Malfunctions
                 .Where(m => m.DateBegin >= dateBegin.Value && m.DateBegin <= dateEnd.Value)
-                .Count();
+                .CountAsync();
 
             return Ok(malfunctionCount);
         }
 
         [HttpGet("count/unsolved")]
-        public IActionResult GetUnsolvedMalfunctionsCount()
+        public async Task<IActionResult> GetUnsolvedMalfunctionsCount()
         {
-            int malfunctionCount = _context.Malfunctions
+            int malfunctionCount = await _context.Malfunctions
                 .Where(m => m.Status == false)
-                .Count();
+                .CountAsync();
 
             return Ok(malfunctionCount);
         }
 
 
         [HttpGet("{id}")]
-        public IActionResult GetMalfunction(int id)
+        public async Task<IActionResult> GetMalfunction(int id)
         {
-            var malfunctions = _context.Malfunctions
+            var malfunctions = await _context.Malfunctions
                 .OrderByDescending(m => m.DateBegin)
                 .Select(m => new
                 {
@@ -81,14 +81,14 @@ namespace SimManagementSystem.Controllers
                     devices = string.Join(", ", m.Devices.Select(d => d.Name))
                 })
                 .Where(m => m.Id == id)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
             return Ok(malfunctions);
         }
 
         [HttpGet("device/{deviceId}")]
-        public IActionResult GetMalfunctionForDevice(int deviceId)
+        public async Task<IActionResult> GetMalfunctionForDevice(int deviceId)
         {
-            var malfunctions = _context
+            var malfunctions = await _context
                 .Malfunctions
                 .Where(m => m.Devices.Any(d => d.Id == deviceId))
                 .OrderByDescending(m => m.DateBegin)
@@ -103,7 +103,7 @@ namespace SimManagementSystem.Controllers
                     dateEnd = m.DateEnd != null ? m.DateEnd.Value.ToString("yyyy-MM-dd HH:mm:ss") : "",
                     m.Status
                 })
-                .ToList();
+                .ToListAsync();
             return Ok(malfunctions);
         }
 
@@ -117,7 +117,7 @@ namespace SimManagementSystem.Controllers
 
             if (devices == null || devices.Count != newMalfunction.Devices.Count)
             {
-                return BadRequest("Niektóre urządzenia nie istnieją.");
+                return BadRequest("Some devices does not exist.");
             }
 
             var malfunction = new Malfunction
@@ -147,7 +147,7 @@ namespace SimManagementSystem.Controllers
 
             if (malfunctionToDelete == null)
             {
-                return NotFound();
+                return NotFound("Malfunction with given ID not found.");
             }
 
             _context.Malfunctions.Remove(malfunctionToDelete);
@@ -157,18 +157,18 @@ namespace SimManagementSystem.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateMalfunctionState(int id, [FromBody] EditMalfunctionDTO updatedUser)
+        public async Task<IActionResult> UpdateMalfunctionState(int id, [FromBody] EditMalfunctionDTO updatedUser)
         {
-            var malfunction = _context.Malfunctions.FirstOrDefault(m => m.Id == id);
+            var malfunction = await _context.Malfunctions.FirstOrDefaultAsync(m => m.Id == id);
             if (malfunction == null)
             {
-                return NotFound("Malfunction with not found");
+                return NotFound("Malfunction with given ID not found.");
             }
 
             malfunction.DateEnd = updatedUser.DateEnd;
             malfunction.Status = updatedUser.Status;
 
-            _context.SaveChanges();
+            _context.SaveChangesAsync();
 
             return Ok(malfunction);
         }

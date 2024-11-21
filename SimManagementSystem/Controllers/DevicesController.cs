@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SimManagementSystem.DataAccessLayer;
 using SimManagementSystem.DataTransferObjects;
 
@@ -19,20 +20,22 @@ namespace SimManagementSystem.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetDevices()
+        public async Task<IActionResult> GetDevices()
         {
-            var devices = _context.Devices.ToList();
+            var devices = await _context.Devices.ToListAsync();
             return Ok(devices);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetDevice(int id)
+        public async Task<IActionResult> GetDevice(int id)
         {
-            var device = _context.Devices.FirstOrDefault(d => d.Id == id);
+            var device = await _context.Devices.FirstOrDefaultAsync(d => d.Id == id);
+
             if (device == null)
             {
                 return NotFound();
             }
+
             return Ok(device);
         }
 

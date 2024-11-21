@@ -6,7 +6,7 @@ import './css/device.css';
 const Device = () => {
     const {id} = useParams();
     const [loading, setLoading] = useState(true);
-    const [device, setDevice] = useState(null);
+    const [device, setDevice] = useState('');
     const [malfunctions, setMalfunctions] = useState([]);
     const navigate = useNavigate();
 

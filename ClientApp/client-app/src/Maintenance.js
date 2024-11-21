@@ -41,9 +41,6 @@ const Maintenance = ({userId, showAlert}) => {
                 },
             });
 
-            const responseBody = await response.text();
-            console.log(responseBody);
-
             if (response.ok) {
                 showAlert('Usunięto obsługę!', 'success');
                 navigate(-1);

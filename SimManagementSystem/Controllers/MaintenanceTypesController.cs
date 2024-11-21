@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SimManagementSystem.DataAccessLayer;
 
 namespace SimManagementSystem.Controllers
@@ -16,9 +17,9 @@ namespace SimManagementSystem.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetMaintenanceTypes()
+        public async Task<IActionResult> GetMaintenanceTypes()
         {
-            var maintenanceTypes = _context.MaintenanceTypes.ToList();
+            var maintenanceTypes = await _context.MaintenanceTypes.ToListAsync();
             return Ok(maintenanceTypes);
         }
     }

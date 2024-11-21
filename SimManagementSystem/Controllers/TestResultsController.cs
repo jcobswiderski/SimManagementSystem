@@ -18,9 +18,9 @@ namespace SimManagementSystem.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetTestResults()
+        public async Task<IActionResult> GetTestResults()
         {
-            var testResults = _context.TestResults
+            var testResults = await _context.TestResults
                 .Select(t => new {
                     t.Id,
                     title = t.TestNavigation.Title,
@@ -30,14 +30,14 @@ namespace SimManagementSystem.Controllers
                     t.Observation,
                     executor = t.ExcutorNavigation.FirstName + " " + t.ExcutorNavigation.LastName
                 })
-                .ToList();
+                .ToListAsync();
             return Ok(testResults);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetTestResult(int id)
+        public async Task<IActionResult> GetTestResult(int id)
         {
-            var test = _context.TestResults
+            var test = await _context.TestResults
                 .OrderByDescending(m => m.Date)
                 .Select(t => new {
                     t.Id,
@@ -50,7 +50,7 @@ namespace SimManagementSystem.Controllers
                     executor = t.ExcutorNavigation.FirstName + " " + t.ExcutorNavigation.LastName
                 })
                 .Where(t => t.Id == id)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
             return Ok(test);
         }
 

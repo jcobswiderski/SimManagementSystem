@@ -112,8 +112,8 @@ const UserProfile = ({userId}) => {
                     </thead>
                     <tbody>
                         {user.userRoles.map(role => (
-                            <tr className="userProfile__table-tr--role" key={role.id}>
-                                <td className="userProfile__table-td">{role.name}</td>
+                            <tr className="userProfile__table-tr--role">
+                                <td className="userProfile__table-td" key={role.id}>{role.name}</td>
                             </tr>   
                         ))}
                     </tbody>

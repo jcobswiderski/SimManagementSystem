@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SimManagementSystem.DataAccessLayer;
 using SimManagementSystem.DataTransferObjects;
 
@@ -17,18 +18,18 @@ namespace SimManagementSystem.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetPredefinedSessions()
+        public async Task<IActionResult> GetPredefinedSessions()
         {
-            var predefinedSessions = _context.PredefinedSessions.ToList();
+            var predefinedSessions = await _context.PredefinedSessions.ToListAsync();
             return Ok(predefinedSessions);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetPredefinedSession(int id)
+        public async Task<IActionResult> GetPredefinedSession(int id)
         {
             var predefinedSession = _context.PredefinedSessions
                 .Where(s => s.Id == id)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
             return Ok(predefinedSession);
         }
 

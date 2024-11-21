@@ -19,9 +19,9 @@ namespace SimManagementSystem.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetInspections()
+        public async Task<IActionResult> GetInspections()
         {
-            var inspections = _context.Inspections
+            var inspections = await _context.Inspections
                 .OrderByDescending(i => i.Date)
                 .Select(i => new
                 {
@@ -31,14 +31,14 @@ namespace SimManagementSystem.Controllers
                     Operator = i.OperatorNavigation.FirstName + " " + i.OperatorNavigation.LastName,
                     i.Notice
                 })
-                .ToList();
+                .ToListAsync();
             return Ok(inspections);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetInspection(int id)
+        public async Task<IActionResult> GetInspection(int id)
         {
-            var inspection = _context.Inspections
+            var inspection = await _context.Inspections
                  .Where(i => i.Id == id)
                  .Select(i => new
                  {
@@ -48,11 +48,11 @@ namespace SimManagementSystem.Controllers
                      Operator = i.OperatorNavigation.FirstName + " " + i.OperatorNavigation.LastName,
                      i.Notice
                  })
-                 .FirstOrDefault();
+                 .FirstOrDefaultAsync();
 
             if (inspection == null)
             {
-                return NotFound($"No inspection found for the id {id}.");
+                return NotFound("Inspection with given ID not found!");
             }
 
 
@@ -91,13 +91,13 @@ namespace SimManagementSystem.Controllers
         }
 
         [HttpGet("types")]
-        public IActionResult GetInspectionTypes()
+        public async Task<IActionResult> GetInspectionTypes()
         {
-            var inspectionTypes = _context.InspectionTypes.ToList();
+            var inspectionTypes = await _context.InspectionTypes.ToListAsync();
 
             if (inspectionTypes == null)
             {
-                return NotFound("There's no any inspection types.");
+                return NotFound("Inspection types not found.");
             }
 
             return Ok(inspectionTypes);

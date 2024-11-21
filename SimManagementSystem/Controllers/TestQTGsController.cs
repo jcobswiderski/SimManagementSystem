@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SimManagementSystem.DataAccessLayer;
 
 namespace SimManagementSystem.Controllers
@@ -16,9 +17,9 @@ namespace SimManagementSystem.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetQtgTests()
+        public async Task<IActionResult> GetQtgTests()
         {
-            var testQtgs = _context.TestQtgs.ToList();
+            var testQtgs = await _context.TestQtgs.ToListAsync();
             return Ok(testQtgs);
         }
     }

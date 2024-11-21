@@ -18,9 +18,9 @@ namespace SimManagementSystem.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetMaintenances()
+        public async Task<IActionResult> GetMaintenances()
         {
-            var maintenances = _context.Maintenances
+            var maintenances = await _context.Maintenances
                 .OrderByDescending(m => m.Date)
                 .Select(m => new
                 {
@@ -30,24 +30,24 @@ namespace SimManagementSystem.Controllers
                     date = m.Date.ToString("yyyy-MM-dd"),
                     m.Realized
                 })
-                .ToList();
+                .ToListAsync();
             return Ok(maintenances);
         }
 
         [HttpGet("count/incomplete")]
-        public IActionResult GetIncompleteMaintenancesCount()
+        public async Task<IActionResult> GetIncompleteMaintenancesCount()
         {
-            var maintenancesCount = _context.Maintenances
+            var maintenancesCount = await _context.Maintenances
                 .Where(m => m.Date <= DateTime.Now && m.Realized == false)
-                .Count();
+                .CountAsync();
 
             return Ok(maintenancesCount);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetMaintenance(int id)
+        public async Task<IActionResult> GetMaintenance(int id)
         {
-            var maintenance = _context.Maintenances
+            var maintenance = await _context.Maintenances
                 .Select(m => new
                 {
                     m.Id,
@@ -58,7 +58,7 @@ namespace SimManagementSystem.Controllers
                     tasks = m.TypeNavigation.Tasks
                 })
                 .Where(m => m.Id == id)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
             return Ok(maintenance);
         }
 
@@ -75,7 +75,7 @@ namespace SimManagementSystem.Controllers
             await _context.Maintenances.AddAsync(maintenance);
             await _context.SaveChangesAsync();
 
-            return Ok();
+            return Ok("Maintenance successfully added.");
         }
 
         [HttpDelete("{id}")]
@@ -85,7 +85,7 @@ namespace SimManagementSystem.Controllers
 
             if (maintenanceToDelete == null)
             {
-                return NotFound();
+                return NotFound("Maintenance with given ID not found.");
             }
 
             _context.Maintenances.Remove(maintenanceToDelete);
@@ -95,18 +95,18 @@ namespace SimManagementSystem.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateMaintenanceState(int id, [FromBody] EditMaintenanceDTO maintenanceToEdit)
+        public async Task<IActionResult> UpdateMaintenanceState(int id, [FromBody] EditMaintenanceDTO maintenanceToEdit)
         {
-            var maintenance = _context.Maintenances.FirstOrDefault(m => m.Id == id);
+            var maintenance = await _context.Maintenances.FirstOrDefaultAsync(m => m.Id == id);
             if (maintenance == null)
             {
-                return NotFound("Maintenance not found");
+                return NotFound("Maintenance with given ID not found.");
             }
 
             maintenance.Realized = true;
             maintenance.Executor = maintenanceToEdit.Executor;
 
-            _context.SaveChanges();
+            _context.SaveChangesAsync();
 
             return Ok(maintenance);
         }

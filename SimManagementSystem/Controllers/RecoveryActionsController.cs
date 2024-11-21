@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SimManagementSystem.DataAccessLayer;
 using SimManagementSystem.DataTransferObjects;
 
@@ -17,17 +18,18 @@ namespace SimManagementSystem.Controllers
         }
 
         [HttpGet("{malfunctionId}")]
-        public IActionResult GetRecoveryActionsForMalfunction(int malfunctionId)
+        public async Task<IActionResult> GetRecoveryActionsForMalfunction(int malfunctionId)
         {
-            var recoveryActions = _context.RecoveryActions
-                .Select(r => new { 
+            var recoveryActions = await _context.RecoveryActions
+                .Select(r => new
+                {
                     r.Id,
                     date = r.Date.ToString("yyyy-MM-dd HH:mm:ss"),
                     r.Description,
                     r.MalfunctionId
                 })
                 .Where(r => r.MalfunctionId == malfunctionId)
-                .ToList();
+                .ToListAsync();
 
             return Ok(recoveryActions);
         }

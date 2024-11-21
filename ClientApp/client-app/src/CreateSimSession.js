@@ -128,7 +128,7 @@ const CreateSimSession = ({showAlert}) => {
                   <select className="createSimSession__input" value={predefinedSessionId} onChange={handlePredefinedSessionIdChange}>
                       {predefinedSessions.map(s => (
                           <option className="createSimSession__option" key={s.id} value={s.id}>
-                              {s.name} {s.id}
+                              {s.name}
                           </option>
                       ))}
                   </select>

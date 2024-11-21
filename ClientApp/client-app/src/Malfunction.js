@@ -61,9 +61,6 @@ const Malfunction = ({showAlert}) => {
                 }
             });
 
-            const responseBody = await response.text();
-            console.log(responseBody);
-
             if (response.ok) {
                 showAlert('Usunięto usterkę!', 'success');
                 navigate(-1);

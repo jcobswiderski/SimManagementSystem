@@ -19,9 +19,9 @@ namespace SimManagementSystem.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetSimulatorStates()
+        public async Task<IActionResult> GetSimulatorStates()
         {
-            var simulatorStates = _context.SimulatorStates
+            var simulatorStates = await _context.SimulatorStates
                 .OrderByDescending(s => s.StartupTime)
                 .Select(s => new
                 {
@@ -30,19 +30,19 @@ namespace SimManagementSystem.Controllers
                     s.MeterState,
                     s.Operator
                 })
-                .ToList();
+                .ToListAsync();
             return Ok(simulatorStates);
         }
 
         [HttpGet("difference")]
-        public IActionResult GetSimulatorStateDifference(DateTime date1, DateTime date2)
+        public async Task<IActionResult> GetSimulatorStateDifference(DateTime date1, DateTime date2)
         {
             if (date1 > date2)
             {
-                return NotFound("Nie znaleziono odpowiednich stanów dla podanych dat.");
+                return NotFound("Date begin cannot be greater than date end.");
             }
 
-            var firstState = _context.SimulatorStates
+            var firstState = await _context.SimulatorStates
                 .OrderBy(s => s.StartupTime)
                 .Where(s => s.StartupTime.Date >= date1.Date)
                 .Select(s => new
@@ -50,9 +50,9 @@ namespace SimManagementSystem.Controllers
                     s.StartupTime,
                     s.MeterState
                 })
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
-            var lastState = _context.SimulatorStates
+            var lastState = await _context.SimulatorStates
                 .OrderByDescending(s => s.StartupTime)
                 .Where(s => s.StartupTime.Date <= date2.Date)
                 .Select(s => new
@@ -60,7 +60,7 @@ namespace SimManagementSystem.Controllers
                     s.StartupTime,
                     s.MeterState
                 })
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
             if (firstState != null && lastState != null)
             {
@@ -68,7 +68,7 @@ namespace SimManagementSystem.Controllers
                 return Ok(result);
             }
 
-            return NotFound("Nie znaleziono odpowiednich stanów dla podanych dat.");
+            return NotFound("Simulator states not found for given dates.");
         }
 
         [HttpPost]

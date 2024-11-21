@@ -31,9 +31,9 @@ namespace SimManagementSystem.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetUsers()
+        public async Task<IActionResult> GetUsers()
         {
-            var users = _context.Users
+            var users = await _context.Users
                 .Select(u => new
                 {
                     u.Id,
@@ -41,14 +41,14 @@ namespace SimManagementSystem.Controllers
                     u.LastName,
                     UserRoles = u.Roles,
                 })
-                .ToList();
+                .ToListAsync();
             return Ok(users);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetUser(int id)
+        public async Task<IActionResult> GetUser(int id)
         {
-            var users = _context.Users
+            var users = await _context.Users
                 .Select(u => new
                 {
                     u.Id,
@@ -57,14 +57,14 @@ namespace SimManagementSystem.Controllers
                     UserRoles = u.Roles,
                 })
                 .Where(u => u.Id == id)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
             return Ok(users);
         }
 
         [HttpGet("role/engineer")]
-        public IActionResult GetEngineers()
+        public async Task<IActionResult> GetEngineers()
         {
-            var users = _context.Users
+            var users = await _context.Users
                 .Select(u => new
                 {
                     u.Id,
@@ -73,15 +73,15 @@ namespace SimManagementSystem.Controllers
                     UserRoles = u.Roles,
                 })
                 .Where(u => u.UserRoles.Any(r => r.Name == "Engineer"))
-                .ToArray();
+                .ToArrayAsync();
             return Ok(users);
         }
 
         [AllowAnonymous]
         [HttpPost("login")]
-        public IActionResult Login(DataTransferObjects.LoginRequest loginRequest)
+        public async Task<IActionResult> Login(DataTransferObjects.LoginRequest loginRequest)
         {
-            var user = _context.Users.Where(user => user.Login == loginRequest.Login).FirstOrDefault();
+            var user = await _context.Users.Where(user => user.Login == loginRequest.Login).FirstOrDefaultAsync();
 
             if (user == null)
             {
@@ -104,11 +104,11 @@ namespace SimManagementSystem.Controllers
                 new Claim("lastName", user.LastName)
             };
 
-            var roles = _context.Users
+            var roles = await _context.Users
                 .Where(u => u.Login == loginRequest.Login)
                 .SelectMany(u => u.Roles)
                 .Select(r => r.Name)
-                .ToList();
+                .ToListAsync();
 
             foreach (var role in roles)
             {
@@ -129,7 +129,7 @@ namespace SimManagementSystem.Controllers
 
             user.RefreshToken = RefreshTokenGenerator.GetRefreshToken();
             user.RefreshTokenExp = DateTime.UtcNow.AddDays(1);
-            _context.SaveChanges();
+            _context.SaveChangesAsync();
 
             return Ok(new
             {
@@ -162,9 +162,9 @@ namespace SimManagementSystem.Controllers
         }
 
         [HttpPost("{id}/resetPassword")]
-        public IActionResult ResetPassword(int id)
+        public async Task<IActionResult> ResetPassword(int id)
         {
-            var user = _context.Users.Where(user => user.Id == id).FirstOrDefault();
+            var user = await _context.Users.Where(user => user.Id == id).FirstOrDefaultAsync();
 
             if (user == null)
             {
@@ -176,7 +176,7 @@ namespace SimManagementSystem.Controllers
             string tempHashedPassword = PasswordChecker.GetEncryptedPassword(tempPassword, user.Salt);
             user.Password = tempHashedPassword;
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return Ok(new
             {
@@ -185,9 +185,9 @@ namespace SimManagementSystem.Controllers
         }
 
         [HttpPost("{id}/changePassword")]
-        public IActionResult ChangePassword(int id, [FromBody] ChangePasswordDTO data)
+        public async Task<IActionResult> ChangePassword(int id, [FromBody] ChangePasswordDTO data)
         {
-            var user = _context.Users.Where(user => user.Id == id).FirstOrDefault();
+            var user = await _context.Users.Where(user => user.Id == id).FirstOrDefaultAsync();
 
             if (user == null) { return NotFound(); }
 
@@ -202,7 +202,7 @@ namespace SimManagementSystem.Controllers
             string newHashedPassword = PasswordChecker.GetEncryptedPassword(data.NewPassword, user.Salt);
             user.Password = newHashedPassword;
 
-            _context.SaveChanges();
+            _context.SaveChangesAsync();
 
             return Ok();
         }
@@ -223,18 +223,19 @@ namespace SimManagementSystem.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult EditUser(int id, [FromBody] EditUserDTO updatedUser)
+        public async Task<IActionResult> EditUser(int id, [FromBody] EditUserDTO updatedUser)
         {
-            var user = _context.Users.FirstOrDefault(u => u.Id == id);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+            
             if (user == null)
             {
-                return NotFound($"User with ID {id} not found.");
+                return NotFound("User with given ID not found.");
             }
 
             user.FirstName = updatedUser.FirstName;
             user.LastName = updatedUser.LastName;
 
-            _context.SaveChanges();
+            _context.SaveChangesAsync();
 
             return Ok(user);
         }
@@ -242,11 +243,11 @@ namespace SimManagementSystem.Controllers
         [HttpPost("{id}/AssignRole")]
         public async Task<IActionResult> AssignRole(int id, [FromBody] AssignRoleDTO assignRoleDTO)
         {
-            var user = _context.Users.FirstOrDefault(u => u.Id == id);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
             if (user == null)
                 return NotFound("User not found");
 
-            var role = _context.Roles.FirstOrDefault(r => r.Id == assignRoleDTO.Id);
+            var role = await _context.Roles.FirstOrDefaultAsync(r => r.Id == assignRoleDTO.Id);
             if (role == null)
                 return NotFound("Role not found.");
 
@@ -256,24 +257,29 @@ namespace SimManagementSystem.Controllers
             user.Roles.Add(role);
             await _context.SaveChangesAsync();
 
-            return Ok("Role assigned to user");
+            return Ok("Role assigned to user.");
         }
 
         [HttpDelete("{id}/RemoveRole")]
         public async Task<IActionResult> RemoveRole(int id, [FromBody] RemoveRoleDTO removeRoleDTO)
         {
-            var user = _context.Users
+            var user = await _context.Users
                 .Include(u => u.Roles)
-                .FirstOrDefault(u => u.Id == id);
+                .FirstOrDefaultAsync(u => u.Id == id);
 
             if (user == null) return NotFound("User not found.");
 
-            var role = _context.Roles.FirstOrDefault(r => r.Id == removeRoleDTO.Id);
+            var role = await _context.Roles.FirstOrDefaultAsync(r => r.Id == removeRoleDTO.Id);
+
             if (role == null)
+            {
                 return NotFound("Role not found.");
+            }
 
             if (!user.Roles.Contains(role))
-                return BadRequest("User does not have this role");
+            {
+                return BadRequest("User does not have this role.");
+            }
 
             user.Roles.Remove(role);
             await _context.SaveChangesAsync();
