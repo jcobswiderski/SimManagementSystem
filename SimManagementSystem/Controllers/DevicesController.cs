@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SimManagementSystem.DataAccessLayer;
 using SimManagementSystem.DataTransferObjects;
+using SimManagementSystem.Services;
 
 namespace SimManagementSystem.Controllers
 {
@@ -12,67 +13,54 @@ namespace SimManagementSystem.Controllers
     [ApiController]
     public class DevicesController : ControllerBase
     {
-        private readonly SimManagementSystemContext _context;
+        private readonly IDevicesService _devicesService;
 
-        public DevicesController(SimManagementSystemContext context)
+        public DevicesController(IDevicesService devicesService)
         {
-            _context = context;
+            _devicesService = devicesService;
         }
 
+        /// <summary>
+        /// Get all devices used in system.
+        /// </summary>
+        /// <returns>List of availiable devices.</returns>
         [HttpGet]
         public async Task<IActionResult> GetDevices()
         {
-            var devices = await _context.Devices.ToListAsync();
-
-            if (devices == null)
-            {
-                return NotFound("Devices not found.");
-            }
-
-            return Ok(devices);
+            return await _devicesService.GetDevices();
         }
 
+        /// <summary>
+        /// Get single device.
+        /// </summary>
+        /// <param name="id">Id of target device.</param>
+        /// <returns>Single Device object</returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetDevice(int id)
         {
-            var device = await _context.Devices.FirstOrDefaultAsync(d => d.Id == id);
-
-            if (device == null)
-            {
-                return NotFound("Device with given ID not found.");
-            }
-
-            return Ok(device);
+            return await _devicesService.GetDevice(id);
         }
 
+        /// <summary>
+        /// Endpoint to add new device to the system.
+        /// </summary>
+        /// <param name="newDevice">Single Device object</param>
+        /// <returns>Created</returns>
         [HttpPost]
         public async Task<IActionResult> CreateDevice(CreateDeviceDTO newDevice)
         {
-            var device = new Device
-            {
-                Name = newDevice.Name,
-                Tag = newDevice.Tag
-            };
-
-            await _context.Devices.AddAsync(device);
-            await _context.SaveChangesAsync();
-
-            return Created();
+            return await _devicesService.CreateDevice(newDevice);
         }
 
+        /// <summary>
+        /// Deleting single device. Device cannot be related with malfunction.
+        /// </summary>
+        /// <param name="id">Id of single device</param>
+        /// <returns>NoContent</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDevice(int id)
         {
-            var deviceToDelete = new Device
-            {
-                Id = id
-            };
-
-            _context.Devices.Attach(deviceToDelete);
-            _context.Devices.Remove(deviceToDelete);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            return await _devicesService.DeleteDevice(id);
         }
     }
 }

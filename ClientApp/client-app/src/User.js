@@ -100,7 +100,7 @@ const User = ({userId, showAlert}) => {
 
     const assignNewRole = async () => {
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/Users/${id}/AssignRole`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/Roles/${id}/AssignRole`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -121,7 +121,7 @@ const User = ({userId, showAlert}) => {
 
     const deleteRole = async (roleId) => {
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/Users/${id}/RemoveRole`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/Roles/${id}/RemoveRole`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

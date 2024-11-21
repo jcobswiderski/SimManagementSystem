@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SimManagementSystem.DataAccessLayer;
+using SimManagementSystem.Services;
 using System.Security.Claims;
 using System.Text;
 
@@ -45,6 +46,8 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<IDevicesService, DevicesService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 

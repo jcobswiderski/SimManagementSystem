@@ -134,8 +134,8 @@ const UserProfile = ({userId}) => {
                     </thead>
                     <tbody>
                         {userSessions.map(s => (
-                            <tr className={`userProfile__table-tr ${s.realized ? 'userProfile__table-tr--green' : 'userProfile__table-tr--red'}`} key={s.id} onClick={() => navigateToSession(s.id)}>
-                                <td className="userProfile__table-td">{s.id}</td>
+                            <tr className={`userProfile__table-tr ${s.realized ? 'userProfile__table-tr--green' : 'userProfile__table-tr--red'}`} onClick={() => navigateToSession(s.id)}>
+                                <td className="userProfile__table-td" key={s.id}>{s.id}</td>
                                 <td className="userProfile__table-td">[{s.abbreviation}] {s.name}</td>
                                 <td className="userProfile__table-td">{getUserRoleInSession(s)}</td>
                                 <td className="userProfile__table-td">{s.beginDate}</td>
@@ -158,8 +158,8 @@ const UserProfile = ({userId}) => {
                     </thead>
                     <tbody>
                         {daysFromSession.map(s => (
-                            <tr className={`${s.daysSinceLastSession >= 180 ? 'userProfile__table-tr--red' : s.daysSinceLastSession > 90 ? 'userProfile__table-tr--yellow' : 'userProfile__table-tr--green'}`} key={s.id}>
-                                <td className="userProfile__table-td">{s.session}</td>
+                            <tr className={`${s.daysSinceLastSession >= 180 ? 'userProfile__table-tr--red' : s.daysSinceLastSession > 90 ? 'userProfile__table-tr--yellow' : 'userProfile__table-tr--green'}`} >
+                                <td className="userProfile__table-td" key={s.id}>{s.session}</td>
                                 <td className="userProfile__table-td">ostatnia sesja {s.daysSinceLastSession} dni temu</td>
                             </tr>   
                         ))}

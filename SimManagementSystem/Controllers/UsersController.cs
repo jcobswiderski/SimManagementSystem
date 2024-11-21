@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Tokens;
 using SimManagementSystem.DataAccessLayer;
 using SimManagementSystem.DataTransferObjects;
@@ -13,6 +14,7 @@ using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using System.Text;
 using static System.Net.WebRequestMethods;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SimManagementSystem.Controllers
 {
@@ -21,291 +23,113 @@ namespace SimManagementSystem.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly SimManagementSystemContext _context;
-        private readonly IConfiguration _configuration;
+        private readonly IUserService _userService;
 
-        public UsersController(SimManagementSystemContext context, IConfiguration configuration)
+        public UsersController(IUserService userService)
         {
-            _context = context;
-            _configuration = configuration;
+            _userService = userService;
         }
 
+        /// <summary>
+        /// Get all users from the system.
+        /// </summary>
+        /// <returns>List of User objects or NotFound</returns>
         [HttpGet]
         public async Task<IActionResult> GetUsers()
         {
-            var users = await _context.Users
-                .Select(u => new
-                {
-                    u.Id,
-                    u.FirstName,
-                    u.LastName,
-                    UserRoles = u.Roles,
-                })
-                .ToListAsync();
-
-            if (users == null)
-            {
-                return NotFound("Users not found.");
-            }
-
-            return Ok(users);
+            return await _userService.GetUsers();
         }
 
+        /// <summary>
+        /// Get single user.
+        /// </summary>
+        /// <param name="id">Single user id.</param>
+        /// <returns>User object or NotFound</returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUser(int id)
         {
-            var user = await _context.Users
-                .Select(u => new
-                {
-                    u.Id,
-                    u.FirstName,
-                    u.LastName,
-                    UserRoles = u.Roles,
-                })
-                .Where(u => u.Id == id)
-                .FirstOrDefaultAsync();
-
-            if (user == null)
-            {
-                return NotFound("User with given ID not found.");
-            }
-
-            return Ok(user);
+            return await _userService.GetUser(id);
         }
 
+        /// <summary>
+        /// Getting all users with role Engineer.
+        /// </summary>
+        /// <returns>List of User objects related with role Engineer.</returns>
         [HttpGet("role/engineer")]
         public async Task<IActionResult> GetEngineers()
         {
-            var users = await _context.Users
-                .Select(u => new
-                {
-                    u.Id,
-                    u.FirstName,
-                    u.LastName,
-                    UserRoles = u.Roles,
-                })
-                .Where(u => u.UserRoles.Any(r => r.Name == "Engineer"))
-                .ToArrayAsync();
-
-            if (users == null)
-            {
-                return NotFound("Engineers not found.");
-            }
-
-            return Ok(users);
+            return await _userService.GetEngineers(); // ZAMIENIĆ NA SUPERVISORS
         }
 
+        /// <summary>
+        /// Login to the system. Checking if form data is correct.
+        /// </summary>
+        /// <param name="loginRequest">Login and password.</param>
+        /// <returns>Token and Refresh token for the user if data is correct, else returns Unauthorized.</returns>
         [AllowAnonymous]
         [HttpPost("login")]
         public async Task<IActionResult> Login(DataTransferObjects.LoginRequest loginRequest)
         {
-            var user = await _context.Users.Where(user => user.Login == loginRequest.Login).FirstOrDefaultAsync();
-
-            if (user == null)
-            {
-                return Unauthorized();
-            }
-
-            string passwordHash = user.Password;
-            string curHashedPassword = PasswordChecker.GetEncryptedPassword(loginRequest.Password, user.Salt);
-
-            if (passwordHash != curHashedPassword)
-            {
-                return Unauthorized();
-            }
-
-            List<Claim> userClaims = new List<Claim>
-            {
-                new Claim("userId", user.Id.ToString()),
-                new Claim("login", user.Login),
-                new Claim("firstName", user.FirstName),
-                new Claim("lastName", user.LastName)
-            };
-
-            var roles = await _context.Users
-                .Where(u => u.Login == loginRequest.Login)
-                .SelectMany(u => u.Roles)
-                .Select(r => r.Name)
-                .ToListAsync();
-
-            foreach (var role in roles)
-            {
-                userClaims.Add(new Claim("role", role));
-            }
-
-            SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
-            SigningCredentials credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-            JwtSecurityToken token = new JwtSecurityToken
-            (
-                issuer: _configuration["Jwt:Issuer"],
-                audience: _configuration["Jwt:Audience"],
-                claims: userClaims,
-                expires: DateTime.Now.AddMinutes(10),
-                signingCredentials: credentials
-            );
-
-            user.RefreshToken = RefreshTokenGenerator.GetRefreshToken();
-            user.RefreshTokenExp = DateTime.UtcNow.AddDays(1);
-            _context.SaveChangesAsync();
-
-            return Ok(new
-            {
-                token = new JwtSecurityTokenHandler().WriteToken(token),
-                refreshToken = user.RefreshToken
-            });
+            return await _userService.Login(loginRequest);
         }
 
+        /// <summary>
+        /// Register new user.
+        /// </summary>
+        /// <param name="newUser">User data required to register: firstName, lastName, login, password.</param>
+        /// <returns>New user data.</returns>
         [AllowAnonymous]
         [HttpPost("register")]
         public async Task<IActionResult> Register(CreateUserDTO newUser)
         {
-            var encryptedPassword = PasswordEncryptor.GetEncryptedPassword(newUser.Password);
-
-            var user = new User
-            {
-                FirstName = newUser.FirstName,
-                LastName = newUser.LastName,
-                Login = newUser.Login,
-                Password = encryptedPassword.Item1,
-                Salt = encryptedPassword.Item2,
-                RefreshToken = RefreshTokenGenerator.GetRefreshToken(),
-                RefreshTokenExp = DateTime.UtcNow.AddDays(1)
-            };
-
-            await _context.Users.AddAsync(user);
-            await _context.SaveChangesAsync();
-
-            return Ok(user);
+            return await _userService.Register(newUser);
         }
 
+        /// <summary>
+        /// Reseting password. Function available only for Admin.
+        /// </summary>
+        /// <param name="id">Id of the target user.</param>
+        /// <returns>Temporary password for user.</returns>
         [HttpPost("{id}/resetPassword")]
         public async Task<IActionResult> ResetPassword(int id)
         {
-            var user = await _context.Users.Where(user => user.Id == id).FirstOrDefaultAsync();
-
-            if (user == null)
-            {
-                return NotFound("User with given ID not found.");
-            }
-
-            string tempPassword = RandomPasswordGenerator.GetRandomPassword();
-
-            string tempHashedPassword = PasswordChecker.GetEncryptedPassword(tempPassword, user.Salt);
-            user.Password = tempHashedPassword;
-
-            await _context.SaveChangesAsync();
-
-            return Ok(new
-            {
-                tempPassword
-            });
+            return await _userService.ResetPassword(id);
         }
 
+        /// <summary>
+        /// Changing current password by User.
+        /// </summary>
+        /// <param name="id">Target user id.</param>
+        /// <param name="data">Old and new password.</param>
+        /// <returns>User if successfull, Unauthorized if failed.</returns>
         [HttpPost("{id}/changePassword")]
         public async Task<IActionResult> ChangePassword(int id, [FromBody] ChangePasswordDTO data)
         {
-            var user = await _context.Users.Where(user => user.Id == id).FirstOrDefaultAsync();
-
-            if (user == null)
-            {
-                return NotFound("User with given ID not found.");
-            }
-
-            string passwordHash = user.Password;
-            string curHashedPassword = PasswordChecker.GetEncryptedPassword(data.OldPassword, user.Salt);
-
-            if (passwordHash != curHashedPassword)
-            {
-                return Unauthorized();
-            }
-
-            string newHashedPassword = PasswordChecker.GetEncryptedPassword(data.NewPassword, user.Salt);
-            user.Password = newHashedPassword;
-
-            _context.SaveChangesAsync();
-
-            return Ok();
+            return await _userService.ChangePassword(id, data);
         }
 
+        /// <summary>
+        /// Deleting user.
+        /// </summary>
+        /// <param name="id">Target user id.</param>
+        /// <returns>NoContent</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
-            var userToDelete = new User
-            {
-                Id = id
-            };
-
-            _context.Users.Attach(userToDelete);
-            _context.Users.Remove(userToDelete);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            return await _userService.DeleteUser(id);
         }
 
+        /// <summary>
+        /// Edit user firstName and lastName.
+        /// </summary>
+        /// <param name="id">Target user id.</param>
+        /// <param name="updatedUser">New firstName and lastName.</param>
+        /// <returns>If wrong id - NotFound else returns target User.</returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> EditUser(int id, [FromBody] EditUserDTO updatedUser)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
-            
-            if (user == null)
-            {
-                return NotFound("User with given ID not found.");
-            }
-
-            user.FirstName = updatedUser.FirstName;
-            user.LastName = updatedUser.LastName;
-
-            await _context.SaveChangesAsync();
-
-            return Ok(user);
+            return await _userService.EditUser(id, updatedUser);
         }
 
-        [HttpPost("{id}/AssignRole")]
-        public async Task<IActionResult> AssignRole(int id, [FromBody] AssignRoleDTO assignRoleDTO)
-        {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
-            if (user == null)
-                return NotFound("User not found");
-
-            var role = await _context.Roles.FirstOrDefaultAsync(r => r.Id == assignRoleDTO.Id);
-            if (role == null)
-                return NotFound("Role not found.");
-
-            if (user.Roles.Contains(role))
-                return BadRequest("User already has this role.");
-
-            user.Roles.Add(role);
-            await _context.SaveChangesAsync();
-
-            return Ok("Role assigned to user.");
-        }
-
-        [HttpDelete("{id}/RemoveRole")]
-        public async Task<IActionResult> RemoveRole(int id, [FromBody] RemoveRoleDTO removeRoleDTO)
-        {
-            var user = await _context.Users
-                .Include(u => u.Roles)
-                .FirstOrDefaultAsync(u => u.Id == id);
-
-            if (user == null) return NotFound("User not found.");
-
-            var role = await _context.Roles.FirstOrDefaultAsync(r => r.Id == removeRoleDTO.Id);
-
-            if (role == null)
-            {
-                return NotFound("Role not found.");
-            }
-
-            if (!user.Roles.Contains(role))
-            {
-                return BadRequest("User does not have this role.");
-            }
-
-            user.Roles.Remove(role);
-            await _context.SaveChangesAsync();
-
-            return Ok("Role sucessfuly removed");
-        }
     }
 }
