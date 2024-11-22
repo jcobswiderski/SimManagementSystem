@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SimManagementSystem.DataAccessLayer;
 using SimManagementSystem.DataTransferObjects;
+using SimManagementSystem.Services;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SimManagementSystem.Controllers
 {
@@ -10,312 +12,143 @@ namespace SimManagementSystem.Controllers
     [ApiController]
     public class SimulatorSessionsController : ControllerBase
     {
-        private readonly SimManagementSystemContext _context;
+        private readonly ISimulatorSessionsService _sessionService;
 
-        public SimulatorSessionsController(SimManagementSystemContext context)
+        public SimulatorSessionsController(ISimulatorSessionsService simulatorSessionsService)
         {
-            _context = context;
+            _sessionService = simulatorSessionsService;
         }
 
+        /// <summary>
+        /// Return all simulator sessions.
+        /// </summary>
+        /// <returns>List of simulator sessions</returns>
         [HttpGet]
         public async Task<IActionResult> GetSimulatorSessions()
         {
-            var simulatorSession = await _context.SimulatorSessions
-                .OrderByDescending(m => m.BeginDate)
-                .Select(s => new
-                {
-                    s.Id,
-                    Category = s.PredefinedSessionNavigation.CategoryNavigation.Name,
-                    Name = s.PredefinedSessionNavigation.Name,
-                    Abbreviation = s.PredefinedSessionNavigation.Abbreviation,
-                    Description = s.PredefinedSessionNavigation.Description,
-                    Duration = s.PredefinedSessionNavigation.Duration,
-                    BeginDate = s.BeginDate.ToString("yyyy-MM-dd HH:mm:ss"),
-                    EndDate = s.EndDate.ToString("yyyy-MM-dd HH:mm:ss"),
-                    s.Realized,
-                    PilotName = s.PilotSeatNavigation.FirstName + " " + s.PilotSeatNavigation.LastName,
-                    CopilotName = s.CopilotSeatNavigation.FirstName + " " + s.CopilotSeatNavigation.LastName,
-                    ObserverName = s.ObserverSeatNavigation.FirstName + " " + s.ObserverSeatNavigation.LastName,
-                    SupervisorName = s.SupervisorSeatNavigation.FirstName + " " + s.SupervisorSeatNavigation.LastName,
-                })
-                .ToListAsync();
-
-            if (simulatorSession == null)
-            {
-                return NotFound("Simulator session not found.");
-            }
-
-            return Ok(simulatorSession);
+            return await _sessionService.GetSimulatorSessions();
         }
 
+        /// <summary>
+        /// Return all simulator sessions planned but not completed.
+        /// </summary>
+        /// <returns>List of planned simulator sessions</returns>
         [HttpGet("count/planned")]
         public async Task<IActionResult> GetPlannedSimulatorSessionsCount()
         {
-            var simulatorSessionCount = await _context.SimulatorSessions
-                .Where(s => s.Realized == false)
-                .CountAsync();
-
-            return Ok(simulatorSessionCount);
+            return await _sessionService.GetPlannedSimulatorSessionsCount();
         }
 
+        /// <summary>
+        /// Get statistics for sessions. Sessions need to be done and be in given dates scope.
+        /// </summary>
+        /// <param name="dateBegin">Date begin</param>
+        /// <param name="dateEnd">Date end</param>
+        /// <returns>Two values: Duration and Count</returns>
         [HttpGet("statistics")]
         public async Task<IActionResult> GetSimulatorSessionsStatistics(DateTime dateBegin, DateTime dateEnd)
         {
-            var simulatorSessions = await _context.SimulatorSessions
-                .Where(s => s.BeginDate.Date >= dateBegin.Date && s.EndDate.Date <= dateEnd.Date && s.Realized == true)
-                .Select(s => new
-                {
-                    s.Id,
-                    Duration = s.PredefinedSessionNavigation.Duration,
-                    s.Realized,
-                })
-                .ToListAsync();
-
-            if (simulatorSessions == null)
-            {
-                return NotFound("Simulator sessions not found.");
-            }
-
-            var totalDuration = simulatorSessions.Sum(s => s.Duration);
-            var count = simulatorSessions.Count;
-
-            var result = new { 
-                Duration = totalDuration,
-                Count = count
-            };
-
-            return Ok(result);
+            return await _sessionService.GetSimulatorSessionsStatistics(dateBegin, dateEnd);
         }
 
+        /// <summary>
+        /// Checks if there is no conflict with an existing session.
+        /// </summary>
+        /// <param name="dateBegin">Date begin of added session</param>
+        /// <param name="duration">Duration of new session</param>
+        /// <returns>Boolean value</returns>
         [HttpGet("checkConflict")]
         public async Task<IActionResult> CheckSimSessionConflict(DateTime dateBegin, int duration)
         {
-            var dateEnd = dateBegin.AddMinutes(duration);
-
-            var conflictingSessions = await _context.SimulatorSessions
-                .Where(s => s.BeginDate < dateEnd && s.EndDate > dateBegin)
-                .CountAsync();
-
-            return Ok(conflictingSessions);
+            return await _sessionService.CheckSimSessionConflict(dateBegin, duration);
         }
 
+        /// <summary>
+        /// Get single simulator session.
+        /// </summary>
+        /// <param name="id">Target simulator session id</param>
+        /// <returns>Single simulator session object.</returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetSimulatorSession(int id)
         {
-            var simulatorSession = await _context.SimulatorSessions
-                .Where(s => s.Id == id)
-                .Select(s => new
-                {
-                    s.Id,
-                    Category = s.PredefinedSessionNavigation.CategoryNavigation.Name,
-                    Name = s.PredefinedSessionNavigation.Name,
-                    Abbreviation = s.PredefinedSessionNavigation.Abbreviation,
-                    Description = s.PredefinedSessionNavigation.Description,
-                    Duration = s.PredefinedSessionNavigation.Duration,
-                    BeginDate = s.BeginDate.ToString("yyyy-MM-dd HH:mm:ss"),
-                    EndDate = s.EndDate.ToString("yyyy-MM-dd HH:mm:ss"),
-                    s.Realized,
-                    PilotName = s.PilotSeatNavigation.FirstName + " " + s.PilotSeatNavigation.LastName,
-                    CopilotName = s.CopilotSeatNavigation.FirstName + " " + s.CopilotSeatNavigation.LastName,
-                    ObserverName = s.ObserverSeatNavigation.FirstName + " " + s.ObserverSeatNavigation.LastName,
-                    SupervisorName = s.SupervisorSeatNavigation.FirstName + " " + s.SupervisorSeatNavigation.LastName,
-                })
-                .FirstOrDefaultAsync();
-
-            if (simulatorSession == null)
-            {
-                return NotFound("Simulator session with given ID not found.");
-            }
-
-            return Ok(simulatorSession);
+            return await _sessionService.GetSimulatorSession(id);
         }
 
+        /// <summary>
+        /// Returns the session for a given day.
+        /// </summary>
+        /// <param name="date">Date</param>
+        /// <returns>List of simulator sessions</returns>
         [HttpGet("byday/{date}")]
         public async Task<IActionResult> GetSimulatorSessionsByDay(DateTime date)
         {
-            var sessions = await _context.SimulatorSessions
-                .OrderByDescending(m => m.BeginDate)
-                .Include(s => s.PredefinedSessionNavigation)
-                .Include(s => s.PilotSeatNavigation)
-                .Include(s => s.CopilotSeatNavigation)
-                .Include(s => s.ObserverSeatNavigation)
-                .Include(s => s.SupervisorSeatNavigation)
-                .Where(s => s.BeginDate.Date == date.Date)
-                .Select(s => new
-                {
-                    s.Id,
-                    BeginDate = s.BeginDate.ToString("yyyy-MM-dd HH:mm:ss"),
-                    EndDate = s.EndDate.ToString("yyyy-MM-dd HH:mm:ss"),
-                    PilotName = s.PilotSeatNavigation.FirstName + " " + s.PilotSeatNavigation.LastName,
-                    CopilotName = s.CopilotSeatNavigation.FirstName + " " + s.CopilotSeatNavigation.LastName,
-                    ObserverName = s.ObserverSeatNavigation.FirstName + " " + s.ObserverSeatNavigation.LastName,
-                    SupervisorName = s.SupervisorSeatNavigation.FirstName + " " + s.SupervisorSeatNavigation.LastName,
-                    PredefinedSessionName = s.PredefinedSessionNavigation.Name,
-                    PredefinedSessionDescription = s.PredefinedSessionNavigation.Description,
-                    PredefinedSessionAbbreviation = s.PredefinedSessionNavigation.Abbreviation,
-                    PredefinedSessionDuration = s.PredefinedSessionNavigation.Duration
-                })
-                .ToListAsync();
-
-            if (sessions == null || !sessions.Any())
-            {
-                return NotFound("No sessions found for the given date.");
-            }
-
-            return Ok(sessions);
+            return await _sessionService.GetSimulatorSessionsByDay(date);
         }
 
+        /// <summary>
+        /// Get sessions for the selected user 
+        /// </summary>
+        /// <param name="userId">Target user id</param>
+        /// <returns>List of simulator sessions</returns>
         [HttpGet("byuser/{userId}")]
         public async Task<IActionResult> GetSimulatorSessionsByUser(int userId)
         {
-            var sessions = await _context.SimulatorSessions
-                .OrderByDescending(m => m.BeginDate)
-                .Include(s => s.PredefinedSessionNavigation)
-                .Include(s => s.PilotSeatNavigation)
-                .Include(s => s.CopilotSeatNavigation)
-                .Include(s => s.ObserverSeatNavigation)
-                .Include(s => s.SupervisorSeatNavigation)
-                .Where(s => s.PilotSeatNavigation.Id == userId ||
-                        s.SupervisorSeatNavigation.Id == userId ||
-                        s.CopilotSeatNavigation.Id == userId ||
-                        s.ObserverSeatNavigation.Id == userId)
-                .Select(s => new
-                {
-                    s.Id,
-                    BeginDate = s.BeginDate.ToString("yyyy-MM-dd HH:mm:ss"),
-                    EndDate = s.EndDate.ToString("yyyy-MM-dd HH:mm:ss"),
-                    Pilot = s.PilotSeat,
-                    Copilot = s.CopilotSeat,
-                    Observer = s.ObserverSeat,
-                    Supervisor = s.SupervisorSeat,
-                    Name = s.PredefinedSessionNavigation.Name,
-                    Abbreviation = s.PredefinedSessionNavigation.Abbreviation,
-                    s.Realized
-                })
-                .ToListAsync();
-
-            if (sessions == null || !sessions.Any())
-            {
-                return NotFound("No sessions found for the given user.");
-            }
-
-            return Ok(sessions);
+            return await _sessionService.GetSimulatorSessionsByUser(userId);
         }
 
+        /// <summary>
+        /// Get statistics for user and session as supervisor and trained.
+        /// </summary>
+        /// <param name="userId">Target user id</param>
+        /// <returns>sessionsAsTrained, sessionsAsTrainedDuration, sessionsAsSupervisor, sessionsAsSupervisorDuration</returns>
         [HttpGet("byuser/{userId}/count")]
         public async Task<IActionResult> GetSimulatorSessionsByUserCount(int userId)
         {
-            var sessionsAsTrained = await _context.SimulatorSessions
-                .Where(s => (s.PilotSeatNavigation.Id == userId || s.CopilotSeatNavigation.Id == userId) && s.Realized == true)
-                .CountAsync();
-
-            var sessionsAsTrainedDuration = await _context.SimulatorSessions
-                .Where(s => (s.PilotSeatNavigation.Id == userId || s.CopilotSeatNavigation.Id == userId) && s.Realized == true)
-                .SumAsync(s => s.PredefinedSessionNavigation.Duration);
-
-            var sessionsAsSupervisor = await _context.SimulatorSessions
-                .Where(s => (s.SupervisorSeatNavigation.Id == userId) && s.Realized == true)
-                .CountAsync();
-
-            var sessionsAsSupervisorDuration = await _context.SimulatorSessions
-               .Where(s => (s.SupervisorSeatNavigation.Id == userId) && s.Realized == true)
-               .SumAsync(s => s.PredefinedSessionNavigation.Duration);
-
-            var result = new
-            {
-                sessionsAsTrained = sessionsAsTrained,
-                sessionsAsTrainedDuration = sessionsAsTrainedDuration,
-                sessionsAsSupervisor = sessionsAsSupervisor,
-                sessionsAsSupervisorDuration = sessionsAsSupervisorDuration
-            };
-
-            return Ok(result);
+            return await _sessionService.GetSimulatorSessionsByUserCount(userId);
         }
 
+        /// <summary>
+        /// Calculates and returns the time since the last completed session of each type.
+        /// </summary>
+        /// <param name="userId">Target user id</param>
+        /// <returns>A summary of sessions names and time.</returns>
         [HttpGet("byuser/{userId}/last")]
         public async Task<IActionResult> GetLastSimulatorSessionsByUser(int userId)
         {
-            var sessions = await _context.SimulatorSessions
-                .Where(s => s.Realized == true && (s.PilotSeatNavigation.Id == userId || s.CopilotSeatNavigation.Id == userId))
-                .Include(s => s.PredefinedSessionNavigation)
-                .GroupBy(s => s.PredefinedSessionNavigation.Name)
-                .Select(g => new
-                {
-                    Session = g.Key,
-                    DaysSinceLastSession = g.Max(s => EF.Functions.DateDiffDay(s.BeginDate, DateTime.Now))
-                })
-                .ToListAsync();
-
-            if (sessions == null)
-            {
-                return NotFound("Last simulator sessions for given user not found.");
-            }
-
-            return Ok(sessions);
+            return await _sessionService.GetLastSimulatorSessionsByUser(userId);
         }
 
+        /// <summary>
+        /// Add new simulator session
+        /// </summary>
+        /// <param name="newSession">Simulator session required data</param>
+        /// <returns>Created</returns>
         [HttpPost]
         public async Task<IActionResult> CreateSession(CreateSimulatorSessionDTO newSession)
         {
-            var predefinedSession = await _context.PredefinedSessions
-                .Where(s => s.Id == newSession.PredefinedSession)
-                .FirstOrDefaultAsync();
-
-            if (predefinedSession == null)
-            {
-                return NotFound("Predefined session not found.");
-            }
-
-            int duration = predefinedSession.Duration;
-            DateTime tempEndDate = newSession.BeginDate.AddMinutes(duration);
-
-            var session = new SimulatorSession
-            {
-                PredefinedSession = newSession.PredefinedSession,
-                BeginDate = newSession.BeginDate,
-                EndDate = tempEndDate,
-                PilotSeat = newSession.PilotSeat,
-                CopilotSeat = newSession.CopilotSeat,
-                SupervisorSeat = newSession.SupervisorSeat,
-                ObserverSeat = newSession.ObserverSeat,
-                Realized = newSession.Realized
-            };
-
-            await _context.SimulatorSessions.AddAsync(session);
-            await _context.SaveChangesAsync();
-
-            return Ok();
+            return await _sessionService.CreateSession(newSession);
         }
 
-
+        /// <summary>
+        /// Delete single session
+        /// </summary>
+        /// <param name="id">Target session id</param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSimulatorSession(int id)
         {
-            var sessionToDelete = new SimulatorSession
-            {
-                Id = id
-            };
-
-            _context.SimulatorSessions.Attach(sessionToDelete);
-            _context.SimulatorSessions.Remove(sessionToDelete);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            return await _sessionService.DeleteSimulatorSession(id);
         }
 
+        /// <summary>
+        /// Updating simulator session state to complete.
+        /// </summary>
+        /// <param name="id">Target session id</param>
+        /// <returns>Simulator session after update</returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateSimulatorSessionState(int id)
         {
-            var simSession = await _context.SimulatorSessions.FirstOrDefaultAsync(m => m.Id == id);
-            if (simSession == null)
-            {
-                return NotFound("Simulator session not found");
-            }
-
-            simSession.Realized = true;
-            await _context.SaveChangesAsync();
-
-            return Ok(simSession);
+            return await _sessionService.UpdateSimulatorSessionState(id);
         }
     }
 }

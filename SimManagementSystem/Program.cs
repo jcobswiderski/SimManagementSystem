@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using SimManagementSystem.Controllers;
 using SimManagementSystem.DataAccessLayer;
 using SimManagementSystem.Services;
 using System.Security.Claims;
@@ -56,6 +57,8 @@ builder.Services.AddScoped<IPredefinedSessionsService, PredefinedSessionsService
 builder.Services.AddScoped<IRecoveryActionsService, RecoveryActionsService>();
 builder.Services.AddScoped<IRolesService, RolesService>();
 builder.Services.AddScoped<ISessionCategoriesService, SessionCategoriesService>();
+builder.Services.AddScoped<ISimulatorSessionsService, SimulatorSessionsService>();
+builder.Services.AddScoped<ISimulatorStatesService, SimulatorStatesService>();
 
 
 var app = builder.Build();

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SimManagementSystem.DataAccessLayer;
 using SimManagementSystem.DataTransferObjects;
+using SimManagementSystem.Services;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SimManagementSystem.Controllers
@@ -11,97 +12,55 @@ namespace SimManagementSystem.Controllers
     [ApiController]
     public class SimulatorStatesController : ControllerBase
     {
-        private readonly SimManagementSystemContext _context;
+        private readonly ISimulatorStatesService _statesService;
 
-        public SimulatorStatesController(SimManagementSystemContext context)
+        public SimulatorStatesController(SimManagementSystemContext context, ISimulatorStatesService simulatorStatesService)
         {
-            _context = context;
+            _statesService = simulatorStatesService;
         }
 
+        /// <summary>
+        /// Return all simulator meter states.
+        /// </summary>
+        /// <returns>List of states</returns>
         [HttpGet]
         public async Task<IActionResult> GetSimulatorStates()
         {
-            var simulatorStates = await _context.SimulatorStates
-                .OrderByDescending(s => s.StartupTime)
-                .Select(s => new
-                {
-                    s.Id,
-                    startupTime = s.StartupTime.ToString("yyyy-MM-dd HH:mm:ss"),
-                    s.MeterState,
-                    s.Operator
-                })
-                .ToListAsync();
-
-            if (simulatorStates == null)
-            {
-                return NotFound("Simulator states not found");
-            }
-
-            return Ok(simulatorStates);
+            return await _statesService.GetSimulatorStates();
         }
 
+        /// <summary>
+        /// Get difference beetwen two states from time scope
+        /// </summary>
+        /// <param name="date1">Date begin</param>
+        /// <param name="date2">Date end</param>
+        /// <returns>Value difference</returns>
         [HttpGet("difference")]
         public async Task<IActionResult> GetSimulatorStateDifference(DateTime date1, DateTime date2)
         {
-            if (date1 > date2)
-            {
-                return NotFound("Date begin cannot be greater than date end.");
-            }
-
-            var firstState = await _context.SimulatorStates
-                .OrderBy(s => s.StartupTime)
-                .Where(s => s.StartupTime.Date >= date1.Date)
-                .Select(s => new
-                {
-                    s.StartupTime,
-                    s.MeterState
-                })
-                .FirstOrDefaultAsync();
-
-            var lastState = await _context.SimulatorStates
-                .OrderByDescending(s => s.StartupTime)
-                .Where(s => s.StartupTime.Date <= date2.Date)
-                .Select(s => new
-                {
-                    s.StartupTime,
-                    s.MeterState
-                })
-                .FirstOrDefaultAsync();
-
-            if (firstState != null && lastState != null)
-            {
-                int result = lastState.MeterState - firstState.MeterState;
-                return Ok(result);
-            }
-
-            return NotFound("Simulator states not found for given dates.");
+            return await _statesService.GetSimulatorStateDifference(date1, date2);
         }
 
+        /// <summary>
+        /// Add new meter state.
+        /// </summary>
+        /// <param name="createSimulatorStateDTO">Meter data required to add new state.</param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> CreateSimulatorState(CreateSimulatorStateDTO createSimulatorStateDTO)
         {
-            var simulatorState = new SimulatorState
-            {
-                StartupTime = createSimulatorStateDTO.StartupTime,
-                MeterState = createSimulatorStateDTO.MeterState,
-                Operator = createSimulatorStateDTO.Operator
-            };
-
-            await _context.SimulatorStates.AddAsync(simulatorState);
-            await _context.SaveChangesAsync();
-
-            return Ok(simulatorState);
+            return await _statesService.CreateSimulatorState(createSimulatorStateDTO);
         }
 
+        /// <summary>
+        /// Delete single meter state.
+        /// </summary>
+        /// <param name="id">Target meter state</param>
+        /// <returns>NoContent</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSimulatorState(int id)
         {
-            var simulatorStateToDelete = new SimulatorState { Id = id };
-            _context.SimulatorStates.Attach(simulatorStateToDelete);
-            _context.SimulatorStates.Remove(simulatorStateToDelete);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            return await _statesService.DeleteSimulatorState(id);
         }
     }
 }
