@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SimManagementSystem.DataAccessLayer;
+using SimManagementSystem.Services;
 
 namespace SimManagementSystem.Controllers
 {
@@ -9,24 +10,21 @@ namespace SimManagementSystem.Controllers
     [ApiController]
     public class MaintenanceTypesController : ControllerBase
     {
-        private readonly SimManagementSystemContext _context;
+        private readonly IMaintenanceTypesService _maintenanceTypesService;
 
-        public MaintenanceTypesController(SimManagementSystemContext context)
+        public MaintenanceTypesController(IMaintenanceTypesService maintenanceTypesService)
         {
-            _context = context;
+            _maintenanceTypesService = maintenanceTypesService;
         }
 
+        /// <summary>
+        /// Get all maintenance types used in system.
+        /// </summary>
+        /// <returns>List of maintenance types.</returns>
         [HttpGet]
         public async Task<IActionResult> GetMaintenanceTypes()
         {
-            var maintenanceTypes = await _context.MaintenanceTypes.ToListAsync();
-
-            if (maintenanceTypes == null)
-            {
-                return NotFound("Maintenance types not found.");
-            }
-
-            return Ok(maintenanceTypes);
+            return await _maintenanceTypesService.GetMaintenanceTypes();
         }
     }
 }

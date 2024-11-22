@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SimManagementSystem.DataAccessLayer;
 using SimManagementSystem.DataTransferObjects;
+using SimManagementSystem.Services;
 
 namespace SimManagementSystem.Controllers
 {
@@ -11,185 +12,99 @@ namespace SimManagementSystem.Controllers
     [ApiController]
     public class MalfunctionsController : ControllerBase
     {
-        private readonly SimManagementSystemContext _context;
+        private readonly IMalfunctionsService _malfunctionsService;
 
-        public MalfunctionsController(SimManagementSystemContext context)
+        public MalfunctionsController(SimManagementSystemContext context, IMalfunctionsService malfunctionsService)
         {
-            _context = context;
+            _malfunctionsService = malfunctionsService;
         }
 
+        /// <summary>
+        /// Get list of malfunction objects.
+        /// </summary>
+        /// <returns>List of Malfunction objects</returns>
         [HttpGet]
         public async Task<IActionResult> GetMalfunctions()
         {
-            var malfunctions = await _context.Malfunctions
-                .OrderByDescending(m => m.DateBegin)
-                .Select(m => new
-                {
-                    m.Id,
-                    m.Name,
-                    m.Description,
-                    userReporter = m.UserReporterNavigation.FirstName + " " + m.UserReporterNavigation.LastName,
-                    userHandler = m.UserHandlerNavigation.FirstName + " " + m.UserHandlerNavigation.LastName,
-                    dateBegin = m.DateBegin.ToString("yyyy-MM-dd HH:mm:ss"),
-                    dateEnd = m.DateEnd != null ? m.DateEnd.Value.ToString("yyyy-MM-dd HH:mm:ss") : "",
-                    m.Status
-                })
-                .ToListAsync();
-
-            if (malfunctions == null)
-            {
-                return NotFound("Malfunctions not found.");
-            }
-
-            return Ok(malfunctions);
+            return await _malfunctionsService.GetMalfunctions();
         }
 
+        /// <summary>
+        /// Get number of malfunctions between two dates.
+        /// </summary>
+        /// <param name="dateBegin">Date begin</param>
+        /// <param name="dateEnd">Date end</param>
+        /// <returns>Integer with value</returns>
         [HttpGet("count")]
         public async Task<IActionResult> GetMalfunctionsCount(DateTime? dateBegin, DateTime? dateEnd)
         {
-            if (!dateBegin.HasValue || !dateEnd.HasValue) {
-                return BadRequest("Please enter date begin and date end!");
-            }
-
-            int malfunctionCount = await _context.Malfunctions
-                .Where(m => m.DateBegin >= dateBegin.Value && m.DateBegin <= dateEnd.Value)
-                .CountAsync();
-
-            return Ok(malfunctionCount);
+            return await _malfunctionsService.GetMalfunctionsCount(dateBegin, dateEnd);
         }
 
+        /// <summary>
+        /// Get number of all unsolved malfunctions.
+        /// </summary>
+        /// <returns>Integer with value</returns>
         [HttpGet("count/unsolved")]
         public async Task<IActionResult> GetUnsolvedMalfunctionsCount()
         {
-            int malfunctionCount = await _context.Malfunctions
-                .Where(m => m.Status == false)
-                .CountAsync();
-
-            return Ok(malfunctionCount);
+            return await _malfunctionsService.GetUnsolvedMalfunctionsCount();
         }
 
-
+        /// <summary>
+        /// Get single malfunction.
+        /// </summary>
+        /// <param name="id">Target malfunction id</param>
+        /// <returns>Malfunction object</returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetMalfunction(int id)
         {
-            var malfunction = await _context.Malfunctions
-                .OrderByDescending(m => m.DateBegin)
-                .Select(m => new
-                {
-                    m.Id,
-                    m.Name,
-                    m.Description,
-                    userReporter = m.UserReporterNavigation.FirstName + " " + m.UserReporterNavigation.LastName,
-                    userHandler = m.UserHandlerNavigation.FirstName + " " + m.UserHandlerNavigation.LastName,
-                    dateBegin = m.DateBegin.ToString("yyyy-MM-dd HH:mm:ss"),
-                    dateEnd = m.DateEnd != null ? m.DateEnd.Value.ToString("yyyy-MM-dd HH:mm:ss") : "",
-                    m.Status,
-                    devices = string.Join(", ", m.Devices.Select(d => d.Name))
-                })
-                .Where(m => m.Id == id)
-                .FirstOrDefaultAsync();
-
-
-            if (malfunction == null)
-            {
-                return NotFound("Malfunction with given ID not found.");
-            }
-
-            return Ok(malfunction);
+            return await _malfunctionsService.GetMalfunction(id);
         }
 
+        /// <summary>
+        /// Get all malfuntions for specified device
+        /// </summary>
+        /// <param name="deviceId">Device id</param>
+        /// <returns>List of malfunctions</returns>
         [HttpGet("device/{deviceId}")]
         public async Task<IActionResult> GetMalfunctionForDevice(int deviceId)
         {
-            var malfunctions = await _context
-                .Malfunctions
-                .Where(m => m.Devices.Any(d => d.Id == deviceId))
-                .OrderByDescending(m => m.DateBegin)
-                .Select(m => new
-                {
-                    m.Id,
-                    m.Name,
-                    m.Description,
-                    userReporter = m.UserReporterNavigation.FirstName + " " + m.UserReporterNavigation.LastName,
-                    userHandler = m.UserHandlerNavigation.FirstName + " " + m.UserHandlerNavigation.LastName,
-                    dateBegin = m.DateBegin.ToString("yyyy-MM-dd HH:mm:ss"),
-                    dateEnd = m.DateEnd != null ? m.DateEnd.Value.ToString("yyyy-MM-dd HH:mm:ss") : "",
-                    m.Status
-                })
-                .ToListAsync();
-
-            if (malfunctions == null)
-            {
-                return NotFound("Malfunctions for specific device not found.");
-            }
-
-            return Ok(malfunctions);
+            return await _malfunctionsService.GetMalfunctionForDevice(deviceId);
         }
 
-
+        /// <summary>
+        /// Add new malfunction to the system.
+        /// </summary>
+        /// <param name="newMalfunction">Malfunction data.</param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> CreateMalfunction(CreateMalfunctionDTO newMalfunction)
         {
-            var devices = await _context.Devices
-                .Where(d => newMalfunction.Devices.Contains(d.Id))
-                .ToListAsync();
-
-            if (devices == null || devices.Count != newMalfunction.Devices.Count)
-            {
-                return BadRequest("Some devices does not exist.");
-            }
-
-            var malfunction = new Malfunction
-            {
-                Name = newMalfunction.Name,
-                Description = newMalfunction.Description,
-                UserReporter = newMalfunction.UserReporter,
-                UserHandler = newMalfunction.UserHandler,
-                DateBegin = newMalfunction.DateBegin,
-                Status = newMalfunction.Status,
-                Devices = devices
-            };
-
-            await _context.Malfunctions.AddAsync(malfunction);
-            await _context.SaveChangesAsync();
-
-            return Ok();
+            return await _malfunctionsService.CreateMalfunction(newMalfunction);
         }
 
+        /// <summary>
+        /// Delete malfunction with given id.
+        /// </summary>
+        /// <param name="id">Target malfunction id</param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMalfunction(int id)
         {
-            var malfunctionToDelete = await _context.Malfunctions
-                .Include(m => m.Devices)
-                .Include(m => m.RecoveryActions)
-                .FirstOrDefaultAsync(m => m.Id == id);
-
-            if (malfunctionToDelete == null)
-            {
-                return NotFound("Malfunction with given ID not found.");
-            }
-
-            _context.Malfunctions.Remove(malfunctionToDelete);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            return await _malfunctionsService.DeleteMalfunction(id);
         }
 
+        /// <summary>
+        /// Update malfunction state: unsolved -> solved.
+        /// </summary>
+        /// <param name="id">Target malfunction id</param>
+        /// <param name="updatedUser">User id who solve the malfunction</param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateMalfunctionState(int id, [FromBody] EditMalfunctionDTO updatedUser)
         {
-            var malfunction = await _context.Malfunctions.FirstOrDefaultAsync(m => m.Id == id);
-            if (malfunction == null)
-            {
-                return NotFound("Malfunction with given ID not found.");
-            }
-
-            malfunction.DateEnd = updatedUser.DateEnd;
-            malfunction.Status = updatedUser.Status;
-
-            await _context.SaveChangesAsync();
-
-            return Ok(malfunction);
+            return await _malfunctionsService.UpdateMalfunctionState(id, updatedUser);
         }
     }
 }

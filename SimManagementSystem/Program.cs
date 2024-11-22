@@ -50,6 +50,8 @@ builder.Services.AddScoped<IDevicesService, DevicesService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IInspectionsService, InspectionsService>();
 builder.Services.AddScoped<IMaintenancesService, MaintenanceService>();
+builder.Services.AddScoped<IMaintenanceTypesService, MaintenanceTypesService>();
+builder.Services.AddScoped<IMalfunctionsService, MalfunctionsService>();
 
 var app = builder.Build();
 
