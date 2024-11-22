@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SimManagementSystem.DataAccessLayer;
 using SimManagementSystem.DataTransferObjects;
+using SimManagementSystem.Services;
 
 namespace SimManagementSystem.Controllers
 {
@@ -10,71 +11,45 @@ namespace SimManagementSystem.Controllers
     [ApiController]
     public class RolesController : ControllerBase
     {
-        private readonly SimManagementSystemContext _context;
+        private readonly IRolesService _rolesService;
 
-        public RolesController(SimManagementSystemContext context)
+        public RolesController(IRolesService rolesService)
         {
-            _context = context;
+            _rolesService = rolesService;
         }
 
+        /// <summary>
+        /// Get all available roles
+        /// </summary>
+        /// <returns>List of available roles</returns>
         [HttpGet]
         public async Task<IActionResult> GetRoles()
         {
-            var roles = await _context.Roles.ToListAsync();
-
-            if (roles == null)
-            {
-                return NotFound("Roles not found.");
-            }
-
-            return Ok(roles);
+            return await _rolesService.GetRoles();
         }
 
+        /// <summary>
+        /// Asign role to user.
+        /// </summary>
+        /// <param name="id">Target user id</param>
+        /// <param name="assignRoleDTO">Target role id</param>
+        /// <returns></returns>
         [HttpPost("{id}/AssignRole")]
         public async Task<IActionResult> AssignRole(int id, [FromBody] AssignRoleDTO assignRoleDTO)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
-            if (user == null)
-                return NotFound("User not found");
-
-            var role = await _context.Roles.FirstOrDefaultAsync(r => r.Id == assignRoleDTO.Id);
-            if (role == null)
-                return NotFound("Role not found.");
-
-            if (user.Roles.Contains(role))
-                return BadRequest("User already has this role.");
-
-            user.Roles.Add(role);
-            await _context.SaveChangesAsync();
-
-            return Ok("Role assigned to user.");
+            return await _rolesService.AssignRole(id, assignRoleDTO);
         }
 
+        /// <summary>
+        /// Delete user role
+        /// </summary>
+        /// <param name="id">Target user id</param>
+        /// <param name="removeRoleDTO">Target role id</param>
+        /// <returns></returns>
         [HttpDelete("{id}/RemoveRole")]
         public async Task<IActionResult> RemoveRole(int id, [FromBody] RemoveRoleDTO removeRoleDTO)
         {
-            var user = await _context.Users
-                .Include(u => u.Roles)
-                .FirstOrDefaultAsync(u => u.Id == id);
-
-            if (user == null) return NotFound("User not found.");
-
-            var role = await _context.Roles.FirstOrDefaultAsync(r => r.Id == removeRoleDTO.Id);
-
-            if (role == null)
-            {
-                return NotFound("Role not found.");
-            }
-
-            if (!user.Roles.Contains(role))
-            {
-                return BadRequest("User does not have this role.");
-            }
-
-            user.Roles.Remove(role);
-            await _context.SaveChangesAsync();
-
-            return Ok("Role sucessfuly removed");
+            return await _rolesService.RemoveRole(id, removeRoleDTO);
         }
     }
 }

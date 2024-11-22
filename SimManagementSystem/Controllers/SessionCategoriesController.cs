@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SimManagementSystem.DataAccessLayer;
 using SimManagementSystem.DataTransferObjects;
+using SimManagementSystem.Services;
 using System.Data;
 
 namespace SimManagementSystem.Controllers
@@ -11,24 +12,21 @@ namespace SimManagementSystem.Controllers
     [ApiController]
     public class SessionCategoriesController : ControllerBase
     {
-        private readonly SimManagementSystemContext _context;
+        private readonly ISessionCategoriesService _sessionCategoriesService;
 
-        public SessionCategoriesController(SimManagementSystemContext context)
+        public SessionCategoriesController(ISessionCategoriesService sessionCategoriesService)
         {
-            _context = context;
+            _sessionCategoriesService = sessionCategoriesService;
         }
 
+        /// <summary>
+        /// Get all session categories like training, exam, technical...
+        /// </summary>
+        /// <returns>List of categories</returns>
         [HttpGet]
         public async Task<IActionResult> GetSessionCategories()
         {
-            var categories = await _context.SessionCategories.ToListAsync();
-
-            if (categories == null)
-            {
-                return NotFound("Sessions categories not found.");
-            }
-
-            return Ok(categories);
+            return await _sessionCategoriesService.GetSessionCategories();
         }
     }
 }
