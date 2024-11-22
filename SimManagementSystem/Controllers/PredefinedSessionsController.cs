@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SimManagementSystem.DataAccessLayer;
 using SimManagementSystem.DataTransferObjects;
+using SimManagementSystem.Services;
 
 namespace SimManagementSystem.Controllers
 {
@@ -10,57 +11,43 @@ namespace SimManagementSystem.Controllers
     [ApiController]
     public class PredefinedSessionsController : ControllerBase
     {
-        private readonly SimManagementSystemContext _context;
+        private readonly IPredefinedSessionsService _predefinedSessionsService;
 
-        public PredefinedSessionsController(SimManagementSystemContext context)
+        public PredefinedSessionsController(IPredefinedSessionsService predefinedSessionsService)
         {
-            _context = context;
+            _predefinedSessionsService = predefinedSessionsService;
         }
 
+        /// <summary>
+        /// Get all predefined sessions.
+        /// </summary>
+        /// <returns>List of predefined sessions</returns>
         [HttpGet]
         public async Task<IActionResult> GetPredefinedSessions()
         {
-            var predefinedSessions = await _context.PredefinedSessions.ToListAsync();
-
-            if (predefinedSessions == null)
-            {
-                return NotFound("Predefined session not found.");
-            }
-
-            return Ok(predefinedSessions);
+           return await _predefinedSessionsService.GetPredefinedSessions();
         }
 
+        /// <summary>
+        /// Get single predefined session.
+        /// </summary>
+        /// <param name="id">Targer predefined session id</param>
+        /// <returns>Single predefined session object</returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPredefinedSession(int id)
         {
-            var predefinedSession = _context.PredefinedSessions
-                .Where(s => s.Id == id)
-                .FirstOrDefaultAsync();
-
-            if (predefinedSession == null)
-            {
-                return NotFound("Predefined session with given ID not found.");
-            }
-
-            return Ok(predefinedSession);
+            return await _predefinedSessionsService.GetPredefinedSession(id);
         }
 
+        /// <summary>
+        /// Add new predefined session
+        /// </summary>
+        /// <param name="newScheme">All data required to add new sim scheme session</param>
+        /// <returns>Created</returns>
         [HttpPost]
         public async Task<IActionResult> CreatePredefinedSession(CreatePredefinedSessionDTO newScheme)
         {
-            var predefinedSession = new PredefinedSession
-            {   
-                Category = newScheme.Category,
-                Name = newScheme.Name,
-                Description = newScheme.Description,
-                Duration = newScheme.Duration,
-                Abbreviation = newScheme.Abbreviation
-            };
-
-            await _context.PredefinedSessions.AddAsync(predefinedSession);
-            await _context.SaveChangesAsync();
-
-            return Ok(predefinedSession);
+            return await _predefinedSessionsService.CreatePredefinedSession(newScheme);
         }
     }
 }

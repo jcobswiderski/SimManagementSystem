@@ -52,6 +52,8 @@ builder.Services.AddScoped<IInspectionsService, InspectionsService>();
 builder.Services.AddScoped<IMaintenancesService, MaintenanceService>();
 builder.Services.AddScoped<IMaintenanceTypesService, MaintenanceTypesService>();
 builder.Services.AddScoped<IMalfunctionsService, MalfunctionsService>();
+builder.Services.AddScoped<IPredefinedSessionsService, PredefinedSessionsService>();
+builder.Services.AddScoped<IRecoveryActionsService, RecoveryActionsService>();
 
 var app = builder.Build();
 

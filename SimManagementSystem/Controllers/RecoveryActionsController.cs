@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SimManagementSystem.DataAccessLayer;
 using SimManagementSystem.DataTransferObjects;
+using SimManagementSystem.Services;
 
 namespace SimManagementSystem.Controllers
 {
@@ -11,63 +12,44 @@ namespace SimManagementSystem.Controllers
     public class RecoveryActionsController : ControllerBase
     {
         private readonly SimManagementSystemContext _context;
+        private readonly IRecoveryActionsService _recoveryActionsService;
 
-        public RecoveryActionsController(SimManagementSystemContext context)
+        public RecoveryActionsController(IRecoveryActionsService recoveryActionsService)
         {
-            _context = context;
+            _recoveryActionsService = recoveryActionsService;
         }
 
+        /// <summary>
+        /// Get all recovery actions for malfunction.
+        /// </summary>
+        /// <param name="malfunctionId">Target malfunction id</param>
+        /// <returns></returns>
         [HttpGet("{malfunctionId}")]
         public async Task<IActionResult> GetRecoveryActionsForMalfunction(int malfunctionId)
         {
-            var recoveryActions = await _context.RecoveryActions
-                .Select(r => new
-                {
-                    r.Id,
-                    date = r.Date.ToString("yyyy-MM-dd HH:mm:ss"),
-                    r.Description,
-                    r.MalfunctionId
-                })
-                .Where(r => r.MalfunctionId == malfunctionId)
-                .ToListAsync();
-
-            if (recoveryActions == null)
-            {
-                return NotFound("Recovery actions not found.");
-            }
-
-            return Ok(recoveryActions);
+            return await _recoveryActionsService.GetRecoveryActionsForMalfunction(malfunctionId);
         }
 
+        /// <summary>
+        /// Add new recovery action for malfunction.
+        /// </summary>
+        /// <param name="newRecoveryAction">All recovery action required data</param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> CreateRecoveryAction(CreateRecoveryActionDTO newRecoveryAction)
         {
-            var recoveryAction = new RecoveryAction
-            {
-                Date = newRecoveryAction.Date,
-                Description = newRecoveryAction.Description,
-                MalfunctionId = newRecoveryAction.MalfunctionId
-            };
-
-            await _context.RecoveryActions.AddAsync(recoveryAction);
-            await _context.SaveChangesAsync();
-
-            return Ok();
+            return await _recoveryActionsService.CreateRecoveryAction(newRecoveryAction);
         }
 
+        /// <summary>
+        /// Delete single recovery action.
+        /// </summary>
+        /// <param name="id">Target recovery action id</param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRecoveryAction(int id)
         {
-            var recoveryActionToDelete = new RecoveryAction
-            {
-                Id = id
-            };
-
-            _context.RecoveryActions.Attach(recoveryActionToDelete);
-            _context.RecoveryActions.Remove(recoveryActionToDelete);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            return await _recoveryActionsService.DeleteRecoveryAction(id);
         }
     }
 }
