@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SimManagementSystem.DataAccessLayer;
 using SimManagementSystem.DataTransferObjects;
+using SimManagementSystem.Services;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SimManagementSystem.Controllers
@@ -11,101 +12,64 @@ namespace SimManagementSystem.Controllers
     [ApiController]
     public class InspectionsController : ControllerBase
     {
-        private readonly SimManagementSystemContext _context;
+        private readonly IInspectionsService _inspectionsService;
 
-        public InspectionsController(SimManagementSystemContext context)
+        public InspectionsController(IInspectionsService inspectionsService)
         {
-            _context = context;
+            _inspectionsService = inspectionsService;
         }
 
+        /// <summary>
+        /// Get all inspections stored in DB.
+        /// </summary>
+        /// <returns>List of Inspection objects.</returns>
         [HttpGet]
         public async Task<IActionResult> GetInspections()
         {
-            var inspections = await _context.Inspections
-                .OrderByDescending(i => i.Date)
-                .Select(i => new
-                {
-                    i.Id,
-                    Date = i.Date.ToString("yyyy-MM-dd HH:mm:ss"),
-                    InspectionType = i.InspectionType.Name,
-                    Operator = i.OperatorNavigation.FirstName + " " + i.OperatorNavigation.LastName,
-                    i.Notice
-                })
-                .ToListAsync();
-
-            if (inspections == null)
-            {
-                return NotFound("Inspections not found.");
-            }
-
-            return Ok(inspections);
+            return await _inspectionsService.GetInspections(); 
         }
 
+        /// <summary>
+        /// Get single Inspection.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Inspection object or NotFound</returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetInspection(int id)
         {
-            var inspection = await _context.Inspections
-                 .Where(i => i.Id == id)
-                 .Select(i => new
-                 {
-                     i.Id,
-                     i.Date,
-                     InspectionType = i.InspectionType.Name,
-                     Operator = i.OperatorNavigation.FirstName + " " + i.OperatorNavigation.LastName,
-                     i.Notice
-                 })
-                 .FirstOrDefaultAsync();
-
-            if (inspection == null)
-            {
-                return NotFound("Inspection with given ID not found!");
-            }
-
-            return Ok(inspection);
+            return await _inspectionsService.GetInspection(id);
         }
 
+        /// <summary>
+        /// Adding new inspection.
+        /// </summary>
+        /// <param name="newInspection">Inspection values: type, date, notice, operator</param>
+        /// <returns>Single Inspection object</returns>
         [HttpPost]
         public async Task<IActionResult> CreateInspection(CreateInspectionDTO newInspection)
         {
-            var inspection = new Inspection
-            {
-                InspectionTypeId = newInspection.InspectionTypeId,
-                Date = newInspection.Date,
-                Operator = newInspection.Operator,
-                Notice = newInspection.Notice
-            };
-
-            await _context.Inspections.AddAsync(inspection);
-            await _context.SaveChangesAsync();
-
-            return Ok(inspection);
+            return await _inspectionsService.CreateInspection(newInspection);
         }
 
+        /// <summary>
+        /// Deleting Inspection object with given ID.
+        /// </summary>
+        /// <param name="id">Target Inspection id</param>
+        /// <returns>NoContent</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteInspection(int id)
         {
-            var inspectionToDelete = new Inspection
-            {
-                Id = id
-            };
-
-            _context.Inspections.Attach(inspectionToDelete);
-            _context.Inspections.Remove(inspectionToDelete);
-            await _context.SaveChangesAsync();
-            return NoContent();
+            return await _inspectionsService.DeleteInspection(id);
         }
 
+        /// <summary>
+        /// Get list of available Inspection types.
+        /// </summary>
+        /// <returns>List of Inspection types.</returns>
         [HttpGet("types")]
         public async Task<IActionResult> GetInspectionTypes()
         {
-            var inspectionTypes = await _context.InspectionTypes.ToListAsync();
-
-            if (inspectionTypes == null)
-            {
-                return NotFound("Inspection types not found.");
-            }
-
-            return Ok(inspectionTypes);
+            return await _inspectionsService.GetInspectionTypes();
         }
     }
 }

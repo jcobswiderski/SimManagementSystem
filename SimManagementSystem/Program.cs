@@ -48,6 +48,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IDevicesService, DevicesService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IInspectionsService, InspectionsService>();
+builder.Services.AddScoped<IMaintenancesService, MaintenanceService>();
 
 var app = builder.Build();
 

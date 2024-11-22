@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SimManagementSystem.DataAccessLayer;
 using SimManagementSystem.DataTransferObjects;
+using SimManagementSystem.Services;
 
 namespace SimManagementSystem.Controllers
 {
@@ -11,116 +12,76 @@ namespace SimManagementSystem.Controllers
     public class MaintenancesController : ControllerBase
     {
         private readonly SimManagementSystemContext _context;
+        private readonly IMaintenancesService _maintenancesService;
 
-        public MaintenancesController(SimManagementSystemContext context)
+        public MaintenancesController(SimManagementSystemContext context, IMaintenancesService maintenancesService)
         {
             _context = context;
+            _maintenancesService = maintenancesService;
         }
 
+        /// <summary>
+        /// Get list of maintenance objects. It is based on daily, weekly, monthly... maintenaces saved in the system.
+        /// </summary>
+        /// <returns>Maintenance objects list</returns>
         [HttpGet]
         public async Task<IActionResult> GetMaintenances()
         {
-            var maintenances = await _context.Maintenances
-                .OrderByDescending(m => m.Date)
-                .Select(m => new
-                {
-                    m.Id,
-                    name = m.TypeNavigation.Name,
-                    executor = m.ExecutorNavigation.FirstName + " " + m.ExecutorNavigation.LastName,
-                    date = m.Date.ToString("yyyy-MM-dd"),
-                    m.Realized
-                })
-                .ToListAsync();
-
-            if (maintenances == null)
-            {
-                return NotFound("Maintenances not found.");
-            }
-
-            return Ok(maintenances);
+            return await _maintenancesService.GetMaintenances();
         }
 
+        /// <summary>
+        /// Endpoint for all Maintenances scheduled before current day, but not yet completed.
+        /// </summary>
+        /// <returns>List of incompleted Maintenances.</returns>
         [HttpGet("count/incomplete")]
         public async Task<IActionResult> GetIncompleteMaintenancesCount()
         {
-            var maintenancesCount = await _context.Maintenances
-                .Where(m => m.Date <= DateTime.Now && m.Realized == false)
-                .CountAsync();
-
-            return Ok(maintenancesCount);
+            return await _maintenancesService.GetIncompleteMaintenancesCount();
         }
-
+        /// <summary>
+        /// Endpoint to get a single Maintenance
+        /// </summary>
+        /// <param name="id">Target maintenance id</param>
+        /// <returns>Mainteneance object or NotFound</returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetMaintenance(int id)
         {
-            var maintenance = await _context.Maintenances
-                .Select(m => new
-                {
-                    m.Id,
-                    name = m.TypeNavigation.Name,
-                    executor = m.ExecutorNavigation.FirstName + " " + m.ExecutorNavigation.LastName,
-                    date = m.Date.ToString("yyyy-MM-dd"),
-                    m.Realized,
-                    tasks = m.TypeNavigation.Tasks
-                })
-                .Where(m => m.Id == id)
-                .FirstOrDefaultAsync();
-
-            if (maintenance == null)
-            {
-                return NotFound("Maintenance with given ID not found.");
-            }
-
-            return Ok(maintenance);
+            return await _maintenancesService.GetMaintenance(id);
         }
 
+        /// <summary>
+        /// Endpoint to add new maintenance to the system.
+        /// </summary>
+        /// <param name="newDevice">Single Maintenance object</param>
+        /// <returns>Created</returns>
         [HttpPost]
         public async Task<IActionResult> CreateMaintenance(CreateMaintenanceDTO newMaintenance)
         {
-            var maintenance = new Maintenance
-            {
-                Type = newMaintenance.Type,
-                Date = newMaintenance.Date,
-                Realized = false
-            };
-
-            await _context.Maintenances.AddAsync(maintenance);
-            await _context.SaveChangesAsync();
-
-            return Ok("Maintenance successfully added.");
+            return await _maintenancesService.CreateMaintenance(newMaintenance);
         }
 
+        /// <summary>
+        /// Deleting single maintenance.
+        /// </summary>
+        /// <param name="id">Id of target maintenance</param>
+        /// <returns>NoContent</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMaintenance(int id)
         {
-            var maintenanceToDelete = await _context.Maintenances.FirstOrDefaultAsync(m => m.Id == id);
-
-            if (maintenanceToDelete == null)
-            {
-                return NotFound("Maintenance with given ID not found.");
-            }
-
-            _context.Maintenances.Remove(maintenanceToDelete);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            return await _maintenancesService.DeleteMaintenance(id);
         }
 
+        /// <summary>
+        /// Changing maintenance state to completed.
+        /// </summary>
+        /// <param name="id">Target maintenance id</param>
+        /// <param name="maintenanceToEdit">Maintenance executor data.</param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateMaintenanceState(int id, [FromBody] EditMaintenanceDTO maintenanceToEdit)
         {
-            var maintenance = await _context.Maintenances.FirstOrDefaultAsync(m => m.Id == id);
-            if (maintenance == null)
-            {
-                return NotFound("Maintenance with given ID not found.");
-            }
-
-            maintenance.Realized = true;
-            maintenance.Executor = maintenanceToEdit.Executor;
-
-            await _context.SaveChangesAsync();
-
-            return Ok(maintenance);
+            return await _maintenancesService.UpdateMaintenanceState(id, maintenanceToEdit);
         }
     }
 }
