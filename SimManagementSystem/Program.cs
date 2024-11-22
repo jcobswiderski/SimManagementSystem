@@ -59,6 +59,8 @@ builder.Services.AddScoped<IRolesService, RolesService>();
 builder.Services.AddScoped<ISessionCategoriesService, SessionCategoriesService>();
 builder.Services.AddScoped<ISimulatorSessionsService, SimulatorSessionsService>();
 builder.Services.AddScoped<ISimulatorStatesService, SimulatorStatesService>();
+builder.Services.AddScoped<ITestQTGsService, TestQTGsService>();
+builder.Services.AddScoped<ITestResultsService, TestResultsService>();
 
 
 var app = builder.Build();

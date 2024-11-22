@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SimManagementSystem.DataAccessLayer;
+using SimManagementSystem.Services;
 
 namespace SimManagementSystem.Controllers
 {
@@ -9,24 +10,21 @@ namespace SimManagementSystem.Controllers
     [ApiController]
     public class TestQTGsController : ControllerBase
     {
-        private readonly SimManagementSystemContext _context;
+        private readonly ITestQTGsService _testQTGsService;
 
-        public TestQTGsController(SimManagementSystemContext context)
+        public TestQTGsController(SimManagementSystemContext context, ITestQTGsService testQTGsService)
         {
-            _context = context;
+            _testQTGsService = testQTGsService;
         }
 
+        /// <summary>
+        /// Get all QTG tests stored in system.
+        /// </summary>
+        /// <returns>List of QTG test objects</returns>
         [HttpGet]
         public async Task<IActionResult> GetQtgTests()
         {
-            var testQtgs = await _context.TestQtgs.ToListAsync();
-
-            if (testQtgs == null)
-            {
-                return NotFound("Test QTGs not found.");
-            }
-
-            return Ok(testQtgs);
+            return await _testQTGsService.GetQtgTests();
         }
     }
 }
