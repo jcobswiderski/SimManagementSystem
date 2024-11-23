@@ -27,7 +27,7 @@ namespace SimManagementSystem.Services
                 .Where(r => r.MalfunctionId == malfunctionId)
                 .ToListAsync();
 
-            if (recoveryActions == null)
+            if (recoveryActions == null || !recoveryActions.Any())
             {
                 return new NotFoundObjectResult("Recovery actions not found.");
             }
@@ -52,13 +52,14 @@ namespace SimManagementSystem.Services
 
         public async Task<IActionResult> DeleteRecoveryAction(int id)
         {
-            var recoveryActionToDelete = new RecoveryAction
-            {
-                Id = id
-            };
+            var recoveryAction = await _context.RecoveryActions.FirstOrDefaultAsync(d => d.Id == id);
 
-            _context.RecoveryActions.Attach(recoveryActionToDelete);
-            _context.RecoveryActions.Remove(recoveryActionToDelete);
+            if (recoveryAction == null)
+            {
+                return new NotFoundObjectResult("Recovery action with given ID not found.");
+            }
+
+            _context.RecoveryActions.Remove(recoveryAction);
             await _context.SaveChangesAsync();
 
             return new NoContentResult();

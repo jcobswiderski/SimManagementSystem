@@ -18,7 +18,7 @@ namespace SimManagementSystem.Services
         {
             var predefinedSessions = await _context.PredefinedSessions.ToListAsync();
 
-            if (predefinedSessions == null)
+            if (predefinedSessions == null || !predefinedSessions.Any())
             {
                 return new NotFoundObjectResult("Predefined session not found.");
             }
