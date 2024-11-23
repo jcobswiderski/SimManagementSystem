@@ -76,14 +76,16 @@ namespace SimManagementSystem.Services
 
         public async Task<IActionResult> DeleteInspection(int id)
         {
-            var inspectionToDelete = new Inspection
-            {
-                Id = id
-            };
+            var inspectionToDelete = await _context.Inspections.FirstOrDefaultAsync(d => d.Id == id);
 
-            _context.Inspections.Attach(inspectionToDelete);
+            if (inspectionToDelete == null)
+            {
+                return new NotFoundObjectResult("Inspection with given ID not found.");
+            }
+
             _context.Inspections.Remove(inspectionToDelete);
             await _context.SaveChangesAsync();
+
             return new NoContentResult();
         }
 

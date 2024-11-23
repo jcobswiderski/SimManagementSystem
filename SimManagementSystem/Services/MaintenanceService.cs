@@ -28,7 +28,7 @@ namespace SimManagementSystem.Services
                 })
                 .ToListAsync();
 
-            if (maintenances == null)
+            if (maintenances == null || !maintenances.Any())
             {
                 return new NotFoundObjectResult("Maintenances not found.");
             }
