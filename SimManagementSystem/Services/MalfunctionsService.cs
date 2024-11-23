@@ -31,7 +31,7 @@ namespace SimManagementSystem.Services
                 })
                 .ToListAsync();
 
-            if (malfunctions == null)
+            if (malfunctions == null || !malfunctions.Any())
             {
                 return new NotFoundObjectResult("Malfunctions not found.");
             }
