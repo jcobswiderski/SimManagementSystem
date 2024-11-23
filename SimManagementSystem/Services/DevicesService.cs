@@ -54,12 +54,13 @@ namespace SimManagementSystem.Services
 
         public async Task<IActionResult> DeleteDevice(int id)
         {
-            var deviceToDelete = new Device
-            {
-                Id = id
-            };
+            var deviceToDelete = await _context.Devices.FirstOrDefaultAsync(d => d.Id == id);
 
-            _context.Devices.Attach(deviceToDelete);
+            if (deviceToDelete == null)
+            {
+                return new NotFoundObjectResult("Device with given ID not found.");
+            }
+
             _context.Devices.Remove(deviceToDelete);
             await _context.SaveChangesAsync();
 

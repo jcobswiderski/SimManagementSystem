@@ -166,10 +166,14 @@ const UserProfile = ({userId}) => {
                     </tbody>
                 </table>
             </div>
-
-            <PDFDownloadLink document={<WorktimeSummaryReport user={user} sessions={userSessions.filter(s => s.realized == true)} statistics={sessionStatistics}/>} fileName={`zestawienie-sesji.pdf`}>
-                <button className="button mt30">Wygeneruj zestawienie</button>
-            </PDFDownloadLink>
+            <>
+                {(user && userSessions && sessionStatistics) ?
+                <PDFDownloadLink document={<WorktimeSummaryReport user={user} sessions={userSessions.filter(s => s.realized == true)} statistics={sessionStatistics}/>} fileName={`zestawienie-sesji.pdf`}>
+                    <button className="button mt30">Wygeneruj zestawienie</button>
+                </PDFDownloadLink> : null
+                }
+            </>
+            
         </div>
     );
 }

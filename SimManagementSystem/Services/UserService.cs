@@ -211,12 +211,13 @@ namespace SimManagementSystem.Services
 
         public async Task<IActionResult> DeleteUser(int id)
         {
-            var userToDelete = new User
-            {
-                Id = id
-            };
+            var userToDelete = await _context.Users.FirstOrDefaultAsync(user => user.Id == id);
 
-            _context.Users.Attach(userToDelete);
+            if (userToDelete == null)
+            {
+                return new NotFoundObjectResult("User with given ID not found.");
+            }
+
             _context.Users.Remove(userToDelete);
             await _context.SaveChangesAsync();
 
