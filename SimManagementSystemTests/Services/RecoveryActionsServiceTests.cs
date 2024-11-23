@@ -85,7 +85,7 @@ namespace SimManagementSystem.Services.Tests
         public async Task GetRecoveryActionsForMalfunction_ReturnNotFound_WhenNoActionsExist()
         {
             // Act
-            var result = await _service.GetRecoveryActionsForMalfunction(999);
+            var result = await _service.GetRecoveryActionsForMalfunction(18618);
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(NotFoundObjectResult));

@@ -18,7 +18,7 @@ namespace SimManagementSystem.Services
         {
             var roles = await _context.Roles.ToListAsync();
 
-            if (roles == null)
+            if (roles == null || !roles.Any())
             {
                 return new NotFoundObjectResult("Roles not found.");
             }

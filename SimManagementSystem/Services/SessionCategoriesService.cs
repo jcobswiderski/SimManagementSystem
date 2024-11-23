@@ -17,7 +17,7 @@ namespace SimManagementSystem.Services
         {
             var categories = await _context.SessionCategories.ToListAsync();
 
-            if (categories == null)
+            if (categories == null || !categories.Any())
             {
                 return new NotFoundObjectResult("Sessions categories not found.");
             }

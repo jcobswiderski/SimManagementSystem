@@ -27,16 +27,33 @@ const Malfunction = ({showAlert}) => {
     const refreshData = async () => {
         try {
             const responseMalfunctions = await fetch(`${process.env.REACT_APP_API_URL}/Malfunctions/${id}`);
-            const dataMalfunctions = await responseMalfunctions.json();
-            setMalfunction(dataMalfunctions);
-
+            
+            if (responseMalfunctions.ok) {
+                const dataMalfunctions = await responseMalfunctions.json();
+                setMalfunction(dataMalfunctions);
+            } else if (responseMalfunctions.status === 404) {
+                console.warn('No malfunction data found.');
+                setMalfunction(null);
+            } else {
+                console.error(`Błąd przy pobieraniu danych.`);
+            }
+    
             const responseRecoveryActions = await fetch(`${process.env.REACT_APP_API_URL}/RecoveryActions/${id}`);
-            const dataRecoveryActions = await responseRecoveryActions.json();
-            setRecoveryActions(dataRecoveryActions);
-
+            
+            if (responseRecoveryActions.ok) {
+                const dataRecoveryActions = await responseRecoveryActions.json();
+                setRecoveryActions(dataRecoveryActions);
+            } else if (responseRecoveryActions.status === 404) {
+                console.warn('No recovery actions data found.');
+                setRecoveryActions([]);
+            } else {
+                console.error(`Błąd przy pobieraniu danych.`);
+            }
+    
             setLoading(false);
         } catch (error) {
             console.error('Error fetching data:', error);
+            setLoading(false);
         }
     };
 
