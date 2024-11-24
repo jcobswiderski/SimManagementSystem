@@ -88,8 +88,13 @@ namespace SimManagementSystem.Services
 
         public async Task<IActionResult> DeleteSimulatorState(int id)
         {
-            var simulatorStateToDelete = new SimulatorState { Id = id };
-            _context.SimulatorStates.Attach(simulatorStateToDelete);
+            var simulatorStateToDelete = await _context.SimulatorStates.FirstOrDefaultAsync(s => s.Id == id);
+
+            if (simulatorStateToDelete == null)
+            {
+                return new NotFoundObjectResult("Simulator state with given ID not found.");
+            }
+
             _context.SimulatorStates.Remove(simulatorStateToDelete);
             await _context.SaveChangesAsync();
 

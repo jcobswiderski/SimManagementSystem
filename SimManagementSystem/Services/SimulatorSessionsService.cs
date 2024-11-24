@@ -38,6 +38,7 @@ namespace SimManagementSystem.Services
                 .ToListAsync();
 
             if (simulatorSession == null)
+            if (simulatorSession == null)
             {
                 return new NotFoundObjectResult("Simulator session not found.");
             }
@@ -278,12 +279,13 @@ namespace SimManagementSystem.Services
 
         public async Task<IActionResult> DeleteSimulatorSession(int id)
         {
-            var sessionToDelete = new SimulatorSession
-            {
-                Id = id
-            };
+            var sessionToDelete = await _context.SimulatorSessions.FirstOrDefaultAsync(s => s.Id == id);
 
-            _context.SimulatorSessions.Attach(sessionToDelete);
+            if (sessionToDelete == null)
+            {
+                return new NotFoundObjectResult("Session with given ID not found.");
+            }
+
             _context.SimulatorSessions.Remove(sessionToDelete);
             await _context.SaveChangesAsync();
 
