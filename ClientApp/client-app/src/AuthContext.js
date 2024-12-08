@@ -10,19 +10,23 @@ export const AuthProvider = ({ children }) => {
   const [userId, setUserId] = useState(null);
   const [firstName, setFirstName] = useState(null);
   const [lastName, setLastName] = useState(null);
-
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const token = Cookies.get('token');
     if (token) {
-      setIsAuthenticated(true);
-      const decodedToken = jwtDecode(token);
-      setUserId(decodedToken.userId);
-      setFirstName(decodedToken.firstName);
-      setLastName(decodedToken.lastName);
-      // setUserRoles(decodedToken.role || []);
-      setUserRoles(Array.isArray(decodedToken.role) ? decodedToken.role : [decodedToken.role]);
+      try {
+        setIsAuthenticated(true);
+        const decodedToken = jwtDecode(token);
+        setUserId(decodedToken.userId);
+        setFirstName(decodedToken.firstName);
+        setLastName(decodedToken.lastName);
+        setUserRoles(Array.isArray(decodedToken.role) ? decodedToken.role : [decodedToken.role]);
+      } catch (error) {
+        console.error("Error decoding token:", error);
+      }
     }
+    setLoading(false);
   }, []);
 
   const login = (token, refreshToken) => {
@@ -33,8 +37,8 @@ export const AuthProvider = ({ children }) => {
     setUserId(decodedToken.userId);
     setFirstName(decodedToken.firstName);
     setLastName(decodedToken.lastName);
-    // setUserRoles(decodedToken.role || []);
     setUserRoles(Array.isArray(decodedToken.role) ? decodedToken.role : [decodedToken.role]);
+    setLoading(false);
   };
 
   const logout = () => {
@@ -42,16 +46,17 @@ export const AuthProvider = ({ children }) => {
     Cookies.remove('refreshToken');
     setIsAuthenticated(false);
     setUserRoles([]);
+    setUserId(null);
     setFirstName(null);
     setLastName(null);
-    setUserId(null);
   };
 
   return (
-    <AuthContext.Provider value={{ userId, isAuthenticated, userRoles, firstName, lastName, login, logout }}>
+    <AuthContext.Provider value={{ userId, isAuthenticated, userRoles, loading, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
 export default AuthContext;
+
