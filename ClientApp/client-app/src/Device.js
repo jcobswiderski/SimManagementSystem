@@ -77,7 +77,6 @@ const Device = ({showAlert}) => {
 
 
                     <div className="malfunctions__card-header">
-                        <div className="malfunctions__card-id">{m.id}</div>
                         <div className="malfunctions__card-subgroup">
                             <div className="malfunctions__card-title">{m.name}</div>
                             <div className="malfunctions__card-status">Status: {m.status == false ? "oczekuje na rozwiązanie" : "rozwiązana"}</div>
@@ -97,7 +96,7 @@ const Device = ({showAlert}) => {
             ))}
             <>
                 {malfunctions.length === 0 ? 
-                    <button className="button" onClick={deleteDevice}>Delete device</button> : null
+                    <button className="button" onClick={deleteDevice}>Usuń urządzenie</button> : null
                 } 
             </>
             

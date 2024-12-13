@@ -22,6 +22,7 @@
 .device__tag {
     margin-bottom: 20px;
 }
+
 @media (min-width: 1024px) {
     .device {
         /* width: 100%; */

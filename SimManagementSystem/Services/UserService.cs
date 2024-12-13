@@ -23,6 +23,7 @@ namespace SimManagementSystem.Services
         public async Task<IActionResult> GetUsers()
         {
             var users = await _context.Users
+                .OrderBy(u => u.LastName)
                 .Select(u => new
                 {
                     u.Id,

@@ -40,39 +40,39 @@ const Navbar = () => {
       <ul className={`${isMenuOpen ? 'navbar__list--open' : 'navbar__list'}`}>
         {isAuthenticated ? (
           <>
-            <Link to="/dashboard"><li className="navbar__item">Dashboard</li></Link>
-            <Link to="/calendar"><li className="navbar__item">Calendar</li></Link>
-            <Link to="/simSessions"><li className="navbar__item">Sessions</li></Link>
+            <Link to="/dashboard"><li className="navbar__item">Start</li></Link>
+            <Link to="/calendar"><li className="navbar__item">Kalendarz</li></Link>
+            <Link to="/simSessions"><li className="navbar__item">Sesje</li></Link>
 
             {userRoles.some(role => role === 'Engineer' || role === 'Admin' || role === 'Auditor') && (
-                <Link to="/maintenances"><li className="navbar__item">Maintenances</li></Link>
+                <Link to="/maintenances"><li className="navbar__item">Obsługi</li></Link>
             )}
 
             {userRoles.some(role => role === 'Engineer' || role === 'Admin' || role === 'Auditor' || role === 'Instructor') && (
-                <Link to="/malfunctions"><li className="navbar__item">Malfunctions</li></Link>
+                <Link to="/malfunctions"><li className="navbar__item">Usterki</li></Link>
             )}
 
             {userRoles.some(role => role === 'Engineer' || role === 'Admin' || role === 'Auditor') && (
-              <Link to="/devices"><li className="navbar__item">Devices</li></Link>
+              <Link to="/devices"><li className="navbar__item">Urządzenia</li></Link>
             )}
 
             {userRoles.some(role => role === 'Engineer' || role === 'Admin' || role === 'Auditor') && (
-              <Link to="/inspections"><li className="navbar__item">Tasks</li></Link>
+              <Link to="/inspections"><li className="navbar__item">Zadania</li></Link>
             )}
 
             {userRoles.some(role => role === 'Engineer' || role === 'Admin' || role === 'Auditor') && (
-              <Link to="/meter"><li className="navbar__item">Meter</li></Link>
+              <Link to="/meter"><li className="navbar__item">Licznik</li></Link>
             )}
 
             {userRoles.some(role => role === 'Engineer' || role === 'Admin' || role === 'Auditor') && (
-                <Link to="/tests"><li className="navbar__item">Tests QTG</li></Link>
+                <Link to="/tests"><li className="navbar__item">Testy QTG</li></Link>
             )}
 
             {userRoles.some(role => role === 'Admin' || role === 'Engineer' || role === 'Auditor' || role === 'Planer' || role === 'Instructor') && (
-                <Link to="/statistics"><li className="navbar__item">Statistics</li></Link>
+                <Link to="/statistics"><li className="navbar__item">Statystyka</li></Link>
             )}
 
-            <Link to="/users"><li className="navbar__item navbar__item--last">Users</li></Link>
+            <Link to="/users"><li className="navbar__item navbar__item--last">Użytkownicy</li></Link>
 
             <li className='navbar__profile'>
               <div className='navbar__profile-info' onClick={() => navigate(`/users/${userId}/profile`)}>

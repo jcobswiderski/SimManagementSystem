@@ -60,7 +60,7 @@ const Maintenances = () => {
                 <div className={`maintenances__card ${m.realized ? 'maintenances__card--green' : 'maintenances__card--red'}`} key={m.id} onClick={() => navigateToMaintenance(m.id)}>
 
                     <div className="maintenances__card-header">
-                        <div className="maintenances__card-title">{m.id}</div>
+                        {/* <div className="maintenances__card-title">{m.id}</div> */}
                         <div className="maintenances__card-subgroup">
                             <div className="maintenances__card-title">{m.name}</div>
                             <div className="simulatorSessions__card-crew">Wykonana przez: {m.executor}</div>

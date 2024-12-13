@@ -106,16 +106,16 @@ const Meter = ({userId, showAlert}) => {
                     <div className="meter__form">
                         <div className="meter__container">
                             <div className="meter__group">
-                                <span className="meter__label">Startup</span>
+                                <span className="meter__label">Czas uruchomienia</span>
                                 <input className="meter__input" type="datetime-local"
                                        onChange={handleStartupChange}></input>
                             </div>
                             <div className="meter__group meter__group--ml10">
-                                <span className="meter__label">Meter</span>
+                                <span className="meter__label">Stan licznika</span>
                                 <input className="meter__input" type="number" onChange={handleMeterChange}></input>
                             </div>
                         </div>
-                        <button className="button" onClick={addSimulatorState}>Add</button>
+                        <button className="button" onClick={addSimulatorState}>Zapisz nowy stan</button>
                     </div>
                 )}
             </>
@@ -123,16 +123,16 @@ const Meter = ({userId, showAlert}) => {
             <table className="meter__table">
                 <thead>
                 <tr>
-                    <th className="meter__table-th">ID</th>
-                    <th className="meter__table-th">Startup</th>
-                    <th className="meter__table-th">Meter</th>
-                    <th className="meter__table-th">Action</th>
+                    {/* <th className="meter__table-th">ID</th> */}
+                    <th className="meter__table-th">Czas uruchomienia</th>
+                    <th className="meter__table-th">Stan licznika</th>
+                    <th className="meter__table-th">Akcja</th>
                 </tr>
                 </thead>
                 <tbody>
                 {simulatorStates.map(state => (
                     <tr className="meter__table-tr" key={state.id}>
-                        <td className="meter__table-td">{state.id}</td>
+                        {/* <td className="meter__table-td">{state.id}</td> */}
                         <td className="meter__table-td">{state.startupTime}</td>
                         <td className="meter__table-td">{state.meterState}</td>
                         <td className="meter__table-td">

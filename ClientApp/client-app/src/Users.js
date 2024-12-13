@@ -56,19 +56,17 @@ const Users = ({userId}) => {
             <table className="users__table">
                 <thead>
                     <tr>
-                        <th className="users__table-th">ID</th>
-                        <th className="users__table-th">First Name</th>
-                        <th className="users__table-th">Last Name</th>
-                        <th className="users__table-th">Roles</th>
-                        <th className="users__table-th">Action</th>
+                        <th className="users__table-th">Nazwisko</th>
+                        <th className="users__table-th">Imię</th>
+                        <th className="users__table-th">Role</th>
+                        <th className="users__table-th">Akcje</th>
                     </tr>
                 </thead>
                 <tbody>
                     {filteredUsers.map(user => (
                         <tr className="users__table-tr" key={user.id}>
-                            <td className="users__table-td">{user.id}</td>
-                            <td className="users__table-td">{user.firstName}</td>
                             <td className="users__table-td">{user.lastName}</td>
+                            <td className="users__table-td">{user.firstName}</td>
                             <td className="users__table-td">
                             {user.userRoles.length > 0
                                 ? user.userRoles.map(role => role.name).join(', ')

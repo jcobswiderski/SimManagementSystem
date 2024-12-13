@@ -185,7 +185,7 @@ const User = ({userId, showAlert}) => {
                 <table className="user__table">
                     <thead>
                     <tr>
-                        <th className="user__table-th">ID</th>
+                        {/* <th className="user__table-th">ID</th> */}
                         <th className="user__table-th">Role</th>
                         <th className="user__table-th">Action</th>
                     </tr>
@@ -193,7 +193,7 @@ const User = ({userId, showAlert}) => {
                     <tbody>
                     {user.userRoles.map(role => (
                         <tr className="user__table-tr" key={role.id}>
-                            <td className="user__table-td">{role.id}</td>
+                            {/* <td className="user__table-td">{role.id}</td> */}
                             <td className="user__table-td">{role.name}</td>
                             <td className="user__table-td">
                                 <img className="user__table-delete" src="./../clear.png" alt=""

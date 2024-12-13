@@ -9,6 +9,8 @@
 
 .devices__title {
     padding-bottom: 5px;
+    width: 100%;
+    text-align: center;
 }
 
 .devices__info {
@@ -16,6 +18,8 @@
     padding-bottom: 25px;
     font-style: italic;
     font-weight: 300;
+    width: 100%;
+    text-align: center;
 }
 
 .devices__search {
@@ -113,5 +117,13 @@
 @media (min-width: 1024px) {
     .devices {
          /* width: 100%; */
+    }
+
+    .devices__title {
+        text-align: left;
+    }
+    
+    .devices__info {
+        text-align: left;
     }
 }

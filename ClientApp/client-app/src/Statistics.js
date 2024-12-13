@@ -82,7 +82,7 @@ const Statistics = ({showAlert}) => {
                         <input className="statistics__input" type="date" onChange={handleEndDateChange}></input>
                     </div>
                 </div>
-                <button className="button" onClick={generateStatistics}>Generate</button>
+                <button className="button" onClick={generateStatistics}>Wygeneruj</button>
             </div>
 
             <div className="statistics__item">

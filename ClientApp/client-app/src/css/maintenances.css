@@ -9,6 +9,8 @@
 
 .maintenances__title {
     padding-bottom: 25px;
+    text-align: center;
+    width: 100%;
 }
 
 .maintenances__group {
@@ -130,5 +132,9 @@
         justify-content: start;
         width: auto;
         align-items: center;
+    }
+
+    .maintenances__title {
+        text-align: left;
     }
 }

@@ -42,7 +42,7 @@ const Dashboard = () => {
 
     return (
         <div className="dashboard">
-            <h1 className="dashboard__title">Dashboard</h1>
+            <h1 className="dashboard__title">System zarządzania pracą symulatora</h1>
 
             <div className="dashboard__container">
 

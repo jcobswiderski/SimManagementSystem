@@ -9,6 +9,8 @@
 
 .inspections__title {
     padding-bottom: 25px;
+    width: 100%;
+    text-align: center;
 }
 
 .inspections__group {
@@ -120,5 +122,9 @@
     .inspections__group {
         flex-direction: row;
         margin-bottom: 30px;
+    }
+
+    .inspections__title {
+        text-align: left;
     }
 }

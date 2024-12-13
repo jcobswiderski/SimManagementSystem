@@ -4,11 +4,12 @@ import './css/partials/loading.css';
 import "./css/calendar.css";
 import './css/partials/button.css';
 
-
 const Calendar = () => {
     const [loading, setLoading] = useState(true);
     const [currentDate, setCurrentDate] = useState(new Date());
     const [events, setEvents] = useState([]);
+    const [inspections, setInspections] = useState([]);
+    const [malfunctions, setMalfunctions] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -20,9 +21,18 @@ const Calendar = () => {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/SimulatorSessions`);
             const data = await response.json();
             setEvents(data);
+
+            const responseInspections = await fetch(`${process.env.REACT_APP_API_URL}/Inspections`);
+            const dataInspections = await responseInspections.json();
+            setInspections(dataInspections);
+
+            const responseMalfunctions = await fetch(`${process.env.REACT_APP_API_URL}/Malfunctions`);
+            const dataMalfunctions = await responseMalfunctions.json();
+            setMalfunctions(dataMalfunctions);
+
             setLoading(false);
         } catch (error) {
-            console.error('Error fetching inspections:', error);
+            console.error('Error fetching calendar data:', error);
         }
     };
 
@@ -64,6 +74,28 @@ const Calendar = () => {
         });
     };
 
+    const getInspectionsForDay = (day) => {
+        return inspections.filter((inspection) => {
+            const inspectionDate = new Date(inspection.date);
+            return (
+                inspectionDate.getDate() === day.getDate() &&
+                inspectionDate.getMonth() === day.getMonth() &&
+                inspectionDate.getFullYear() === day.getFullYear()
+            );
+        });
+    };
+
+    const getMalfunctionsForDay = (day) => {
+        return malfunctions.filter((malfunction) => {
+            const malfunctionDate = new Date(malfunction.dateBegin);
+            return (
+                malfunctionDate.getDate() === day.getDate() &&
+                malfunctionDate.getMonth() === day.getMonth() &&
+                malfunctionDate.getFullYear() === day.getFullYear()
+            );
+        });
+    };
+
     const calculateEventStyle = (event) => {
         const start = new Date(event.beginDate);
         const end = new Date(event.endDate);
@@ -74,6 +106,26 @@ const Calendar = () => {
         return {
             top: `${start.getMinutes() * 50/60}px`,
             height: `${duration * 50}px`,
+        };
+    };
+
+    const calculateInspectionStyle = (inspection) => {
+        const start = new Date(inspection.date);
+        const startHour = start.getHours() + start.getMinutes() / 60;
+
+        return {
+            top: `${start.getMinutes() * 50 / 60}px`,
+            height: `22px`
+        };
+    };
+
+    const calculateMalfunctionStyle = (malfunction) => {
+        const start = new Date(malfunction.dateBegin);
+        const startHour = start.getHours() + start.getMinutes() / 60;
+
+        return {
+            top: `${start.getMinutes() * 50 / 60}px`,
+            height: `22px`
         };
     };
 
@@ -105,14 +157,34 @@ const Calendar = () => {
                         {weekDays.map((day) => (
                         <div key={day} className="calendar__grid-cell">
                             {getEventsForDay(day).map((event) => {
-                            if (new Date(event.beginDate).getHours() === hour) {
-                                return (
-                                    <div key={event.id} className="calendar__event" style={calculateEventStyle(event)} onClick={() => navigate(`/simSessions/${event.id}`)}>
-                                        {event.abbreviation}
-                                    </div>
-                                );
-                            }
-                            return null;
+                                if (new Date(event.beginDate).getHours() === hour) {
+                                    return (
+                                        <div key={event.id} className="calendar__event" style={calculateEventStyle(event)} onClick={() => navigate(`/simSessions/${event.id}`)}>
+                                            {event.abbreviation}
+                                        </div>
+                                    );
+                                }
+                                return null;
+                            })}
+                            {getInspectionsForDay(day).map((inspection) => {
+                                if (new Date(inspection.date).getHours() === hour) {
+                                    return (
+                                        <div key={inspection.id} className="calendar__inspection" style={calculateInspectionStyle(inspection)} onClick={() => navigate(`/inspections/${inspection.id}`)}>
+                                            [Z]
+                                        </div>
+                                    );
+                                }
+                                return null;
+                            })}
+                            {getMalfunctionsForDay(day).map((malfunction) => {
+                                if (new Date(malfunction.dateBegin).getHours() === hour) {
+                                    return (
+                                        <div key={malfunction.id} className="calendar__malfunction" style={calculateMalfunctionStyle(malfunction)} onClick={() => navigate(`/malfunctions/${malfunction.id}`)}>
+                                            [M]
+                                        </div>
+                                    );
+                                }
+                                return null;
                             })}
                         </div>
                         ))}

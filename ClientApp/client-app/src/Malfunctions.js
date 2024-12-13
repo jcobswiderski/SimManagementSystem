@@ -62,7 +62,7 @@ const Malfunctions = () => {
 
 
                     <div className="malfunctions__card-header">
-                        <div className="malfunctions__card-id">{m.id}</div>
+                        {/* <div className="malfunctions__card-id">{m.id}</div> */}
                         <div className="malfunctions__card-subgroup">
                             <div className="malfunctions__card-title">{m.name}</div>
                             <div className="malfunctions__card-status">Status: {m.status == false ? "oczekuje na rozwiązanie" : "rozwiązana"}</div>

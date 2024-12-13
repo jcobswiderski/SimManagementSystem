@@ -9,6 +9,8 @@
 
 .malfunctions__title {
     padding-bottom: 25px;
+    width: 100%;
+    text-align: center;
 }
 
 .malfunctions__group {
@@ -21,10 +23,6 @@
 
 .malfunctions__card-header {
     display: flex;
-}
-
-.malfunctions__card-subgroup {
-    margin-left: 20px;
 }
 
 .malfunctions__search {
@@ -113,5 +111,9 @@
     .malfunctions__create {
         width: 140px;
         margin-bottom: 0;
+    }
+
+    .malfunctions__title {
+        text-align: left;
     }
 }

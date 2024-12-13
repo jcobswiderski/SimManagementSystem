@@ -8,9 +8,9 @@ const CreateSimSession = ({showAlert}) => {
     const [predefinedSessionId, setPredefinedSessionId] = useState(1);
 
     const [users, setUsers] = useState([]);
-    const [pilotId, setPilotId] = useState(null);
-    const [copilotId, setCopilotId] = useState(null);
-    const [observerId, setObserverId] = useState(null);
+    const [pilotId, setPilotId] = useState('');
+    const [copilotId, setCopilotId] = useState('');
+    const [observerId, setObserverId] = useState('');
     const [supervisorId, setSupervisorId] = useState(null);
 
     const [beginDate, setBeginDate] = useState('');
@@ -98,10 +98,10 @@ const CreateSimSession = ({showAlert}) => {
                 body: JSON.stringify({
                     predefinedSession: predefinedSessionId,
                     beginDate: beginDate,
-                    pilotSeat: pilotId,
-                    copilotSeat: copilotId,
+                    pilotSeat: pilotId || null,
+                    copilotSeat: copilotId || null,
                     supervisorSeat: supervisorId,
-                    observerSeat: observerId,
+                    observerSeat: observerId || null,
                     realized: false
                 }),
             });
@@ -150,7 +150,7 @@ const CreateSimSession = ({showAlert}) => {
                 <div className="createSimSession__group--single">
                   <span className="createSimSession__label">Pilot (optional)</span>
                   <select className="createSimSession__input" value={pilotId} onChange={handlePilotIdChange}>
-                  <option className="createSimSession__option" value={null}>---</option>
+                  <option className="createSimSession__option" value="">---</option>
                       {users.map(u => (
                           <option className="createSimSession__option" key={u.id} value={u.id}>
                               {u.firstName} {u.lastName}
@@ -162,7 +162,7 @@ const CreateSimSession = ({showAlert}) => {
                 <div className="createSimSession__group--single">
                   <span className="createSimSession__label">Copilot (optional)</span>
                   <select className="createSimSession__input" value={copilotId} onChange={handleCopilotIdChange}>
-                  <option className="createSimSession__option" value={null}>---</option>
+                  <option className="createSimSession__option" value="">---</option>
                       {users.map(u => (
                           <option className="createSimSession__option" key={u.id} value={u.id}>
                               {u.firstName} {u.lastName}
@@ -176,7 +176,7 @@ const CreateSimSession = ({showAlert}) => {
                 <div className="createSimSession__group--single">
                   <span className="createSimSession__label">Observer (optional)</span>
                   <select className="createSimSession__input" value={observerId} onChange={handleObserverIdChange}>
-                      <option className="createSimSession__option" value={null}>---</option>
+                      <option className="createSimSession__option" value="">---</option>
                       {users.map(u => (
                           <option className="createSimSession__option" key={u.id} value={u.id}>
                               {u.firstName} {u.lastName}
